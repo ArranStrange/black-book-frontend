@@ -1,7 +1,7 @@
-// src/App.tsx
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import AddDrinkForm from "./components/AddDrinksForm";
+import "./App.css";
 
 interface Drink {
   _id: string; // MongoDB unique identifier
@@ -35,8 +35,8 @@ const App: React.FC = () => {
   useEffect(() => {
     const fetchDrinks = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/drinks"); // Updated to port 8080
-        setDrinks(response.data); // Store fetched data in state
+        const response = await axios.get("http://localhost:8080/drinks");
+        setDrinks(response.data);
       } catch (error) {
         setError("Error fetching drinks: " + (error as Error).message);
         console.error("Error fetching drinks:", error);
@@ -48,17 +48,29 @@ const App: React.FC = () => {
     fetchDrinks();
   }, []);
 
+  const handleDelete = async (id: string) => {
+    console.log(`Deleting drink with ID: ${id}`); // Log the ID to check
+    try {
+      await axios.delete(`http://localhost:8080/drinks/${id}`);
+      setDrinks(drinks.filter((drink) => drink._id !== id));
+    } catch (error) {
+      console.error("Error deleting drink:", error);
+      setError("Error deleting drink: " + (error as Error).message);
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>{error}</div>; // Display error message if fetching fails
+    return <div>{error}</div>;
   }
 
   return (
     <div>
       <h1>Drinks</h1>
+      <AddDrinkForm />
       <ul>
         {drinks.map((drink) => (
           <li key={drink._id}>
@@ -88,6 +100,8 @@ const App: React.FC = () => {
             <p>
               <strong>Instructions:</strong> {drink.Instructions}
             </p>
+            {/* Add delete button */}
+            <button onClick={() => handleDelete(drink._id)}>Delete</button>
           </li>
         ))}
       </ul>

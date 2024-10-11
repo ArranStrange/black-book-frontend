@@ -1,13 +1,83 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.app {
+  width: 100vw;
+  overflow: hidden;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+:root {
+  --background-color: #262523;
+  --white: #ecc2c4;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  mix-blend-mode: screen;
+  opacity: 2%;
+  pointer-events: none;
+  z-index: 999;
+}
+
+body {
+  color: var(--white);
+  background-color: var(--background-color);
+  overflow-x: hidden;
+}
+
+ul {
+  display: flex;
+  flex-direction: column;
+  text-align: end;
+  list-style-type: none;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+li {
+  text-align: end;
+  list-style-type: none;
+  text-align: start;
+  text-decoration: none;
+}
+
+h1 {
+  font-size: 7.5rem;
+  line-height: 7rem;
+}
+
+h3 {
+  font-size: 2.5rem;
+  margin-bottom: 2px;
+  margin-top: 2px;
+}
+
+h5 {
+  font-size: 1rem;
+  margin-bottom: 2px;
+  margin-top: 10px;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  font-weight: 200;
+}
+
+@media screen and (max-width: 720px) {
+  h1 {
+    font-size: 4rem;
+    text-wrap: wrap;
+    line-height: 4rem;
+  }
+  h3 {
+    line-height: 4rem;
+  }
+  nav {
+    width: 50px;
+  }
+  .search-bar {
+    position: fixed;
+    top: 1%;
+    left: 21.5%;
+    z-index: 999;
+  }
 }

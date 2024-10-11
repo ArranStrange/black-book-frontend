@@ -5,7 +5,7 @@ import axios from "axios";
 
 const AddDrinkForm: React.FC = () => {
   const [formData, setFormData] = useState({
-    idDrink: Date.now().toString(), // Automatically generate a unique ID
+    idDrink: Date.now().toString(), //UID
     drinkName: "",
     Catagory: "",
     Glass: "",

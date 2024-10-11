@@ -1,0 +1,130 @@
+.drinks-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: end;
+  text-align: end;
+  /* border-top: 1px solid #ecc2c4; */
+  width: 75%;
+  height: fit-content;
+  /* border: green 1px solid; */
+}
+
+.drinks-container {
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  border-top: 1px solid #ecc2c4;
+  padding-top: 20px;
+  width: 100%;
+  height: fit-content;
+  /* border: green 1px solid; */
+  overflow: hidden;
+}
+.drinks-name {
+  justify-content: start;
+  /* border: solid green 3px; */
+}
+
+.drinks-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  text-wrap: wrap;
+  align-items: end;
+  text-align: end;
+}
+.drinks-instructions {
+  width: 90%;
+  height: fit-content;
+  text-wrap: wrap;
+}
+
+.table-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: end;
+  padding-bottom: 20px;
+  /* border: solid green 2px; */
+}
+.measure-ingredient-list {
+  display: flex;
+  flex-direction: row;
+}
+.measure-ingredient-col {
+  min-width: 200px;
+  /* border: forestgreen solid 2px; */
+  text-align: end;
+}
+
+.drinks-image {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  overflow: hidden;
+  border-radius: 50%;
+  filter: saturate(75%) grayscale(30%) sepia(10%);
+}
+
+/* DROPDOWN */
+.dropdown-buttons {
+  z-index: 999;
+}
+.dropdown-search-options {
+  background-color: #262523;
+  z-index: 10;
+  position: fixed;
+  top: 2%;
+  left: 27.5%;
+  height: 200px;
+  width: 400px;
+  border: 1px solid #ecc2c4;
+  border-radius: 10px;
+}
+
+.glassware-selection {
+  display: flex;
+  flex-direction: row;
+  margin-top: 25px;
+  align-items: center;
+  width: 25%;
+}
+.glassware-selection input {
+  width: 20px;
+  color: #262523;
+  background-color: #ecc2c4;
+}
+.checkmark input:checked {
+  height: 20px;
+  width: 20px;
+  color: #262523;
+  background-color: #ecc2c4;
+}
+
+@media screen and (max-width: 720px) {
+  .drinks-container {
+    width: 85%;
+    align-items: end;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .drink-ingredients {
+    margin-top: 0;
+    margin-left: 0;
+    width: 100%;
+  }
+  .drink-image-container {
+    margin-top: -100px;
+    width: 40%;
+  }
+  .drinks-instructions {
+    height: fit-content;
+  }
+  .current-letter {
+    margin-top: 10px;
+  }
+  .alphabet {
+    left: -30px;
+  }
+}

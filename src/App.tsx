@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import AddDrinkForm from "./components/AddDrinksForm";
+import AddDrinkForm from "./components/add-drinks/AddDrinksForm";
 import "./App.css";
 import DrinksList from "./components/drinks-list/DrinksList";
 import Nav from "./components/Nav/nav";
@@ -9,6 +8,11 @@ import Search from "./components/Nav/search";
 const App: React.FC = () => {
   const [selectedLetter, setSelectedLetter] = useState("a");
   const [searchQuery, setSearchQuery] = useState("");
+  const [isAddDrinkFormVisible, setIsAddDrinkFormVisible] = useState(false);
+
+  const toggleAddDrinkForm = () => {
+    setIsAddDrinkFormVisible((prev) => !prev); // Toggle visibility
+  };
 
   const handleLetterSelection = (letter: string) => {
     setSearchQuery(""); //Clear Search
@@ -22,11 +26,12 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <Search onSearch={handleSearch} />
+      <Search onSearch={handleSearch} toggleAddDrinkForm={toggleAddDrinkForm} />
       <Nav onSelectLetter={handleLetterSelection} />
       <div className="main-drinks-list">
         <DrinksList selectedLetter={selectedLetter} searchQuery={searchQuery} />
       </div>
+      {isAddDrinkFormVisible && <AddDrinkForm />}
     </div>
   );
 };

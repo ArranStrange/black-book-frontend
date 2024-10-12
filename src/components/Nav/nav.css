@@ -1,46 +1,47 @@
 nav {
   position: fixed;
-  top: 5%;
+  top: 10%;
   left: 0;
   height: 100%;
   width: 75px;
-  background-color: #262523;
   display: flex;
   flex-direction: column;
   justify-content: start;
   align-items: center;
-  z-index: 998;
+  z-index: 4;
   padding-top: 70px;
   /* border-right: green solid 2px; */
 }
 
 .current-letter {
   position: fixed;
-  top: -10%;
-  left: 2.2%;
+  top: -2rem;
+  left: 2.5rem;
   color: var(--white);
   height: 10px;
   min-width: 50px;
   max-width: 50px;
-  z-index: 999;
   /* border: red solid 2px; */
   display: flex;
   justify-content: center;
   text-align: center;
   pointer-events: none;
+  z-index: 2;
 }
 
 .alphabet {
+  position: fixed;
   list-style-type: none;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  z-index: 1;
+  gap: 2px;
 }
 
 .alphabet li {
   cursor: pointer;
   color: var(--white);
-  font-size: 1rem;
+  font-size: 0.9rem;
   transition: transform 0.2s ease;
 }
 
@@ -49,14 +50,15 @@ nav {
 }
 
 .search-bar {
-  position: relative;
+  position: fixed;
   top: 2%;
-  left: 10%;
   gap: 10px;
   display: flex;
   justify-content: start;
   align-items: center;
-  z-index: 10;
+  z-index: 4;
+  /* border: 2px solid green; */
+  width: 75vw;
 }
 .search-bar input {
   width: 250px;
@@ -79,10 +81,24 @@ input:focus {
   cursor: pointer;
   border-radius: 5px;
   border: 2px var(--background-color) solid;
+  text-transform: uppercase;
 }
 
 .show-all:hover {
   background-color: var(--background-color);
   color: var(--white);
   border: 2px var(--white) solid;
+}
+
+.toggle-drink-form-button {
+  position: fixed;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 5;
+  background-color: #26252300;
+  color: var(--white);
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  text-transform: uppercase;
 }

@@ -1,0 +1,14 @@
+.add-drinks-form {
+  height: 99.5vh;
+  width: 99.5vw;
+  z-index: 4;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: var(--background-color);
+  border: solid var(--white) 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

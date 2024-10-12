@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { RxCross2, RxHamburgerMenu } from "react-icons/rx";
-
+import { IoMdAdd } from "react-icons/io";
+import { motion } from "framer-motion";
 interface Props {
   onSearch: (searchQuery: string) => void;
+  toggleAddDrinkForm: () => void;
 }
 
-export default function Search({ onSearch }: Props) {
+export default function Search({ onSearch, toggleAddDrinkForm }: Props) {
   const [searchQuery, setSearchQuery] = useState("");
   const [dropdown, setDropdown] = useState(false);
+  const [isFormVisible, setIsFormVisible] = useState(false);
   const handleDropdown = () => {
     setDropdown(!dropdown);
   };
@@ -32,6 +35,10 @@ export default function Search({ onSearch }: Props) {
       top: 0,
       behavior: "smooth",
     });
+  };
+  const handleToggleClick = () => {
+    toggleAddDrinkForm(); // Trigger the parent function to toggle the form
+    setIsFormVisible((prev) => !prev); // Toggle the local state to track form visibility
   };
 
   return (
@@ -66,6 +73,14 @@ export default function Search({ onSearch }: Props) {
           </div>
         )}
       </form>
+      <button className="toggle-drink-form-button" onClick={handleToggleClick}>
+        <motion.div
+          animate={{ rotate: isFormVisible ? 45 : 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <IoMdAdd style={{ fontSize: "3rem" }} />
+        </motion.div>
+      </button>
     </>
   );
 }

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import axios from "axios";
+import "./add-drinks.css";
 
 const AddDrinkForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -85,7 +86,7 @@ const AddDrinkForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="add-drinks-form" onSubmit={handleSubmit}>
       <h2>Add a New Drink</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}{" "}
       {/* Display error message */}

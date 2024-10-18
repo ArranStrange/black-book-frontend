@@ -2,12 +2,23 @@ import React, { useState } from "react";
 import { RxCross2, RxHamburgerMenu } from "react-icons/rx";
 import { IoMdAdd } from "react-icons/io";
 import { motion } from "framer-motion";
+
 interface Props {
-  onSearch: (searchQuery: string) => void;
+  onSearch: (searchQuery: {
+    drinkName?: string;
+    category?: string;
+    glass?: string;
+    ice?: string;
+  }) => void;
   toggleAddDrinkForm: () => void;
+  onShowAll: () => void;
 }
 
-export default function Search({ onSearch, toggleAddDrinkForm }: Props) {
+export default function Search({
+  onSearch,
+  toggleAddDrinkForm,
+  onShowAll,
+}: Props) {
   const [searchQuery, setSearchQuery] = useState("");
   const [dropdown, setDropdown] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -19,11 +30,13 @@ export default function Search({ onSearch, toggleAddDrinkForm }: Props) {
   const handleDropdown = () => {
     setDropdown(!dropdown);
   };
+
   const isGuest = localStorage.getItem("authToken") === "guest";
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
+
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = event.target;
     if (name === "category") {
@@ -37,10 +50,17 @@ export default function Search({ onSearch, toggleAddDrinkForm }: Props) {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Create a combined search query that includes the search text and selected filters
-    const fullQuery =
-      `${searchQuery} ${selectedCategory} ${selectedGlass} ${selectedIce}`.trim();
-    onSearch(fullQuery);
+
+    // Construct the search query object
+    const searchQueryObject = {
+      drinkName: searchQuery.trim() ? searchQuery : undefined, // Only include if there's a query
+      category: selectedCategory || undefined, // Only include if selected
+      glass: selectedGlass || undefined, // Only include if selected
+      ice: selectedIce || undefined, // Only include if selected
+    };
+
+    // Call the onSearch function with the query object
+    onSearch(searchQueryObject);
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -52,12 +72,13 @@ export default function Search({ onSearch, toggleAddDrinkForm }: Props) {
     setSelectedCategory("");
     setSelectedGlass("");
     setSelectedIce("");
-    onSearch("");
+    onSearch({});
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   };
+
   const handleToggleClick = () => {
     toggleAddDrinkForm();
     setIsFormVisible((prev) => !prev);
@@ -76,6 +97,17 @@ export default function Search({ onSearch, toggleAddDrinkForm }: Props) {
     if (!e.currentTarget.contains(e.relatedTarget as Node)) {
       setIsSearchFocused(false);
     }
+  };
+
+  const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSearchQuery("");
+    setSelectedCategory("");
+    setSelectedGlass("");
+    setSelectedIce("");
+    showAll();
+    handleSubmit(event);
+    setIsSearchFocused(false);
   };
 
   return (
@@ -97,7 +129,7 @@ export default function Search({ onSearch, toggleAddDrinkForm }: Props) {
         onFocus={handleFocus}
         onBlur={handleBlur}
         className="search-bar"
-        onSubmit={handleSubmit}
+        onSubmit={handleSearchSubmit} // Update the onSubmit handler
       >
         <input
           type="search"
@@ -130,7 +162,9 @@ export default function Search({ onSearch, toggleAddDrinkForm }: Props) {
                 <option value="sling">Sling</option>
                 <option value="sour">Sour</option>
                 <option value="tiki">Tiki</option>
-                <option value="wine">Toddy</option>
+                <option value="toddy">Toddy</option>
+                <option value="spritz">Spritz</option>
+                <option value="fizz">Fizz</option>
               </select>
 
               <label htmlFor="glass">Glass Type:</label>
@@ -158,7 +192,7 @@ export default function Search({ onSearch, toggleAddDrinkForm }: Props) {
                 <option value="crushed">Crushed</option>
                 <option value="block">Block</option>
                 <option value="shaved">Shaved</option>
-                <option value="Straight Up">Straight Up</option>
+                <option value="straight">Straight Up</option>
               </select>
             </div>
             <button className="search-button" type="submit">
@@ -167,7 +201,7 @@ export default function Search({ onSearch, toggleAddDrinkForm }: Props) {
           </div>
         )}
       </form>
-      <button type="button" className="show-all" onClick={showAll}>
+      <button type="button" className="show-all" onClick={onShowAll}>
         Show All
       </button>
 

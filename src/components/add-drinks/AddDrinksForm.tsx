@@ -124,7 +124,9 @@ const AddDrinkForm: React.FC = () => {
             <option value="sling">Sling</option>
             <option value="sour">Sour</option>
             <option value="tiki">Tiki</option>
-            <option value="wine">Toddy</option>
+            <option value="toddy">Toddy</option>
+            <option value="spritz">Spritz</option>
+            <option value="fizz">Fizz</option>
           </select>
         </label>
 
@@ -139,12 +141,13 @@ const AddDrinkForm: React.FC = () => {
             <option value="" disabled>
               Select Glass Type
             </option>
-            <option value="tumbler">Highball</option>
-            <option value="martini">Coup</option>
-            <option value="highball">Hurricane</option>
-            <option value="wine">Old Fashioned</option>
-            <option value="pint">Julep Tin</option>
-            <option value="mug">Wine Glass</option>
+            <option value="highball">Highball</option>
+            <option value="coup">Coup</option>
+            <option value="hurricane">Hurricane</option>
+            <option value="old fashioned">Old Fashioned</option>
+            <option value="julep tin">Julep Tin</option>
+            <option value="wine">Wine Glass</option>
+            <option value="flute">Flute</option>
           </select>
         </label>
 
@@ -163,7 +166,7 @@ const AddDrinkForm: React.FC = () => {
             <option value="crushed">Crushed</option>
             <option value="block">Block</option>
             <option value="shaved">Shaved</option>
-            <option value="Straight Up">Straight Up</option>
+            <option value="straight">Straight Up</option>
           </select>
         </label>
 

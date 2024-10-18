@@ -10,7 +10,12 @@ import FilmGrain from "./components/assets/film-grain.jpeg";
 
 const App: React.FC = () => {
   const [selectedLetter, setSelectedLetter] = useState("a");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState<{
+    drinkName?: string;
+    category?: string;
+    glass?: string;
+    ice?: string;
+  }>({});
   const [isAddDrinkFormVisible, setIsAddDrinkFormVisible] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isRegisterVisible, setIsRegisterVisible] = useState<boolean>(false); // New state for register visibility
@@ -30,13 +35,29 @@ const App: React.FC = () => {
   };
 
   const handleLetterSelection = (letter: string) => {
-    setSearchQuery(""); // Clear Search
-    setSelectedLetter(letter);
+    if (letter === "") {
+      // Show all drinks when the "Show All" button is clicked
+      setSearchQuery({}); // Clear Search by resetting to an empty object
+      setSelectedLetter(""); // Clear the selected letter
+    } else {
+      setSearchQuery({}); // Clear Search by resetting to an empty object
+      setSelectedLetter(letter);
+    }
   };
 
-  const handleSearch = (query: string) => {
-    setSelectedLetter(""); // Clear Letter
-    setSearchQuery(query); // Set Search
+  const handleSearch = (query: {
+    drinkName?: string;
+    category?: string;
+    glass?: string;
+    ice?: string;
+  }) => {
+    // Update the state with the new search query
+    setSearchQuery(query);
+  };
+
+  const onShowAll = () => {
+    setSearchQuery({}); // Clear the search query
+    setSelectedLetter(""); // Clear the selected letter
   };
 
   return (
@@ -48,6 +69,7 @@ const App: React.FC = () => {
             <Search
               onSearch={handleSearch}
               toggleAddDrinkForm={toggleAddDrinkForm}
+              onShowAll={onShowAll}
             />
             <Nav onSelectLetter={handleLetterSelection} />
             <div className="main-drinks-list">

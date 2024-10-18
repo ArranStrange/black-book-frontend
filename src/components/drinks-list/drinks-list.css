@@ -27,6 +27,17 @@
   /* border: solid green 3px; */
 }
 
+.drinks-category {
+  justify-content: start;
+  color: var(--white);
+  margin-bottom: -25px;
+}
+tbody label {
+  font-size: 0.6rem;
+  margin-bottom: -5px;
+  font-weight: 200;
+}
+
 .drinks-info {
   display: flex;
   flex-direction: column;

@@ -31,7 +31,12 @@ interface Drink {
 
 interface DrinksListProps {
   selectedLetter: string;
-  searchQuery: string;
+  searchQuery: {
+    drinkName?: string;
+    category?: string;
+    glass?: string;
+    ice?: string;
+  };
 }
 
 const DrinksList: React.FC<DrinksListProps> = ({
@@ -90,15 +95,40 @@ const DrinksList: React.FC<DrinksListProps> = ({
 
   const filteredDrinks = drinks.filter((drink) => {
     const matchesLetter = selectedLetter
-      ? drink.drinkName.toUpperCase().startsWith(selectedLetter.toUpperCase())
+      ? drink.drinkName.startsWith(selectedLetter.toUpperCase())
       : true;
 
-    const matchesSearch = searchQuery
-      ? drink.drinkName.toLowerCase().includes(searchQuery.toLowerCase())
+    const matchesSearch = searchQuery.drinkName
+      ? drink.drinkName
+          .toLowerCase()
+          .includes(searchQuery.drinkName.toLowerCase())
       : true;
 
-    return matchesLetter && matchesSearch;
+    const matchesCategory = searchQuery.category
+      ? drink.Category &&
+        drink.Category.toLowerCase().includes(
+          searchQuery.category.toLowerCase()
+        )
+      : true;
+
+    const matchesGlass = searchQuery.glass
+      ? drink.Glass &&
+        drink.Glass.toLowerCase().includes(searchQuery.glass.toLowerCase())
+      : true;
+
+    const matchesIce = searchQuery.ice
+      ? drink.Ice && drink.Ice.toLowerCase().includes(searchQuery.ice)
+      : true;
+
+    return (
+      matchesLetter &&
+      matchesSearch &&
+      matchesCategory &&
+      matchesGlass &&
+      matchesIce
+    );
   });
+
   const sortedDrinks = [...filteredDrinks].sort((a, b) =>
     a.drinkName.localeCompare(b.drinkName)
   );
@@ -110,8 +140,17 @@ const DrinksList: React.FC<DrinksListProps> = ({
           {sortedDrinks.map((drink) => (
             <tr key={drink._id} className="drinks-container">
               <td className="drinks-info">
+                <label htmlFor="define-category">Category:</label>
+                <h3 id="define-category" className="drinks-category">
+                  {drink.Category || "Category Not Available"}
+                </h3>
                 <h1 className="drinks-name">{drink.drinkName}</h1>
-                <h3 className="drinks-glass">{drink.Glass}</h3>
+
+                <label htmlFor="define-glass">Glassware:</label>
+                <h3 id="define-glass" className="drinks-glass">
+                  {drink.Glass}
+                </h3>
+
                 <p className="drinks-instructions">{drink.Instructions}</p>
               </td>
               <div className="table-right">

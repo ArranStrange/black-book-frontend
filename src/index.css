@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap");
+
 .app {
   width: 100vw;
   overflow: hidden;
@@ -24,6 +26,7 @@ body {
   color: var(--white);
   background-color: var(--background-color);
   overflow-x: hidden;
+  font-family: "Archivo", sans-serif;
 }
 
 ul {
@@ -45,21 +48,22 @@ li {
 h1 {
   font-size: 7.5rem;
   line-height: 7rem;
+  font-family: "Archivo Black", sans-serif;
 }
 
 h3 {
   font-size: 2.5rem;
   margin-bottom: 2px;
   margin-top: 2px;
+  font-family: "Archivo Bold", sans-serif;
 }
 
 h5 {
   font-size: 1rem;
   margin-bottom: 2px;
   margin-top: 10px;
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
   font-weight: 200;
+  font-family: "Archivo Bold", sans-serif;
 }
 
 button {

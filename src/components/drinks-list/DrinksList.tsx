@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { MdCancel } from "react-icons/md";
+import { GiConfirmed } from "react-icons/gi";
 import axios from "axios";
 import "./drinks-list.css";
 
@@ -38,6 +41,8 @@ const DrinksList: React.FC<DrinksListProps> = ({
   const [drinks, setDrinks] = useState<Drink[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
+  const isGuest = localStorage.getItem("authToken") === "guest";
 
   useEffect(() => {
     const fetchDrinks = async () => {
@@ -56,20 +61,29 @@ const DrinksList: React.FC<DrinksListProps> = ({
   }, []);
 
   const handleDelete = async (id: string) => {
-    console.log(`Deleting drink with ID: ${id}`);
-    try {
-      await axios.delete(`http://localhost:8080/drinks/${id}`);
-      setDrinks(drinks.filter((drink) => drink._id !== id));
-    } catch (error) {
-      console.error("Error deleting drink:", error);
-      setError("Error deleting drink: " + (error as Error).message);
+    if (confirmDelete === id) {
+      // If already confirmed, delete the drink
+      console.log(`Deleting drink with ID: ${id}`);
+      try {
+        await axios.delete(`http://localhost:8080/drinks/${id}`);
+        setDrinks(drinks.filter((drink) => drink._id !== id));
+        setConfirmDelete(null);
+      } catch (error) {
+        console.error("Error deleting drink:", error);
+        setError("Error deleting drink: " + (error as Error).message);
+      }
+    } else {
+      setConfirmDelete(id);
     }
+  };
+
+  const cancelDelete = () => {
+    setConfirmDelete(null);
   };
 
   if (loading) {
     return <div>Loading...</div>;
   }
-
   if (error) {
     return <div>{error}</div>;
   }
@@ -125,9 +139,31 @@ const DrinksList: React.FC<DrinksListProps> = ({
                   </td>
                 </div>
                 <td>
-                  <button onClick={() => handleDelete(drink._id)}>
-                    Delete
-                  </button>
+                  {!isGuest && confirmDelete !== drink._id && (
+                    <button
+                      className="bin-icon"
+                      onClick={() => handleDelete(drink._id)}
+                    >
+                      <RiDeleteBin6Line />
+                    </button>
+                  )}
+                  {confirmDelete === drink._id && (
+                    <div className="confirmation-message">
+                      <p>Confirm Delete</p>
+                      <button
+                        style={{ fontSize: "2rem" }}
+                        onClick={() => handleDelete(drink._id)}
+                      >
+                        <GiConfirmed />
+                      </button>
+                      <button
+                        style={{ fontSize: "2.2rem" }}
+                        onClick={cancelDelete}
+                      >
+                        <MdCancel />
+                      </button>
+                    </div>
+                  )}
                 </td>
               </div>
             </tr>

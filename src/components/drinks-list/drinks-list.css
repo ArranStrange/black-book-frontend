@@ -7,6 +7,7 @@
   /* border-top: 1px solid #ecc2c4; */
   width: 75%;
   height: fit-content;
+  z-index: 0;
   /* border: green 1px solid; */
 }
 
@@ -67,39 +68,33 @@
   filter: saturate(75%) grayscale(30%) sepia(10%);
 }
 
-/* DROPDOWN */
-.dropdown-buttons {
-  z-index: 999;
+.bin-icon {
+  font-size: 2rem;
+  color: var(--white);
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
 }
-.dropdown-search-options {
-  background-color: #262523;
-  z-index: 10;
-  position: fixed;
-  top: 2%;
-  left: 27.5%;
-  height: 200px;
-  width: 400px;
-  border: 1px solid #ecc2c4;
-  border-radius: 10px;
+.bin-icon:hover {
+  border: none;
 }
 
-.glassware-selection {
+.confirmation-message {
+  background-color: var(--background-color);
+  color: var(--white);
+  padding-top: 5px;
+  border: none;
+  border-radius: 5px;
   display: flex;
-  flex-direction: row;
-  margin-top: 25px;
+  justify-content: end;
   align-items: center;
-  width: 25%;
+  text-align: start;
+  width: 275px;
+  height: 25px;
+  font-size: 1.5rem;
+  gap: 10px;
 }
-.glassware-selection input {
-  width: 20px;
-  color: #262523;
-  background-color: #ecc2c4;
-}
-.checkmark input:checked {
-  height: 20px;
-  width: 20px;
-  color: #262523;
-  background-color: #ecc2c4;
+.confirmation-message button {
+  border: none;
 }
 
 @media screen and (max-width: 720px) {

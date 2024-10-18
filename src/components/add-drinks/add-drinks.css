@@ -1,14 +1,66 @@
 .add-drinks-form {
   height: 99.5vh;
-  width: 99.5vw;
+  width: 50.5vw;
   z-index: 4;
   position: fixed;
   top: 0;
-  left: 0;
+  right: 0;
   background-color: var(--background-color);
   border: solid var(--white) 2px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 40px;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.add-drinks-form input,
+.add-drinks-form textarea,
+.add-drinks-form button {
+  width: 75%;
+  padding: 6px;
+  margin: 5px 0;
+  border: 1px solid var(--white);
+  border-radius: 4px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.add-drinks-form textarea {
+  resize: vertical;
+  grid-column: span;
+}
+select {
+  display: flex;
+  flex-direction: col;
+  width: 80%;
+  background-color: var(--white);
+  color: var(--background-color);
+  padding: 5px 0;
+}
+
+input[type="number"] {
+  width: 75%;
+}
+.measurements {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+}
+
+label {
+  display: block;
+  font-weight: 900;
+  margin-bottom: 0.5rem;
+  text-transform: capitalize;
+}
+
+.add-drinks-form button {
+  grid-column: span 1;
+  padding: 15px;
+  cursor: pointer;
+  width: 78%;
+  height: 50%;
 }

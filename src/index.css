@@ -62,6 +62,35 @@ h5 {
   font-weight: 200;
 }
 
+button {
+  background: none;
+  color: var(--white);
+  border: 2px var(--white) solid;
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+button:hover {
+  background-color: var(--background-color);
+  color: var(--white);
+  border: 2px var(--white) solid;
+}
+
+input {
+  background-color: var(--white);
+  color: var(--background-color);
+}
+input ::placeholder {
+  color: var(--white);
+}
+
+textarea {
+  background-color: var(--white);
+  color: var(--background-color);
+}
+
 @media screen and (max-width: 720px) {
   h1 {
     font-size: 4rem;
@@ -70,14 +99,5 @@ h5 {
   }
   h3 {
     line-height: 4rem;
-  }
-  nav {
-    width: 50px;
-  }
-  .search-bar {
-    position: fixed;
-    top: 1%;
-    left: 21.5%;
-    z-index: 999;
   }
 }

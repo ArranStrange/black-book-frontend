@@ -11,17 +11,36 @@ export default function Search({ onSearch, toggleAddDrinkForm }: Props) {
   const [searchQuery, setSearchQuery] = useState("");
   const [dropdown, setDropdown] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedGlass, setSelectedGlass] = useState("");
+  const [selectedIce, setSelectedIce] = useState("");
+
   const handleDropdown = () => {
     setDropdown(!dropdown);
   };
+  const isGuest = localStorage.getItem("authToken") === "guest";
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = event.target;
+    if (name === "category") {
+      setSelectedCategory(value);
+    } else if (name === "glass") {
+      setSelectedGlass(value);
+    } else if (name === "ice") {
+      setSelectedIce(value);
+    }
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSearch(searchQuery);
+    // Create a combined search query that includes the search text and selected filters
+    const fullQuery =
+      `${searchQuery} ${selectedCategory} ${selectedGlass} ${selectedIce}`.trim();
+    onSearch(fullQuery);
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -30,6 +49,9 @@ export default function Search({ onSearch, toggleAddDrinkForm }: Props) {
 
   const showAll = () => {
     setSearchQuery("");
+    setSelectedCategory("");
+    setSelectedGlass("");
+    setSelectedIce("");
     onSearch("");
     window.scrollTo({
       top: 0,
@@ -37,50 +59,131 @@ export default function Search({ onSearch, toggleAddDrinkForm }: Props) {
     });
   };
   const handleToggleClick = () => {
-    toggleAddDrinkForm(); // Trigger the parent function to toggle the form
-    setIsFormVisible((prev) => !prev); // Toggle the local state to track form visibility
+    toggleAddDrinkForm();
+    setIsFormVisible((prev) => !prev);
+  };
+
+  const handleLogout = () => {
+    window.location.reload();
+    localStorage.removeItem("authToken");
+  };
+
+  const handleFocus = () => {
+    setIsSearchFocused(true);
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLFormElement>) => {
+    if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+      setIsSearchFocused(false);
+    }
   };
 
   return (
-    <>
-      <form className="search-bar" onSubmit={handleSubmit}>
-        <button type="button" className="show-all" onClick={showAll}>
-          Show All
+    <div className="search-container">
+      {!isGuest && (
+        <button
+          className="toggle-drink-form-button"
+          onClick={handleToggleClick}
+        >
+          <motion.div
+            animate={{ rotate: isFormVisible ? 45 : 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <IoMdAdd style={{ fontSize: "3rem" }} />
+          </motion.div>
         </button>
+      )}
+      <form
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        className="search-bar"
+        onSubmit={handleSubmit}
+      >
         <input
           type="search"
           value={searchQuery}
           onChange={handleChange}
           placeholder="Search"
         />
-        <div className="dropdown-buttons" onClick={handleDropdown}>
-          {dropdown ? <RxCross2 size={35} /> : <RxHamburgerMenu size={35} />}
-        </div>
+        {isSearchFocused && (
+          <div className="search-dropdown-container">
+            <div className="selection">
+              <label htmlFor="category">Category:</label>
+              <select
+                name="category"
+                id="category"
+                onChange={handleSelectChange}
+              >
+                <option value="" disabled>
+                  Select Category
+                </option>
+                <option value="">Not Defined</option>
+                <option value="cobbler">Cobbler</option>
+                <option value="collins">Collins</option>
+                <option value="daisy">Daisy</option>
+                <option value="flip">Flip</option>
+                <option value="frozen">Frozen</option>
+                <option value="highball">Highball</option>
+                <option value="julep">Julep</option>
+                <option value="martini">Martini</option>
+                <option value="punch">Punch</option>
+                <option value="sling">Sling</option>
+                <option value="sour">Sour</option>
+                <option value="tiki">Tiki</option>
+                <option value="wine">Toddy</option>
+              </select>
 
-        {dropdown && (
-          <div className="dropdown-search-options">
-            <form className="glassware-selection">
-              <input type="checkbox" id="coup" />
-              <span className="checkmark"></span>
-              <label id="coup">Coup</label>
-              <input type="checkbox" id="hurricane" />
-              <label id="hurricane">Hurricane</label>
-              <input type="checkbox" id="highball" />
-              <label id="highball">Hightball</label>
-              <input type="checkbox" id="collins" />
-              <label id="collins">Collins</label>
-            </form>
+              <label htmlFor="glass">Glass Type:</label>
+              <select name="glass" id="glass" onChange={handleSelectChange}>
+                <option value="" disabled>
+                  Select Glass Type
+                </option>
+                <option value="">Not Defined</option>
+                <option value="highball">Highball</option>
+                <option value="coup">Coup</option>
+                <option value="hurricane">Hurricane</option>
+                <option value="old fashioned">Old Fashioned</option>
+                <option value="julep tin">Julep Tin</option>
+                <option value="wine">Wine Glass</option>
+                <option value="flute">Flute</option>
+              </select>
+
+              <label htmlFor="ice">Ice Type:</label>
+              <select name="ice" id="ice" onChange={handleSelectChange}>
+                <option value="" disabled>
+                  Select Ice Type
+                </option>
+                <option value="">Not Defined</option>
+                <option value="cubed">Cubed</option>
+                <option value="crushed">Crushed</option>
+                <option value="block">Block</option>
+                <option value="shaved">Shaved</option>
+                <option value="Straight Up">Straight Up</option>
+              </select>
+            </div>
+            <button className="search-button" type="submit">
+              Search
+            </button>
           </div>
         )}
       </form>
-      <button className="toggle-drink-form-button" onClick={handleToggleClick}>
-        <motion.div
-          animate={{ rotate: isFormVisible ? 45 : 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <IoMdAdd style={{ fontSize: "3rem" }} />
-        </motion.div>
+      <button type="button" className="show-all" onClick={showAll}>
+        Show All
       </button>
-    </>
+
+      <div className="dropdown-buttons" onClick={handleDropdown}>
+        {dropdown ? <RxCross2 size={35} /> : <RxHamburgerMenu size={35} />}
+      </div>
+
+      {dropdown && (
+        <div className="dropdown-options">
+          <button className="logout-button" onClick={handleLogout}>
+            {localStorage.getItem("authToken") === "guest"
+              ? "Log In"
+              : "Log Out"}
+          </button>
+        </div>
+      )}
+    </div>
   );
 }

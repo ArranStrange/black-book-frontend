@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RxCross2, RxHamburgerMenu } from "react-icons/rx";
 import { IoMdAdd } from "react-icons/io";
 import { motion } from "framer-motion";

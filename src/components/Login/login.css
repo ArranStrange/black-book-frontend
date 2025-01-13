@@ -42,3 +42,34 @@
 .register-guest-box button {
   margin: 10px;
 }
+
+@media screen and (max-width: 720px) {
+  .login-form {
+    width: 100%;
+    align-items: center;
+  }
+
+  .login-form input {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .login-form button {
+    margin-right: 10px;
+    align-items: center;
+  }
+
+  .register-guest-box {
+    display: flex;
+    height: 100px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .register-guest-box button {
+    margin: 10px;
+  }
+}

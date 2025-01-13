@@ -1,11 +1,11 @@
 .drinks-list {
   display: flex;
   flex-direction: column;
-  justify-content: end;
+  justify-content: center;
   align-items: end;
   text-align: end;
   /* border-top: 1px solid #ecc2c4; */
-  width: 75%;
+  width: 90%;
   height: fit-content;
   z-index: 0;
   /* border: green 1px solid; */
@@ -13,49 +13,76 @@
 
 .drinks-container {
   display: flex;
-  flex-direction: row;
-  align-items: end;
-  border-top: 1px solid #ecc2c4;
-  padding-top: 20px;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
-  height: fit-content;
+  height: 650px;
   /* border: green 1px solid; */
-  overflow: hidden;
+  /* overflow: visible; */
 }
+
+.drinks-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #ecc2c4;
+  width: 100%;
+  min-height: 650px;
+  /* border: green 1px solid; */
+  overflow: visible;
+}
+
 .drinks-name {
-  justify-content: start;
+  display: flex;
+  justify-content: end;
+  align-items: end;
+  text-align: end;
+  width: 700px;
+  height: fit-content;
+  text-wrap: wrap;
+  text-transform: uppercase;
   /* border: solid green 3px; */
 }
 
 .drinks-category {
   justify-content: start;
   color: var(--white);
-  margin-bottom: -25px;
+  padding-bottom: 10px;
 }
+.drinks-glass {
+  line-height: 1rem;
+  font-weight: 200;
+  font-size: 1rem;
+  line-height: 1rem;
+  font-weight: 200;
+}
+
 tbody label {
   font-size: 0.6rem;
   margin-bottom: -5px;
   font-weight: 200;
+  line-height: 1rem;
 }
 
-.drinks-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: end;
-  text-wrap: wrap;
-  align-items: end;
-  text-align: end;
-}
 .drinks-instructions {
   width: 90%;
   height: fit-content;
   text-wrap: wrap;
 }
-
-.table-right {
+.table-left {
+  width: 75%;
   display: flex;
   flex-direction: column;
   justify-content: end;
+  align-items: end;
+  padding-bottom: 20px;
+}
+.table-right {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: end;
   padding-bottom: 20px;
   /* border: solid green 2px; */
@@ -63,9 +90,11 @@ tbody label {
 .measure-ingredient-list {
   display: flex;
   flex-direction: row;
+  text-align: end;
 }
+
 .measure-ingredient-col {
-  min-width: 200px;
+  min-width: 75px;
   /* border: forestgreen solid 2px; */
   text-align: end;
 }
@@ -77,16 +106,6 @@ tbody label {
   overflow: hidden;
   border-radius: 50%;
   filter: saturate(75%) grayscale(30%) sepia(10%);
-}
-
-.bin-icon {
-  font-size: 2rem;
-  color: var(--white);
-  background-color: rgba(0, 0, 0, 0);
-  border: none;
-}
-.bin-icon:hover {
-  border: none;
 }
 
 .confirmation-message {
@@ -110,27 +129,363 @@ tbody label {
 
 @media screen and (max-width: 720px) {
   .drinks-container {
-    width: 85%;
-    align-items: end;
+    align-items: center;
+    width: 90%;
+    min-height: 350px;
+    overflow: visible;
+  }
+
+  .drinks-info {
+    display: flex;
     flex-direction: column;
-    overflow: hidden;
-  }
-  .drink-ingredients {
-    margin-top: 0;
-    margin-left: 0;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-bottom: 1px solid #ecc2c4;
     width: 100%;
+    min-width: 375px;
+    /* border: green 1px solid; */
+    overflow: visible;
   }
-  .drink-image-container {
-    margin-top: -100px;
-    width: 40%;
-  }
-  .drinks-instructions {
+
+  .drinks-name {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 375px;
     height: fit-content;
+    text-wrap: wrap;
+    font-size: 2.5rem;
+    line-height: 2rem;
+    text-transform: uppercase;
+    /* border: solid green 3px; */
+  }
+
+  .drinks-category {
+    justify-content: start;
+    align-items: center;
+    color: var(--white);
+    margin-bottom: -25px;
+    font-size: 1rem;
+    line-height: 1rem;
+    font-weight: 200;
+  }
+
+  tbody label {
+    font-size: 0.6rem;
+    margin-bottom: -5px;
+    font-weight: 200;
+  }
+
+  .drinks-instructions {
+    width: 100%;
+    /* border: solid red 2px; */
+    align-items: center;
+    height: fit-content;
+    text-wrap: wrap;
+  }
+
+  .table-left {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
+  }
+  .table-right {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
+    /* border: solid green 2px; */
+  }
+  .measure-ingredient-list {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .measure-ingredient-col {
+    min-width: 100px;
+    /* border: forestgreen solid 2px; */
+    text-align: center;
+  }
+
+  .drinks-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    overflow: hidden;
+    border-radius: 50%;
+    filter: saturate(75%) grayscale(30%) sepia(10%);
+  }
+
+  .confirmation-message {
+    background-color: var(--background-color);
+    color: var(--white);
+    padding-top: 5px;
+    border: none;
+    border-radius: 5px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    text-align: start;
+    width: 275px;
+    height: 25px;
+    font-size: 1.5rem;
+    gap: 10px;
+  }
+  .confirmation-message button {
+    border: none;
   }
   .current-letter {
     margin-top: 10px;
   }
   .alphabet {
     left: -30px;
+  }
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 999;
+  background-color: var(--background-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.edit-input {
+  border: none;
+  width: 95%;
+  margin-bottom: 0.5rem;
+  background-color: #cccccc00;
+  color: var(--white);
+  text-align: center;
+}
+
+.edit-items {
+  display: flex;
+  flex-direction: row;
+  border: none;
+}
+
+.define-name {
+  min-height: fit-content;
+  font-size: 7.5rem;
+  line-height: 7rem;
+  font-weight: 900;
+  font-family: "Archivo Black", sans-serif;
+  text-transform: uppercase;
+}
+
+.define-category {
+  font-size: 1rem;
+  margin-bottom: 2px;
+  margin-top: 10px;
+  font-weight: 600;
+  font-family: "Archivo Bold", sans-serif;
+}
+
+.define-glass {
+  font-size: 2.5rem;
+  margin-bottom: 2px;
+  margin-top: 2px;
+  font-weight: 600;
+  font-family: "Archivo Bold", sans-serif;
+}
+
+.define-instructions {
+  font-size: 1rem;
+  margin-bottom: 2px;
+  margin-top: 2px;
+  font-weight: 200;
+  font-family: "Archivo", sans-serif;
+}
+
+.ingredients-section {
+}
+
+.measure-input-table {
+  display: flex;
+  flex-direction: row;
+  border: none;
+  width: 95%;
+  margin-bottom: 0.5rem;
+  text-align: start;
+  margin: 20px;
+}
+.ingredient-section-input {
+  border: none;
+  width: 95%;
+  margin-bottom: 0.5rem;
+  background-color: #cccccc00;
+  color: var(--white);
+  text-align: center;
+}
+
+.modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+}
+.save-icon {
+  font-size: 2rem;
+  color: var(--white);
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+}
+.save-icon:hover {
+  border: none;
+}
+
+.cancel-icon {
+  font-size: 2rem;
+  color: var(--white);
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+}
+.cancel-icon:hover {
+  border: none;
+}
+
+.bin-icon {
+  position: absolute;
+  right: 2rem;
+  font-size: 2rem;
+  color: var(--white);
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+}
+.bin-icon:hover {
+  border: green 2px solid;
+  cursor: pointer;
+}
+
+/* CONFIRM DELETE MODAL */
+
+.confirm-delete-modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  background-color: #262523;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.confirm-btn {
+  background: red;
+  color: white;
+  padding: 10px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background: gray;
+  color: white;
+  padding: 10px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.confirm-btn:hover {
+  background: darkred;
+}
+
+.cancel-btn:hover {
+  background: darkgray;
+}
+
+@media screen and (max-width: 720px) {
+  .modal {
+  }
+
+  .edit-input {
+    width: 80%;
+  }
+
+  .edit-items {
+  }
+
+  .define-name {
+    min-height: fit-content;
+    font-size: 3rem;
+    line-height: 3rem;
+    text-transform: uppercase;
+  }
+
+  .define-category {
+    font-size: 1rem;
+  }
+
+  .define-glass {
+    font-size: 2rem;
+  }
+
+  .define-instructions {
+  }
+
+  .ingredients-section {
+  }
+
+  .measure-input-table {
+  }
+  .ingredient-section-input {
+  }
+
+  .modal-actions {
+  }
+  .save-icon {
+  }
+  .save-icon:hover {
+  }
+
+  .cancel-icon {
+  }
+  .cancel-icon:hover {
+  }
+
+  .bin-icon {
+  }
+  .bin-icon:hover {
+  }
+
+  /* CONFIRM DELETE MODAL */
+
+  .confirm-delete-modal {
+  }
+
+  .confirm-btn {
+  }
+
+  .cancel-btn {
+  }
+
+  .confirm-btn:hover {
+  }
+
+  .cancel-btn:hover {
   }
 }

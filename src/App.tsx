@@ -61,11 +61,11 @@ const App: React.FC = () => {
   };
 
   return (
-    <div>
-      <img src={FilmGrain} className="overlay" />
-      <div>
+    <>
+      <img src={FilmGrain} className="overlay" alt="website overlay" />
+      <>
         {isAuthenticated ? (
-          <div>
+          <>
             <Search
               onSearch={handleSearch}
               toggleAddDrinkForm={toggleAddDrinkForm}
@@ -79,7 +79,7 @@ const App: React.FC = () => {
               />
             </div>
             {isAddDrinkFormVisible && <AddDrinkForm />}
-          </div>
+          </>
         ) : isRegisterVisible ? (
           <Register onRegisterSuccess={handleRegisterSuccess} /> // Show the Register component
         ) : (
@@ -90,8 +90,8 @@ const App: React.FC = () => {
             />
           </div>
         )}
-      </div>
-    </div>
+      </>
+    </>
   );
 };
 

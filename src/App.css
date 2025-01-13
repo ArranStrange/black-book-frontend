@@ -8,11 +8,10 @@
 }
 
 .main-drinks-list {
-  margin-top: 75px;
   display: flex;
   justify-content: end;
   align-items: start;
-  margin-right: 20px;
-  z-index: 0;
+  margin-right: 50px;
   /* border: solid red 3px; */
+  z-index: 0;
 }

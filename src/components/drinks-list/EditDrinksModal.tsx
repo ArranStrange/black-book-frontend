@@ -5,7 +5,6 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import "./drinks-list.css";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 
-// Drink interface
 interface Drink {
   _id: string;
   idDrink?: string;
@@ -48,9 +47,9 @@ const EditDrinkModal: React.FC<EditDrinkModalProps> = ({
   const [editedDrink, setEditedDrink] = useState<Drink>(drink);
   const [showConfirmDelete, setShowConfirmDelete] = useState<boolean>(false);
 
-  const handleSave = () => {
-    onSave(editedDrink);
-    window.location.reload();
+  const handleSave = async () => {
+    await onSave(editedDrink);
+    // window.location.reload();
   };
 
   const handleDeleteClick = () => {

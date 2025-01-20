@@ -28,6 +28,7 @@ const AddDrinkForm: React.FC = () => {
 
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const API_URL = "https://black-book-backend.onrender.com";
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -45,10 +46,7 @@ const AddDrinkForm: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/drinks",
-        formData
-      );
+      const response = await axios.post(`${API_URL}/drinks`, formData);
       console.log("Drink added:", response.data);
       setSuccess("Drink added successfully!");
 
@@ -84,7 +82,6 @@ const AddDrinkForm: React.FC = () => {
 
   return (
     <>
-      <h2>Add a New Drink</h2>
       <form className="add-drinks-form" onSubmit={handleSubmit}>
         {error && <p style={{ color: "red" }}>{error}</p>}
         {success && <p style={{ color: "green" }}>{success}</p>}

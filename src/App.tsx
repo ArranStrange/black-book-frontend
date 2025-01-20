@@ -9,7 +9,7 @@ import Register from "./components/Register/register";
 import FilmGrain from "./components/assets/film-grain.jpeg";
 
 const App: React.FC = () => {
-  const [selectedLetter, setSelectedLetter] = useState("a");
+  const [selectedLetter, setSelectedLetter] = useState("");
   const [searchQuery, setSearchQuery] = useState<{
     drinkName?: string;
     category?: string;

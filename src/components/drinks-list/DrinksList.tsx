@@ -51,10 +51,14 @@ const DrinksList: React.FC<DrinksListProps> = ({
   const [selectedDrink, setSelectedDrink] = useState<Drink | null>(null);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
 
+  // const API_URL = process.env.API_BASE_URL;
+  const API_URL = "https://black-book-backend.onrender.com";
+
   useEffect(() => {
     const fetchDrinks = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/drinks");
+        const response = await axios.get(`${API_URL}/drinks`);
+        console.log(response);
         setDrinks(response.data);
       } catch (error) {
         setError("Error fetching drinks: " + (error as Error).message);
@@ -72,7 +76,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
     if (confirmDelete === id) {
       console.log(`Deleting drink with ID: ${id}`);
       try {
-        await axios.delete(`http://localhost:8080/drinks/${id}`);
+        await axios.delete(`${API_URL}/drinks/${id}`);
         setDrinks(drinks.filter((drink) => drink._id !== id));
         setConfirmDelete(null);
       } catch (error) {
@@ -91,17 +95,18 @@ const DrinksList: React.FC<DrinksListProps> = ({
 
   const handleSaveEdit = async (updatedDrink: Drink) => {
     try {
+      console.log("this is the", updatedDrink);
       const response = await axios.put(
-        `http://localhost:8080/drinks/${updatedDrink._id}`,
+        `${API_URL}/drinks/${updatedDrink._id}`,
         updatedDrink
       );
+      console.log("this is the response", response);
       // Update state with the updated drink data
       setDrinks((prevDrinks) =>
         prevDrinks.map((drink) =>
           drink._id === updatedDrink._id ? response.data : drink
         )
       );
-
       setShowEditModal(false);
       setEditingDrinkId(null);
       setSelectedDrink(null);
@@ -179,7 +184,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
               <div className="table-left">
                 <label htmlFor="define-category">Category:</label>
                 <h3 id="define-category" className="drinks-category">
-                  {drink.Category || "Category Not Available"}
+                  {drink.Category || "Category Not Found"}
                 </h3>
                 <h1 className="drinks-name">{drink.drinkName}</h1>
                 <label htmlFor="define-glass">Glassware:</label>

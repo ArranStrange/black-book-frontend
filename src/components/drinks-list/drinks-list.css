@@ -1,11 +1,15 @@
 .drinks-list {
+  position: absolute;
+  right: 0;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: end;
   align-items: end;
   text-align: end;
   /* border-top: 1px solid #ecc2c4; */
-  width: 90%;
+  min-width: 100vw;
+  max-width: 100vw;
   height: fit-content;
   z-index: 0;
   /* border: green 1px solid; */
@@ -14,10 +18,11 @@
 .drinks-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 100%;
-  height: 650px;
-  /* border: green 1px solid; */
+  align-items: end;
+  max-width: 100vw;
+  min-width: 100vw;
+  height: fit-content;
+  /* border: red 1px solid; */
   /* overflow: visible; */
 }
 
@@ -27,8 +32,12 @@
   align-items: center;
   justify-content: center;
   border-bottom: 1px solid #ecc2c4;
-  width: 100%;
-  min-height: 650px;
+  min-width: 100%;
+  max-width: 100%;
+  /* min-height: 650px;
+  max-height: 650px; */
+  height: fit-content;
+  padding: 20px;
   /* border: green 1px solid; */
   overflow: visible;
 }
@@ -79,12 +88,12 @@ tbody label {
   padding-bottom: 20px;
 }
 .table-right {
+  min-height: 100%;
   width: 30%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: end;
-  padding-bottom: 20px;
   /* border: solid green 2px; */
 }
 .measure-ingredient-list {
@@ -97,6 +106,13 @@ tbody label {
   min-width: 75px;
   /* border: forestgreen solid 2px; */
   text-align: end;
+}
+.edit-icon {
+  position: relative;
+  margin: 5px;
+  bottom: 0;
+  right: 2rem;
+  font-size: 1rem;
 }
 
 .drinks-image {
@@ -128,23 +144,31 @@ tbody label {
 }
 
 @media screen and (max-width: 720px) {
+  .drinks-list {
+    margin-top: 50px;
+    padding: 0px;
+    /* border: purple solid 2px; */
+  }
   .drinks-container {
-    align-items: center;
-    width: 90%;
+    justify-content: end;
+    align-items: end;
+    min-width: 100%;
+    max-width: 100%;
     min-height: 350px;
+    max-height: fit-content;
     overflow: visible;
+    /* border: green solid 2px; */
   }
 
   .drinks-info {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     text-align: center;
     border-bottom: 1px solid #ecc2c4;
+    padding: 25px;
     width: 100%;
     min-width: 375px;
-    /* border: green 1px solid; */
+    /* border: red 1px solid; */
     overflow: visible;
   }
 
@@ -156,7 +180,7 @@ tbody label {
     height: fit-content;
     text-wrap: wrap;
     font-size: 2.5rem;
-    line-height: 2rem;
+    line-height: 2.2rem;
     text-transform: uppercase;
     /* border: solid green 3px; */
   }
@@ -178,7 +202,7 @@ tbody label {
   }
 
   .drinks-instructions {
-    width: 100%;
+    width: 80%;
     /* border: solid red 2px; */
     align-items: center;
     height: fit-content;
@@ -202,6 +226,10 @@ tbody label {
     padding-bottom: 20px;
     /* border: solid green 2px; */
   }
+  .edit-icon {
+    margin: 0px;
+  }
+
   .measure-ingredient-list {
     display: flex;
     flex-direction: row;
@@ -254,12 +282,13 @@ tbody label {
   left: 0;
   height: 100vh;
   width: 100vw;
-  z-index: 999;
+  z-index: 10;
   background-color: var(--background-color);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  /* border: purple solid 2px; */
 }
 
 .edit-input {
@@ -345,6 +374,8 @@ tbody label {
 }
 .save-icon:hover {
   border: none;
+  cursor: pointer;
+  color: rgb(59, 137, 26);
 }
 
 .cancel-icon {
@@ -355,6 +386,8 @@ tbody label {
 }
 .cancel-icon:hover {
   border: none;
+  cursor: pointer;
+  color: rgb(175, 54, 54);
 }
 
 .bin-icon {
@@ -366,7 +399,8 @@ tbody label {
   border: none;
 }
 .bin-icon:hover {
-  border: green 2px solid;
+  border: none;
+  color: rgb(175, 54, 54);
   cursor: pointer;
 }
 
@@ -471,8 +505,6 @@ tbody label {
   }
   .bin-icon:hover {
   }
-
-  /* CONFIRM DELETE MODAL */
 
   .confirm-delete-modal {
   }

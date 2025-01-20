@@ -14,6 +14,8 @@ const Login: React.FC<LoginProps> = ({
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
+  // const API_URL = process.env.API_BASE_URL;
+  const API_URL = "https://black-book-backend.onrender.com";
 
   // Check if user is already logged in on component mount
   useEffect(() => {
@@ -31,9 +33,11 @@ const Login: React.FC<LoginProps> = ({
 
     try {
       // Sending username and password to backend
-      const response = await axios.post("http://localhost:8080/user", {
-        username,
-        password,
+      const response = await axios.get(`${API_URL}/users`, {
+        params: {
+          username,
+          password,
+        },
       });
 
       console.log("Login response:", response.data);

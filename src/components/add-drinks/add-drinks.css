@@ -1,7 +1,7 @@
 .add-drinks-form {
-  height: 99.5vh;
-  width: 50.5vw;
-  z-index: 4;
+  height: 100vh;
+  width: 70vw;
+  z-index: 1;
   position: fixed;
   top: 0;
   right: 0;
@@ -18,7 +18,7 @@
 .add-drinks-form textarea,
 .add-drinks-form button {
   width: 75%;
-  padding: 6px;
+  padding: 5px;
   margin: 5px 0;
   border: 1px solid var(--white);
   border-radius: 4px;
@@ -63,4 +63,12 @@ label {
   cursor: pointer;
   width: 78%;
   height: 50%;
+}
+
+@media screen and (max-width: 720px) {
+  .add-drinks-form {
+    padding-top: 60px;
+    z-index: 4;
+    width: 100%;
+  }
 }

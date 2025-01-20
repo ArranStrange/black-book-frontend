@@ -8,7 +8,7 @@ nav {
   flex-direction: column;
   justify-content: start;
   align-items: center;
-  z-index: 5;
+  z-index: 3;
   padding-top: 70px;
   /* border-right: green solid 2px; */
   background-color: rgba(0, 0, 0, 0);
@@ -59,7 +59,7 @@ nav {
   flex-direction: row;
   /* border: green 2px solid; */
   width: fit-content;
-  z-index: 5;
+  z-index: 2;
 }
 
 .search-bar {
@@ -265,10 +265,10 @@ input:focus {
 
   .toggle-drink-form-button {
     position: fixed;
-    top: 0.2rem;
-    right: 0.5rem;
+    top: 90%;
+    right: 0;
     z-index: 200;
-    background-color: #26252300;
+    background-color: none;
     color: var(--white);
     border: none;
     padding: 10px 15px;
@@ -284,11 +284,15 @@ input:focus {
 
   .dropdown-buttons {
     margin: 10px;
-    z-index: 5;
+    z-index: 6;
   }
 
   .dropdown-options {
+    position: absolute;
+    top: 3rem;
+    right: 0;
     background-color: var(--background-color);
+    /* border: solid purple 2px; */
   }
 
   .logout-button {

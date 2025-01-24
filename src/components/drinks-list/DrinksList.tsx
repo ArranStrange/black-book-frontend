@@ -53,6 +53,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
 
   // const API_URL = process.env.API_BASE_URL;
   const API_URL = "https://black-book-backend.onrender.com";
+  // const API_URL = "http://localhost:1000";
 
   useEffect(() => {
     const fetchDrinks = async () => {
@@ -127,12 +128,21 @@ const DrinksList: React.FC<DrinksListProps> = ({
   };
 
   const filteredDrinks = useMemo(() => {
+    // if (
+    //   !searchQuery.drinkName &&
+    //   !searchQuery.category &&
+    //   !searchQuery.glass &&
+    //   !searchQuery.ice
+    // ) {
+    //   return drinks;
+    // }
+
     return drinks.filter((drink) => {
       const matchesLetter = selectedLetter
-        ? drink.drinkName.startsWith(selectedLetter.toUpperCase())
+        ? drink.drinkName.startsWith(selectedLetter.toUpperCase().trim())
         : true;
 
-      const matchesSearch = searchQuery.drinkName?.trim()
+      const matchesSearch = searchQuery.drinkName
         ? drink.drinkName
             .toLowerCase()
             .includes(searchQuery.drinkName.toLowerCase().trim())

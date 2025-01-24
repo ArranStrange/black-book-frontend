@@ -7,6 +7,7 @@ import Search from "./components/Nav/search";
 import Login from "./components/Login/login";
 import Register from "./components/Register/register";
 import FilmGrain from "./components/assets/film-grain.jpeg";
+import { IoIosClose } from "react-icons/io";
 
 const App: React.FC = () => {
   const [selectedLetter, setSelectedLetter] = useState("");
@@ -18,7 +19,10 @@ const App: React.FC = () => {
   }>({});
   const [isAddDrinkFormVisible, setIsAddDrinkFormVisible] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [isRegisterVisible, setIsRegisterVisible] = useState<boolean>(false); // New state for register visibility
+  const [isRegisterVisible, setIsRegisterVisible] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState(true);
+
+  const closePopup = () => setIsOpen(false);
 
   const handleLoginSuccess = () => {
     // Update authentication state
@@ -64,6 +68,19 @@ const App: React.FC = () => {
     <>
       <img src={FilmGrain} className="overlay" alt="website overlay" />
       <>
+        {isOpen && (
+          <div className="pop-up-container">
+            <div className="pop-up">
+              <button onClick={closePopup} className="pop-up-close-button">
+                <IoIosClose />
+              </button>
+              <p className="pop-up-message">
+                The backend of this app is hosted on a free server, please be
+                patient it can be a little slow
+              </p>
+            </div>
+          </div>
+        )}
         {isAuthenticated ? (
           <>
             <Search

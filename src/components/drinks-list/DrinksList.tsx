@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import axios from "axios";
 import "./drinks-list.css";
@@ -101,7 +101,6 @@ const DrinksList: React.FC<DrinksListProps> = ({
         updatedDrink
       );
       console.log("this is the response", response);
-      // Update state with the updated drink data
       setDrinks((prevDrinks) =>
         prevDrinks.map((drink) =>
           drink._id === updatedDrink._id ? response.data : drink
@@ -127,53 +126,59 @@ const DrinksList: React.FC<DrinksListProps> = ({
     setSelectedDrink(null);
   };
 
+  const filteredDrinks = useMemo(() => {
+    return drinks.filter((drink) => {
+      const matchesLetter = selectedLetter
+        ? drink.drinkName.startsWith(selectedLetter.toUpperCase())
+        : true;
+
+      const matchesSearch = searchQuery.drinkName?.trim()
+        ? drink.drinkName
+            .toLowerCase()
+            .includes(searchQuery.drinkName.toLowerCase().trim())
+        : true;
+
+      const matchesCategory = searchQuery.category?.trim()
+        ? drink.Category &&
+          drink.Category.toLowerCase().includes(
+            searchQuery.category.toLowerCase().trim()
+          )
+        : true;
+
+      const matchesGlass = searchQuery.glass?.trim()
+        ? drink.Glass &&
+          drink.Glass.toLowerCase().includes(
+            searchQuery.glass.toLowerCase().trim()
+          )
+        : true;
+
+      const matchesIce = searchQuery.ice?.trim()
+        ? drink.Ice &&
+          drink.Ice.toLowerCase().includes(searchQuery.ice.toLowerCase().trim())
+        : true;
+
+      return (
+        (matchesSearch && (matchesLetter || searchQuery.drinkName)) ||
+        (matchesCategory && searchQuery.category) ||
+        (matchesGlass && searchQuery.glass) ||
+        (matchesIce && searchQuery.ice)
+      );
+    });
+  }, [drinks, selectedLetter, searchQuery]);
+
+  const sortedDrinks = useMemo(() => {
+    return [...filteredDrinks].sort((a, b) =>
+      a.drinkName.localeCompare(b.drinkName)
+    );
+  }, [filteredDrinks]);
+
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="fetch-messages">Loading...</div>;
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <div className="fetch-messages">{error}</div>;
   }
-
-  const filteredDrinks = drinks.filter((drink) => {
-    const matchesLetter = selectedLetter
-      ? drink.drinkName.startsWith(selectedLetter.toUpperCase())
-      : true;
-
-    const matchesSearch = searchQuery.drinkName
-      ? drink.drinkName
-          .toLowerCase()
-          .includes(searchQuery.drinkName.toLowerCase())
-      : true;
-
-    const matchesCategory = searchQuery.category
-      ? drink.Category &&
-        drink.Category.toLowerCase().includes(
-          searchQuery.category.toLowerCase()
-        )
-      : true;
-
-    const matchesGlass = searchQuery.glass
-      ? drink.Glass &&
-        drink.Glass.toLowerCase().includes(searchQuery.glass.toLowerCase())
-      : true;
-
-    const matchesIce = searchQuery.ice
-      ? drink.Ice && drink.Ice.toLowerCase().includes(searchQuery.ice)
-      : true;
-
-    return (
-      matchesLetter &&
-      matchesSearch &&
-      matchesCategory &&
-      matchesGlass &&
-      matchesIce
-    );
-  });
-
-  const sortedDrinks = [...filteredDrinks].sort((a, b) =>
-    a.drinkName.localeCompare(b.drinkName)
-  );
 
   return (
     <div className="drinks-list">

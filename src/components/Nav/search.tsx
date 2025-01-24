@@ -67,17 +67,17 @@ export default function Search({
     });
   };
 
-  const showAll = () => {
-    setSearchQuery("");
-    setSelectedCategory("");
-    setSelectedGlass("");
-    setSelectedIce("");
-    onSearch({});
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
+  // const showAll = () => {
+  //   setSearchQuery("");
+  //   setSelectedCategory("");
+  //   setSelectedGlass("");
+  //   setSelectedIce("");
+  //   onSearch({});
+  //   window.scrollTo({
+  //     top: 0,
+  //     behavior: "smooth",
+  //   });
+  // };
 
   const handleToggleClick = () => {
     toggleAddDrinkForm();
@@ -101,13 +101,22 @@ export default function Search({
 
   const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSearchQuery("");
-    setSelectedCategory("");
-    setSelectedGlass("");
-    setSelectedIce("");
-    showAll();
-    handleSubmit(event);
+
+    const searchQueryObject = {
+      drinkName: searchQuery.trim() ? searchQuery : undefined,
+      category: selectedCategory || undefined,
+      glass: selectedGlass || undefined,
+      ice: selectedIce || undefined,
+    };
+
+    console.log(searchQueryObject);
+    onSearch(searchQueryObject);
+
     setIsSearchFocused(false);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   return (
@@ -146,9 +155,6 @@ export default function Search({
                 id="category"
                 onChange={handleSelectChange}
               >
-                <option value="" disabled>
-                  Select Category
-                </option>
                 <option value="">Not Defined</option>
                 <option value="cobbler">Cobbler</option>
                 <option value="collins">Collins</option>
@@ -169,24 +175,18 @@ export default function Search({
 
               <label htmlFor="glass">Glass Type:</label>
               <select name="glass" id="glass" onChange={handleSelectChange}>
-                <option value="" disabled>
-                  Select Glass Type
-                </option>
                 <option value="">Not Defined</option>
                 <option value="highball">Highball</option>
                 <option value="coup">Coup</option>
                 <option value="hurricane">Hurricane</option>
                 <option value="old fashioned">Old Fashioned</option>
-                <option value="julep tin">Julep Tin</option>
+                <option value="julep cup">Julep Cup</option>
                 <option value="wine">Wine Glass</option>
                 <option value="flute">Flute</option>
               </select>
 
               <label htmlFor="ice">Ice Type:</label>
               <select name="ice" id="ice" onChange={handleSelectChange}>
-                <option value="" disabled>
-                  Select Ice Type
-                </option>
                 <option value="">Not Defined</option>
                 <option value="cubed">Cubed</option>
                 <option value="crushed">Crushed</option>

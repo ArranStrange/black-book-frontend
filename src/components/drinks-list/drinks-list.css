@@ -19,7 +19,7 @@
 .drinks-container {
   display: flex;
   flex-direction: column;
-  align-items: end;
+  align-items: center;
   max-width: 100vw;
   min-width: 100vw;
   height: fit-content;
@@ -33,8 +33,9 @@
   align-items: center;
   justify-content: center;
   border-bottom: 1px solid #ecc2c4;
-  min-width: 100%;
-  max-width: 100%;
+  /* min-width: 100%;
+  max-width: 100%; */
+  width: clamp(1000px, 1000px, 1200px);
   /* min-height: 650px;
   max-height: 650px; */
   height: fit-content;
@@ -144,10 +145,13 @@ tbody label {
   border: none;
 }
 
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 900px) {
   .drinks-list {
     margin-top: 50px;
+    margin-right: 0px;
     padding: 0px;
+    min-width: 90vw;
+    max-width: 90vw;
     /* border: purple solid 2px; */
   }
   .drinks-container {
@@ -164,6 +168,8 @@ tbody label {
   .drinks-info {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
     border-bottom: 1px solid #ecc2c4;
     padding: 25px;
@@ -177,7 +183,7 @@ tbody label {
     justify-content: center;
     align-items: center;
     text-align: center;
-    width: 375px;
+    width: 70%;
     height: fit-content;
     text-wrap: wrap;
     font-size: 2.5rem;
@@ -268,12 +274,6 @@ tbody label {
   }
   .confirmation-message button {
     border: none;
-  }
-  .current-letter {
-    margin-top: 10px;
-  }
-  .alphabet {
-    left: -30px;
   }
 }
 
@@ -453,7 +453,7 @@ tbody label {
   background: darkgray;
 }
 
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 900px) {
   .modal {
   }
 
@@ -520,5 +520,25 @@ tbody label {
   }
 
   .cancel-btn:hover {
+  }
+}
+
+.fetch-messages {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100vw;
+  height: 100vh;
+  /* border: solid var(--white) 2px; */
+}
+
+@media screen and (max-width: 720px) {
+  .fetch-messages {
+    margin-right: -10px;
   }
 }

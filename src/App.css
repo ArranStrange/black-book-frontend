@@ -1,5 +1,6 @@
 .App {
-  width: 100vw;
+  min-width: 100vw;
+  max-width: 100vw;
   background-color: #262523;
   color: #ecc2c4;
   font-family: "Chivo", sans-serif;

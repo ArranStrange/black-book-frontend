@@ -6,7 +6,7 @@ const AddDrinkForm: React.FC = () => {
   const [formData, setFormData] = useState({
     idDrink: Date.now().toString(), //UID
     drinkName: "",
-    Catagory: "",
+    Category: "",
     Glass: "",
     Ice: "",
     Ingredient1: "",
@@ -53,7 +53,7 @@ const AddDrinkForm: React.FC = () => {
       setFormData({
         idDrink: Date.now().toString(),
         drinkName: "",
-        Catagory: "",
+        Category: "",
         Glass: "",
         Ice: "",
         Ingredient1: "",
@@ -99,15 +99,15 @@ const AddDrinkForm: React.FC = () => {
         </label>
 
         <label>
-          Catagory:
+          Category:
           <select
-            name="Catagory"
-            value={formData.Catagory}
+            name="Category"
+            value={formData.Category}
             onChange={handleChange}
             required
           >
             <option value="" disabled>
-              Select Catagory
+              Select Category
             </option>
             <option value="cobbler">Cobbler</option>
             <option value="collins">Collins</option>

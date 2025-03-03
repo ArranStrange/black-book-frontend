@@ -126,7 +126,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
   };
 
   const handleEditClick = (drink: Drink) => {
-    //handle the click of the edit button, takes an argument of drink
+    //handle the click of the edit button, takes an argument of the selected drink
     setEditingDrinkId(drink._id);
     //recieved the selected ID and stores it in the editing drink ID state
     setSelectedDrink(drink);
@@ -139,13 +139,13 @@ const DrinksList: React.FC<DrinksListProps> = ({
     //handles click of the save button taking an argument of the updated drinks
     try {
       //try for better error handling
-      console.log("this is the", updatedDrink);
+      // console.log("this is the", updatedDrink);
       const response = await axios.put(
-        //axios.put sends a request to the below URL & drinks & the corosponding drinks ID to be updated
+        //axios.put sends a request to the below URL/drinks/the corosponding drinks ID to be updated
         `${API_URL}/drinks/${updatedDrink._id}`,
         updatedDrink //updatedDrink is what is sent to the backend server, this is the inputted data which replaces the drink within the drink schema
       );
-      console.log("this is the response", response);
+      // console.log("this is the response", response);
       setDrinks((prevDrinks) =>
         //set Drinks updates the current Array
         prevDrinks.map(
@@ -170,7 +170,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
       } else {
         console.error("Error updating drink:", error);
         setError("Error updating drink: " + (error as Error).message);
-        //if not shoes a generic error
+        //if not shows a generic error
       }
     }
   };

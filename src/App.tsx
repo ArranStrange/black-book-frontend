@@ -21,7 +21,6 @@ const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isRegisterVisible, setIsRegisterVisible] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState(true);
-
   const closePopup = () => setIsOpen(false);
 
   const handleLoginSuccess = () => {

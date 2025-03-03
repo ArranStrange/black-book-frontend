@@ -19,7 +19,7 @@ export default function Nav({ onSelectLetter }: Props) {
   };
 
   useEffect(() => {
-    handleLetterClick("A");
+    handleLetterClick("");
   }, []);
 
   return (

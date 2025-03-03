@@ -325,7 +325,10 @@ const DrinksList: React.FC<DrinksListProps> = ({
               <div className="table-right">
                 <div className="drink-image-container">
                   <img
-                    src={drink.DrinkThumb}
+                    src={
+                      drink.DrinkThumb ||
+                      "https://www.creativefabrica.com/wp-content/uploads/2021/07/01/Cocktail-icon-Graphics-14120200-1-1-580x387.jpg"
+                    }
                     alt={drink.drinkName}
                     className="drinks-image"
                   />

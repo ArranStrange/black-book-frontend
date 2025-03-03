@@ -12,7 +12,7 @@
   display: flex;
   justify-content: end;
   align-items: start;
-  margin-right: 50px;
+  /* margin-right: 50px; */
   /* border: solid red 3px; */
   z-index: 0;
 }

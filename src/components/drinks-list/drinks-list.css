@@ -18,13 +18,15 @@
 
 .drinks-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
   max-width: 100vw;
   min-width: 100vw;
   height: fit-content;
   overflow: hidden;
+  gap: 10px;
   /* border: red 1px solid; */
   /* overflow: visible; */
 }
@@ -39,7 +41,7 @@
   box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease-in-out;
   padding: 15px;
-  width: 50%;
+  width: 35%;
   height: fit-content;
   text-align: center;
   cursor: pointer;
@@ -614,7 +616,7 @@ tbody label {
   }
 
   .define-glass {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 600;
     font-family: "Archivo Bold", sans-serif;
   }

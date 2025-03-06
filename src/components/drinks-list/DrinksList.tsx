@@ -41,12 +41,14 @@ interface DrinksListProps {
   };
 }
 
+const sortDrinks = (drinksList: Drink[]) => {
+  return [...drinksList].sort((a, b) => a.drinkName.localeCompare(b.drinkName));
+};
+
 const DrinksList: React.FC<DrinksListProps> = ({
   selectedLetter,
   searchQuery,
 }) => {
-  console.log("📩 DrinksList Received searchQuery Props:", searchQuery);
-
   const isGuest = localStorage.getItem("authToken") === "guest";
   //stores a token so the user doesn't need to log in each render
   const [drinks, setDrinks] = useState<Drink[]>([]);
@@ -84,9 +86,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
         //await pauses execution of code until the response comes back from the API call
         //axios.get will call the API URL listed above/drinks and store it in the const response
 
-        console.log(response);
-
-        setDrinks(response.data);
+        setDrinks(sortDrinks(response.data));
         //set drinks state to the data stored in the response state e.g. the drinks schema from the backend server
       } catch (error) {
         //catch for error handeling
@@ -117,6 +117,10 @@ const DrinksList: React.FC<DrinksListProps> = ({
     if (!selectedDrink) return; // Prevents errors if no drink is selected
     setShowDrinkModal(false);
     setShowEditModal(true);
+  };
+
+  const handleAddDrink = (newDrink: Drink) => {
+    setDrinks((prevDrinks) => sortDrinks([...prevDrinks, newDrink]));
   };
 
   const handleSaveEdit = async (updatedDrink: Drink) => {
@@ -197,9 +201,6 @@ const DrinksList: React.FC<DrinksListProps> = ({
 
   const filteredDrinks = useMemo(() => {
     return drinks.filter((drink) => {
-      // Debugging - Check what data is coming in
-      console.log("🔍 Checking Drink:", drink);
-
       // Match by first letter
       const matchesLetter = selectedLetter
         ? drink.drinkName.startsWith(selectedLetter.toUpperCase().trim())
@@ -244,21 +245,6 @@ const DrinksList: React.FC<DrinksListProps> = ({
         matchesIngredient(drink.Ingredient5) ||
         matchesIngredient(drink.Ingredient6);
 
-      // Debugging: Check match results
-      console.log("✅ Match Result:", {
-        name: drink.drinkName,
-        matchesCategory,
-        matchesGlass,
-        matchesIce,
-        drinkCategory,
-        queryCategory,
-        drinkGlass,
-        queryGlass,
-        drinkIce,
-        queryIce,
-      });
-
-      // Ensure all conditions are respected
       return (
         (matchesSearch || matchesIngredients) &&
         matchesLetter &&
@@ -269,11 +255,10 @@ const DrinksList: React.FC<DrinksListProps> = ({
     });
   }, [drinks, selectedLetter, searchQuery]);
 
-  const sortedDrinks = useMemo(() => {
-    return [...filteredDrinks].sort((a, b) =>
-      a.drinkName.localeCompare(b.drinkName)
-    );
-  }, [filteredDrinks]);
+  const sortedDrinks = useMemo(
+    () => sortDrinks(filteredDrinks),
+    [filteredDrinks]
+  );
 
   if (loading) {
     return (
@@ -424,7 +409,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
       {showEditModal && selectedDrink && (
         <EditDrinkModal
           drink={selectedDrink}
-          onSave={() => setShowEditModal(false)}
+          onSave={handleSaveEdit}
           onCancel={cancelEdit}
           onDelete={() => handleDelete(selectedDrink._id)} // Pass onDelete function
           setConfirmDelete={setConfirmDelete} // Ensure it's passed

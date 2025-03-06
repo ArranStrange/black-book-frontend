@@ -157,7 +157,7 @@ input:focus {
 }
 
 .dropdown-options {
-  background-color: var(--background-color);
+  background-color: none;
 }
 
 .logout-button {

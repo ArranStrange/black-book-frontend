@@ -10,6 +10,7 @@ interface Drink {
   _id: string;
   idDrink?: string;
   drinkName: string;
+  shortDescription: string;
   Category: string;
   Glass: string;
   Ice?: string;
@@ -44,6 +45,8 @@ const DrinksList: React.FC<DrinksListProps> = ({
   selectedLetter,
   searchQuery,
 }) => {
+  console.log("📩 DrinksList Received searchQuery Props:", searchQuery);
+
   const isGuest = localStorage.getItem("authToken") === "guest";
   //stores a token so the user doesn't need to log in each render
   const [drinks, setDrinks] = useState<Drink[]>([]);
@@ -52,6 +55,8 @@ const DrinksList: React.FC<DrinksListProps> = ({
   //is loading state
   const [error, setError] = useState<string | null>(null);
   //error state
+  const [showDrinkModal, setShowDrinkModal] = useState<boolean>(false);
+  //drinksModal
   const [editingDrinkId, setEditingDrinkId] = useState<string | null>(null);
   //state for drinks id when editing
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
@@ -99,40 +104,19 @@ const DrinksList: React.FC<DrinksListProps> = ({
     //Runs the function on first render
   }, []);
 
-  const handleDelete = async (id: string) => {
-    //handle delete function to delete drinks used async for better error handling and takes an argument of the drinks ID
-    setConfirmDelete(id);
-    //sets confirm delete state to the ID of the selected drink
-    if (confirmDelete === id) {
-      //if the confirm delete ID of the confirm delete matches the id of the selected drink it will run the code below
-      console.log(`Deleting drink with ID: ${id}`);
-      try {
-        //try for better error handling
-        await axios.delete(`${API_URL}/drinks/${id}`);
-        //axios.delete URL of the database & the drinks list & the drinks ID
-        setDrinks(drinks.filter((drink) => drink._id !== id));
-        //withing the drinks schema stored in the Drinks state, filter out the drink, with the ID equal to the ID stored in confirm delete
-        setConfirmDelete(null);
-        //reset the confirm delete ID stored to nothing
-      } catch (error) {
-        //catch for error handling
-        console.error("Error deleting drink:", error);
-        setError("Error deleting drink: " + (error as Error).message);
-        //set error state with the error if there is an error is found
-      }
-    }
-    window.location.reload();
-    //reload the application so the array of drinks is displayed, now without the filtered drink
+  const handleDrinkClick = (drink: Drink) => {
+    setSelectedDrink(drink);
+    setShowDrinkModal(true);
+  };
+  const handleCloseDrinkModal = () => {
+    setShowDrinkModal(false);
+    setSelectedDrink(null);
   };
 
-  const handleEditClick = (drink: Drink) => {
-    //handle the click of the edit button, takes an argument of the selected drink
-    setEditingDrinkId(drink._id);
-    //recieved the selected ID and stores it in the editing drink ID state
-    setSelectedDrink(drink);
-    //stored the selected drink in Selected Drink State
+  const handleEditClick = () => {
+    if (!selectedDrink) return; // Prevents errors if no drink is selected
+    setShowDrinkModal(false);
     setShowEditModal(true);
-    //opens the Edit Modal component
   };
 
   const handleSaveEdit = async (updatedDrink: Drink) => {
@@ -175,6 +159,32 @@ const DrinksList: React.FC<DrinksListProps> = ({
     }
   };
 
+  const handleDelete = async (id: string) => {
+    //handle delete function to delete drinks used async for better error handling and takes an argument of the drinks ID
+    setConfirmDelete(id);
+    //sets confirm delete state to the ID of the selected drink
+    if (confirmDelete === id) {
+      //if the confirm delete ID of the confirm delete matches the id of the selected drink it will run the code below
+      console.log(`Deleting drink with ID: ${id}`);
+      try {
+        //try for better error handling
+        await axios.delete(`${API_URL}/drinks/${id}`);
+        //axios.delete URL of the database & the drinks list & the drinks ID
+        setDrinks(drinks.filter((drink) => drink._id !== id));
+        //withing the drinks schema stored in the Drinks state, filter out the drink, with the ID equal to the ID stored in confirm delete
+        setConfirmDelete(null);
+        //reset the confirm delete ID stored to nothing
+      } catch (error) {
+        //catch for error handling
+        console.error("Error deleting drink:", error);
+        setError("Error deleting drink: " + (error as Error).message);
+        //set error state with the error if there is an error is found
+      }
+    }
+    window.location.reload();
+    //reload the application so the array of drinks is displayed, now without the filtered drink
+  };
+
   const cancelEdit = () => {
     //handles cancel edit click
     setShowEditModal(false);
@@ -186,63 +196,45 @@ const DrinksList: React.FC<DrinksListProps> = ({
   };
 
   const filteredDrinks = useMemo(() => {
-    //filters drinks function uses useMemo to capture the result and only rerender if the search is changed
-
-    // if (
-    //   !searchQuery.drinkName &&
-    //   !searchQuery.category &&
-    //   !searchQuery.glass &&
-    //   !searchQuery.ice
-    // ) {
-    //   return drinks;
-    // }
-
     return drinks.filter((drink) => {
-      //drinks.filter taking an argument of drink will only return the drinks matching the arguments below
+      // Debugging - Check what data is coming in
+      console.log("🔍 Checking Drink:", drink);
+
+      // Match by first letter
       const matchesLetter = selectedLetter
-        ? //matched letter to selected letter state, which is defined in the Nav component
-          drink.drinkName.startsWith(selectedLetter.toUpperCase().trim())
-        : //in the array of drinks the drinkName starts with the selected letter - which is converted to uppercase and any spaces removed
-          true;
-      //if selected letter is empty, his marks all drinks as matching and will show all
+        ? drink.drinkName.startsWith(selectedLetter.toUpperCase().trim())
+        : true;
 
+      // Match by search query (partial match)
       const matchesSearch = searchQuery.drinkName
-        ? //search query the drink name
-          drink.drinkName
+        ? drink.drinkName
             .toLowerCase()
-            //converts all drinks names to lowercase
             .includes(searchQuery.drinkName.toLowerCase().trim())
-        : //.includes checks if any drink names in the array match the search query - this only needs a partial match
-          //converts the search query to lowercase and removes the spaces
-          true;
-      //if no search query is inputted then return all
-
-      const matchesCategory = searchQuery.category?.trim()
-        ? drink.Category &&
-          drink.Category.toLowerCase().includes(
-            searchQuery.category.toLowerCase().trim()
-          )
         : true;
 
-      const matchesGlass = searchQuery.glass?.trim()
-        ? drink.Glass &&
-          drink.Glass.toLowerCase().includes(
-            searchQuery.glass.toLowerCase().trim()
-          )
-        : true;
+      // Normalize fields to avoid case sensitivity & trailing spaces
+      const drinkCategory = drink.Category?.toLowerCase().trim();
+      const drinkGlass = drink.Glass?.toLowerCase().trim();
+      const drinkIce = drink.Ice?.toLowerCase().trim();
 
-      const matchesIce = searchQuery.ice?.trim()
-        ? drink.Ice &&
-          drink.Ice.toLowerCase().includes(searchQuery.ice.toLowerCase().trim())
-        : true;
+      const queryCategory = searchQuery.category?.toLowerCase().trim();
+      const queryGlass = searchQuery.glass?.toLowerCase().trim();
+      const queryIce = searchQuery.ice?.toLowerCase().trim();
 
-      const matchesIngredient = (ingredient: string | undefined) => {
-        return ingredient
+      // Ensure filtering properly applies (STRICT MATCH)
+      const matchesCategory = queryCategory
+        ? drinkCategory === queryCategory
+        : true;
+      const matchesGlass = queryGlass ? drinkGlass === queryGlass : true;
+      const matchesIce = queryIce ? drinkIce === queryIce : true;
+
+      // Match ingredients (partial match)
+      const matchesIngredient = (ingredient: string | undefined) =>
+        ingredient
           ? ingredient
               .toLowerCase()
               .includes(searchQuery.drinkName?.toLowerCase().trim() || "")
           : false;
-      };
 
       const matchesIngredients =
         matchesIngredient(drink.Ingredient1) ||
@@ -252,11 +244,27 @@ const DrinksList: React.FC<DrinksListProps> = ({
         matchesIngredient(drink.Ingredient5) ||
         matchesIngredient(drink.Ingredient6);
 
+      // Debugging: Check match results
+      console.log("✅ Match Result:", {
+        name: drink.drinkName,
+        matchesCategory,
+        matchesGlass,
+        matchesIce,
+        drinkCategory,
+        queryCategory,
+        drinkGlass,
+        queryGlass,
+        drinkIce,
+        queryIce,
+      });
+
+      // Ensure all conditions are respected
       return (
         (matchesSearch || matchesIngredients) &&
-        (matchesLetter || searchQuery.drinkName) &&
-        (matchesCategory || searchQuery.category) &&
-        (matchesGlass || searchQuery.glass)
+        matchesLetter &&
+        matchesCategory &&
+        matchesGlass &&
+        matchesIce
       );
     });
   }, [drinks, selectedLetter, searchQuery]);
@@ -307,54 +315,102 @@ const DrinksList: React.FC<DrinksListProps> = ({
   return (
     <div className="drinks-list">
       <div className="drinks-container">
-        {sortedDrinks.map((drink) => (
-          <div key={drink._id} className="drink-info">
-            <div className="drinks-info">
+        {filteredDrinks.map((drink) => (
+          <div
+            key={drink._id}
+            className="drink-card"
+            onClick={() => handleDrinkClick(drink)}
+          >
+            <div></div>
+            <div>
+              <img
+                src={drink.DrinkThumb || "https://via.placeholder.com/100"}
+                alt={drink.drinkName}
+                className="drink-thumbnail"
+              />
+              <div className="drink-details">
+                <h2 className="drink-name">{drink.drinkName}</h2>
+                <p className="drink-short-description">
+                  {drink.shortDescription || "No description available."}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Drink Modal */}
+      {showDrinkModal && selectedDrink && (
+        <div className="drink-modal">
+          <div className="modal-content">
+            <div className="drink-modal-info">
+              <button
+                className="close-drink-modal"
+                onClick={handleCloseDrinkModal}
+              >
+                ✖
+              </button>
               <div className="table-left">
                 <label htmlFor="define-category">Category:</label>
                 <h3 id="define-category" className="drinks-category">
-                  {toTitleCase(drink.Category || "Category Not Found")}
+                  {toTitleCase(selectedDrink.Category || "Category Not Found")}
                 </h3>
-                <h1 className="drinks-name">{drink.drinkName}</h1>
+                <h1 className="selectedDrinks-name">
+                  {selectedDrink.drinkName}
+                </h1>
                 <label htmlFor="define-glass">Glassware:</label>
-                <h3 id="define-glass" className="drinks-glass">
-                  {toTitleCase(drink.Glass)}
+                <h3 id="define-glass" className="selectedDrinks-glass">
+                  {toTitleCase(selectedDrink.Glass)}
                 </h3>
-                <p className="drinks-instructions">{drink.Instructions}</p>
+                <p className="selectedDrinks-instructions">
+                  {selectedDrink.Instructions}
+                </p>
               </div>
               <div className="table-right">
-                <div className="drink-image-container">
+                <div className="selectedDrink-image-container">
                   <img
                     src={
-                      drink.DrinkThumb ||
+                      selectedDrink.DrinkThumb ||
                       "https://www.creativefabrica.com/wp-content/uploads/2021/07/01/Cocktail-icon-Graphics-14120200-1-1-580x387.jpg"
                     }
-                    alt={drink.drinkName}
-                    className="drinks-image"
+                    alt={selectedDrink.drinkName}
+                    className="selectedDrinks-image"
                   />
                   <div className="measure-ingredient-list">
                     <div className="measure-ingredient-col">
-                      <p>{toTitleCase(drink.Ingredient1)}</p>
-                      <p>{toTitleCase(drink.Ingredient2)}</p>
-                      <p>{toTitleCase(drink.Ingredient3)}</p>
-                      <p>{toTitleCase(drink.Ingredient4)}</p>
-                      <p>{toTitleCase(drink.Ingredient5)}</p>
-                      <p>{toTitleCase(drink.Ingredient6)}</p>
+                      <p>{toTitleCase(selectedDrink.Ingredient1)}</p>
+                      <p>{toTitleCase(selectedDrink.Ingredient2)}</p>
+                      <p>{toTitleCase(selectedDrink.Ingredient3)}</p>
+                      <p>{toTitleCase(selectedDrink.Ingredient4)}</p>
+                      <p>{toTitleCase(selectedDrink.Ingredient5)}</p>
+                      <p>{toTitleCase(selectedDrink.Ingredient6)}</p>
                     </div>
                     <div className="measure-ingredient-col">
-                      {drink.Measure1 && <p>{drink.Measure1}ml</p>}
-                      {drink.Measure2 && <p>{drink.Measure2}ml</p>}
-                      {drink.Measure3 && <p>{drink.Measure3}ml</p>}
-                      {drink.Measure4 && <p>{drink.Measure4}ml</p>}
-                      {drink.Measure5 && <p>{drink.Measure5}ml</p>}
-                      {drink.Measure6 && <p>{drink.Measure6}ml</p>}
+                      {selectedDrink.Measure1 && (
+                        <p>{selectedDrink.Measure1}ml</p>
+                      )}
+                      {selectedDrink.Measure2 && (
+                        <p>{selectedDrink.Measure2}ml</p>
+                      )}
+                      {selectedDrink.Measure3 && (
+                        <p>{selectedDrink.Measure3}ml</p>
+                      )}
+                      {selectedDrink.Measure4 && (
+                        <p>{selectedDrink.Measure4}ml</p>
+                      )}
+                      {selectedDrink.Measure5 && (
+                        <p>{selectedDrink.Measure5}ml</p>
+                      )}
+                      {selectedDrink.Measure6 && (
+                        <p>{selectedDrink.Measure6}ml</p>
+                      )}
                     </div>
                   </div>
                 </div>
                 {!showEditModal && !isGuest && (
                   <button
-                    className="edit-icon"
-                    onClick={() => handleEditClick(drink)}
+                    className="edit-button"
+                    onClick={() => handleEditClick()}
                   >
                     <FaEdit />
                   </button>
@@ -362,16 +418,16 @@ const DrinksList: React.FC<DrinksListProps> = ({
               </div>
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      )}
 
       {showEditModal && selectedDrink && (
         <EditDrinkModal
           drink={selectedDrink}
-          onSave={handleSaveEdit}
+          onSave={() => setShowEditModal(false)}
           onCancel={cancelEdit}
-          onDelete={handleDelete}
-          setConfirmDelete={setConfirmDelete}
+          onDelete={() => handleDelete(selectedDrink._id)} // Pass onDelete function
+          setConfirmDelete={setConfirmDelete} // Ensure it's passed
         />
       )}
     </div>

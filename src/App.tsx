@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AddDrinkForm from "./components/add-drinks/AddDrinksForm";
 import "./App.css";
 import DrinksList from "./components/drinks-list/DrinksList";
@@ -21,92 +21,84 @@ const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isRegisterVisible, setIsRegisterVisible] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState(true);
+
   const closePopup = () => setIsOpen(false);
 
   const handleLoginSuccess = () => {
-    // Update authentication state
     setIsAuthenticated(true);
   };
 
   const handleRegisterSuccess = () => {
-    // Handle successful registration
     setIsAuthenticated(true);
   };
 
   const toggleAddDrinkForm = () => {
-    setIsAddDrinkFormVisible((prev) => !prev); // Toggle visibility
+    setIsAddDrinkFormVisible((prev) => !prev);
   };
 
   const handleLetterSelection = (letter: string) => {
-    if (letter === "") {
-      // Show all drinks when the "Show All" button is clicked
-      setSearchQuery({}); // Clear Search by resetting to an empty object
-      setSelectedLetter(""); // Clear the selected letter
-    } else {
-      setSearchQuery({}); // Clear Search by resetting to an empty object
-      setSelectedLetter(letter);
-    }
+    setSelectedLetter(letter);
   };
 
-  const handleSearch = (query: {
-    drinkName?: string;
-    category?: string;
-    glass?: string;
-    ice?: string;
-  }) => {
-    // Update the state with the new search query
-    setSearchQuery(query);
+  const handleSearch = (query: any) => {
+    setSearchQuery((prev) => ({
+      ...prev,
+      drinkName: query.drinkName ?? prev.drinkName,
+      category: query.category ?? prev.category,
+      glass: query.glass ?? prev.glass,
+      ice: query.ice ?? prev.ice,
+    }));
+
+    console.log("✅ Updated Search Query in App:", query);
   };
 
   const onShowAll = () => {
-    setSearchQuery({}); // Clear the search query
-    setSelectedLetter(""); // Clear the selected letter
+    setSearchQuery({});
+    setSelectedLetter("");
   };
 
   return (
     <>
       <img src={FilmGrain} className="overlay" alt="website overlay" />
-      <>
-        {isOpen && (
-          <div className="pop-up-container">
-            <div className="pop-up">
-              <button onClick={closePopup} className="pop-up-close-button">
-                <IoIosClose />
-              </button>
-              <p className="pop-up-message">
-                The backend of this app is hosted on a free server, please be
-                patient it can be a little slow
-              </p>
-            </div>
+
+      {isOpen && (
+        <div className="pop-up-container">
+          <div className="pop-up">
+            <button onClick={closePopup} className="pop-up-close-button">
+              <IoIosClose />
+            </button>
+            <p className="pop-up-message">
+              The backend of this app is hosted on a free server, please be
+              patient it can be a little slow
+            </p>
           </div>
-        )}
-        {isAuthenticated ? (
-          <>
-            <Search
-              onSearch={handleSearch}
-              toggleAddDrinkForm={toggleAddDrinkForm}
-              onShowAll={onShowAll}
-            />
-            <Nav onSelectLetter={handleLetterSelection} />
-            <div className="main-drinks-list">
-              <DrinksList
-                selectedLetter={selectedLetter}
-                searchQuery={searchQuery}
-              />
-            </div>
-            {isAddDrinkFormVisible && <AddDrinkForm />}
-          </>
-        ) : isRegisterVisible ? (
-          <Register onRegisterSuccess={handleRegisterSuccess} /> // Show the Register component
-        ) : (
-          <div>
-            <Login
-              onLoginSuccess={handleLoginSuccess}
-              setIsRegisterVisible={setIsRegisterVisible}
+        </div>
+      )}
+
+      {isAuthenticated ? (
+        <>
+          <Search
+            onSearch={handleSearch}
+            toggleAddDrinkForm={toggleAddDrinkForm}
+            onShowAll={onShowAll}
+          />
+          <Nav onSelectLetter={handleLetterSelection} />
+          <div className="main-drinks-list">
+            <DrinksList
+              selectedLetter={selectedLetter}
+              searchQuery={searchQuery}
             />
           </div>
-        )}
-      </>
+          {isAddDrinkFormVisible && <AddDrinkForm />}
+        </>
+      ) : isRegisterVisible ? (
+        <Register onRegisterSuccess={handleRegisterSuccess} />
+      ) : (
+        <Login
+          onLoginSuccess={handleLoginSuccess}
+          setIsRegisterVisible={setIsRegisterVisible}
+        />
+      )}
     </>
   );
 };

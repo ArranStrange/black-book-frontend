@@ -9,6 +9,8 @@
 :root {
   --background-color: #262523;
   --white: #ecc2c4;
+  --red: #af3636;
+  --green: #3b891a;
 }
 
 .overlay {
@@ -53,6 +55,12 @@ h1 {
   font-family: "Archivo Black", sans-serif;
 }
 
+h2 {
+  font-size: 4rem;
+  line-height: 3.5rem;
+  font-family: "Archivo Black", sans-serif;
+}
+
 h3 {
   font-size: 2.5rem;
   margin-bottom: 2px;
@@ -77,11 +85,16 @@ button {
   align-items: center;
   text-transform: uppercase;
   font-weight: 800;
+  width: fit-content;
+  height: fit-content;
+  transition: smooth 0.5s;
 }
 button:hover {
-  background-color: var(--background-color);
+  scale: 1.02;
+  transform: translateY(-2px);
+  background-color: none;
   color: var(--white);
-  border: 2px var(--white) solid;
+  /* border: 2px var(--white) solid; */
 }
 
 input {
@@ -107,6 +120,7 @@ textarea {
     line-height: 4rem;
   }
 }
+
 .pop-up-container {
   position: fixed;
   top: 0;
@@ -118,6 +132,7 @@ textarea {
   align-items: center;
   backdrop-filter: blur(5px);
   background-color: rgba(44, 44, 44, 0.5);
+
   z-index: 998;
 }
 .pop-up-container-closed {
@@ -130,7 +145,9 @@ textarea {
   right: 50;
   width: 450px;
   height: 100px;
-  border: solid 2px var(--white);
+  border-radius: 8px;
+  border-bottom: 0.5px solid #ecc2c4;
+  border-right: 0.5px solid #ecc2c4;
   background-color: var(--background-color);
   z-index: 999;
 }
@@ -170,4 +187,59 @@ textarea {
   html {
     overflow-x: hidden;
   }
+}
+
+.fetch-messages {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  width: 100vw;
+  height: 100vh;
+  /* border: solid var(--white) 2px; */
+}
+.loading-message {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+@media screen and (max-width: 720px) {
+  .fetch-messages {
+    margin-right: -10px;
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-5px, 5px) rotate(-2deg);
+  }
+  50% {
+    transform: translate(5px, -5px) rotate(2deg);
+  }
+  75% {
+    transform: translate(-5px, 5px) rotate(-2deg);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+.loading-shaker {
+  width: 35px;
+  height: 35px;
+  margin-bottom: 20px;
+  animation: shake 0.5s infinite;
+}
+
+.network-error {
+  width: 75px;
+  height: 75px;
 }

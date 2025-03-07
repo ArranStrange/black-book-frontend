@@ -1,35 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { FaEdit } from "react-icons/fa";
+import { Drink } from "../types/types";
 import axios from "axios";
 import "./drinks-list.css";
 import EditDrinkModal from "./EditDrinksModal";
 import Shaker from "../assets/shaker.png";
 import Spill from "../assets/spil.png";
-
-interface Drink {
-  _id: string;
-  idDrink?: string;
-  drinkName: string;
-  shortDescription: string;
-  Category: string;
-  Glass: string;
-  Ice?: string;
-  Ingredient1?: string;
-  Ingredient2?: string;
-  Ingredient3?: string;
-  Ingredient4?: string;
-  Ingredient5?: string;
-  Ingredient6?: string;
-  Measure1?: string | number;
-  Measure2?: string | number;
-  Measure3?: string | number;
-  Measure4?: string | number;
-  Measure5?: string | number;
-  Measure6?: string | number;
-  DrinkThumb?: string;
-  Rating?: number;
-  Instructions: string;
-}
+import { IoMdClose } from "react-icons/io";
+import SelectedDrinkModal from "./selectedDrinkModal";
 
 interface DrinksListProps {
   selectedLetter: string;
@@ -83,6 +60,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
       try {
         //try used for error handling, if response fails, catch will trigger
         const response = await axios.get(`${API_URL}/drinks`);
+        console.log("request sent");
         //await pauses execution of code until the response comes back from the API call
         //axios.get will call the API URL listed above/drinks and store it in the const response
 
@@ -309,7 +287,10 @@ const DrinksList: React.FC<DrinksListProps> = ({
             <div></div>
             <div>
               <img
-                src={drink.DrinkThumb || "https://via.placeholder.com/100"}
+                src={
+                  drink.DrinkThumb ||
+                  "https://png.pngtree.com/png-vector/20190603/ourmid/pngtree-cocktail-icon-png-image_1376820.jpg"
+                }
                 alt={drink.drinkName}
                 className="drink-thumbnail"
               />
@@ -326,84 +307,12 @@ const DrinksList: React.FC<DrinksListProps> = ({
 
       {/* Drink Modal */}
       {showDrinkModal && selectedDrink && (
-        <div className="drink-modal">
-          <div className="modal-content">
-            <div className="drink-modal-info">
-              <button
-                className="close-drink-modal"
-                onClick={handleCloseDrinkModal}
-              >
-                ✖
-              </button>
-              <div className="table-left">
-                <label htmlFor="define-category">Category:</label>
-                <h3 id="define-category" className="drinks-category">
-                  {toTitleCase(selectedDrink.Category || "Category Not Found")}
-                </h3>
-                <h1 className="selectedDrinks-name">
-                  {selectedDrink.drinkName}
-                </h1>
-                <label htmlFor="define-glass">Glassware:</label>
-                <h3 id="define-glass" className="selectedDrinks-glass">
-                  {toTitleCase(selectedDrink.Glass)}
-                </h3>
-                <p className="selectedDrinks-instructions">
-                  {selectedDrink.Instructions}
-                </p>
-              </div>
-              <div className="table-right">
-                <div className="selectedDrink-image-container">
-                  <img
-                    src={
-                      selectedDrink.DrinkThumb ||
-                      "https://www.creativefabrica.com/wp-content/uploads/2021/07/01/Cocktail-icon-Graphics-14120200-1-1-580x387.jpg"
-                    }
-                    alt={selectedDrink.drinkName}
-                    className="selectedDrinks-image"
-                  />
-                  <div className="measure-ingredient-list">
-                    <div className="measure-ingredient-col">
-                      <p>{toTitleCase(selectedDrink.Ingredient1)}</p>
-                      <p>{toTitleCase(selectedDrink.Ingredient2)}</p>
-                      <p>{toTitleCase(selectedDrink.Ingredient3)}</p>
-                      <p>{toTitleCase(selectedDrink.Ingredient4)}</p>
-                      <p>{toTitleCase(selectedDrink.Ingredient5)}</p>
-                      <p>{toTitleCase(selectedDrink.Ingredient6)}</p>
-                    </div>
-                    <div className="measure-ingredient-col">
-                      {selectedDrink.Measure1 && (
-                        <p>{selectedDrink.Measure1}ml</p>
-                      )}
-                      {selectedDrink.Measure2 && (
-                        <p>{selectedDrink.Measure2}ml</p>
-                      )}
-                      {selectedDrink.Measure3 && (
-                        <p>{selectedDrink.Measure3}ml</p>
-                      )}
-                      {selectedDrink.Measure4 && (
-                        <p>{selectedDrink.Measure4}ml</p>
-                      )}
-                      {selectedDrink.Measure5 && (
-                        <p>{selectedDrink.Measure5}ml</p>
-                      )}
-                      {selectedDrink.Measure6 && (
-                        <p>{selectedDrink.Measure6}ml</p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                {!showEditModal && !isGuest && (
-                  <button
-                    className="edit-button"
-                    onClick={() => handleEditClick()}
-                  >
-                    <FaEdit />
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
+        <SelectedDrinkModal
+          drink={selectedDrink}
+          onClose={handleCloseDrinkModal}
+          onEdit={handleEditClick}
+          isGuest={isGuest}
+        />
       )}
 
       {showEditModal && selectedDrink && (

@@ -82,13 +82,13 @@ const App: React.FC = () => {
             toggleAddDrinkForm={toggleAddDrinkForm}
             onShowAll={onShowAll}
           />
+
+          <DrinksList
+            selectedLetter={selectedLetter}
+            searchQuery={searchQuery}
+          />
           <Nav onSelectLetter={handleLetterSelection} />
-          <div className="main-drinks-list">
-            <DrinksList
-              selectedLetter={selectedLetter}
-              searchQuery={searchQuery}
-            />
-          </div>
+
           {isAddDrinkFormVisible && <AddDrinkForm />}
         </>
       ) : isRegisterVisible ? (

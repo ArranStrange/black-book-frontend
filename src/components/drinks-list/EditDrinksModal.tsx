@@ -2,33 +2,9 @@ import React, { useState } from "react";
 import { MdCancel } from "react-icons/md";
 import { GiConfirmed } from "react-icons/gi";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import "./drinks-list.css";
+import "/Users/arranstrange/Documents/Coding/black-book/black-book/src/components/drinks-list/edit-drinks-modal.css";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
-
-interface Drink {
-  _id: string;
-  idDrink?: string;
-  drinkName: string;
-  shortDescription: string;
-  Category: string;
-  Glass: string;
-  Instructions: string;
-  Ingredient1?: string;
-  Ingredient2?: string;
-  Ingredient3?: string;
-  Ingredient4?: string;
-  Ingredient5?: string;
-  Ingredient6?: string;
-  Measure1?: string | number;
-  Measure2?: string | number;
-  Measure3?: string | number;
-  Measure4?: string | number;
-  Measure5?: string | number;
-  Measure6?: string | number;
-  DrinkThumb?: string;
-  Rating?: number;
-  Ice?: string;
-}
+import { Drink } from "../types/types";
 
 interface EditDrinkModalProps {
   drink: Drink;
@@ -49,6 +25,7 @@ const EditDrinkModal: React.FC<EditDrinkModalProps> = ({
   const [showConfirmDelete, setShowConfirmDelete] = useState<boolean>(false);
 
   const handleSave = async () => {
+    console.log("Edited drink before saving:", editedDrink);
     await onSave(editedDrink);
     // window.location.reload();
   };

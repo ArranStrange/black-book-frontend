@@ -6,3 +6,22 @@
   text-align: center;
   overflow: hidden;
 }
+
+.toggle-drink-form-button {
+  position: fixed;
+  top: 0.2rem;
+  right: 0.5rem;
+  z-index: 990;
+  background-color: #26252300;
+  color: var(--white);
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.toggle-drink-form-button:hover {
+  background-color: rgba(0, 0, 0, 0);
+  color: var(--white);
+  border: none;
+}

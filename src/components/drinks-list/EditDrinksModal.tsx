@@ -83,6 +83,16 @@ const EditDrinkModal: React.FC<EditDrinkModalProps> = ({
             setEditedDrink({ ...editedDrink, Instructions: e.target.value })
           }
         />
+        <label htmlFor="shortDescription">Description</label>
+        <textarea
+          id="description"
+          name="shortDescription"
+          className="edit-input define-description"
+          value={editedDrink.shortDescription}
+          onChange={(e) =>
+            setEditedDrink({ ...editedDrink, shortDescription: e.target.value })
+          }
+        />
 
         <div className="ingredients-section">
           {[1, 2, 3, 4, 5, 6].map((index) => (

@@ -91,11 +91,12 @@
   }
 
   .drinks-container {
-    margin-left: 35px;
+    margin-left: 15%;
   }
 
   .drink-card {
     width: 70%;
+    height: 320px;
   }
   .drink-card:hover {
   }
@@ -110,6 +111,7 @@
   }
 
   .drink-name {
+    line-height: 1.5rem;
   }
 
   .drink-short-description {

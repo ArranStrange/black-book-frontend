@@ -71,6 +71,14 @@
   max-height: 100px;
   min-width: 95%;
   overflow-y: auto;
+  margin-bottom: 10px;
+}
+.define-description {
+  min-height: 20px;
+  max-height: 20px;
+  min-width: 95%;
+  overflow-y: auto;
+  margin-bottom: 20px;
 }
 
 .measure-input-table {

@@ -97,7 +97,6 @@ export default function Search({
       ice: selectedIce || undefined,
     };
 
-    console.log("🚀 Submitting Search Query:", searchQueryObject);
     onSearch(searchQueryObject);
 
     setSelectedCategory("");

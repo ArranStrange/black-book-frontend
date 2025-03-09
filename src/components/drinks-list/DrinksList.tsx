@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { API_URL } from "../../utils/config";
 import { Drink } from "../types/types";
 import axios from "axios";
 import "./drinks-list.css";
@@ -48,7 +49,6 @@ const DrinksList: React.FC<DrinksListProps> = ({
   // const API_URL = process.env.API_BASE_URL;
 
   //URL for hosted backend server
-  const API_URL = "https://black-book-backend.onrender.com";
 
   //URL for local backend server
   // const API_URL = "http://localhost:1000";
@@ -59,7 +59,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
       //fetch drink using async so that the component waits for the response before showing drinks collection error
       try {
         //try used for error handling, if response fails, catch will trigger
-        const response = await axios.get(`${API_URL}/drinks`);
+        const response = await axios.get(`${API_URL}/api/drinks`);
         console.log("request sent");
         //await pauses execution of code until the response comes back from the API call
         //axios.get will call the API URL listed above/drinks and store it in the const response
@@ -108,7 +108,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
       // console.log("this is the", updatedDrink);
       const response = await axios.put(
         //axios.put sends a request to the below URL/drinks/the corosponding drinks ID to be updated
-        `${API_URL}/drinks/${updatedDrink._id}`,
+        `${API_URL}/api/drinks/${updatedDrink._id}`,
         updatedDrink //updatedDrink is what is sent to the backend server, this is the inputted data which replaces the drink within the drink schema
       );
       // console.log("this is the response", response);
@@ -150,7 +150,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
       console.log(`Deleting drink with ID: ${id}`);
       try {
         //try for better error handling
-        await axios.delete(`${API_URL}/drinks/${id}`);
+        await axios.delete(`${API_URL}/api/drinks/${id}`);
         //axios.delete URL of the database & the drinks list & the drinks ID
         setDrinks(drinks.filter((drink) => drink._id !== id));
         //withing the drinks schema stored in the Drinks state, filter out the drink, with the ID equal to the ID stored in confirm delete
@@ -242,11 +242,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
     return (
       <div className="fetch-messages">
         <div className="loading-message">
-          <img
-            src={Shaker}
-            className="loading-shaker"
-            alt="loading shaker image"
-          />
+          <img src={Shaker} className="loading-shaker" alt="loading shaker" />
           Loading...
         </div>
       </div>
@@ -260,7 +256,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
           <img
             src={Spill}
             className="network-error "
-            alt="network error shaker image"
+            alt="network error shaker "
           />
           {error}
         </div>

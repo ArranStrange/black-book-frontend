@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { API_URL } from "../../utils/config";
 
 interface RegisterProps {
   onRegisterSuccess: () => void;
@@ -9,7 +10,6 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const API_URL = "https://black-book-backend.onrender.com";
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,7 +17,7 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess }) => {
     setSuccess("");
 
     try {
-      const response = await fetch(`${API_URL}/users`, {
+      const response = await fetch(`${API_URL}/auth/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

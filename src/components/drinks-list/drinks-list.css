@@ -1,34 +1,31 @@
 .drinks-list {
   position: absolute;
-  right: 0;
+  top: 10%;
+  left: 5%;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   text-align: center;
-  /* border-top: 1px solid #ecc2c4; */
-  min-width: 100vw;
-  max-width: 100vw;
-  height: fit-content;
-  z-index: 0;
-  overflow: hidden;
-  /* border: green 1px solid; */
+  min-width: 90vw;
+  max-width: 90vw;
+  z-index: 100 !important;
+  /* border: solid green 2px; */
+  overflow: auto;
 }
 
 .drinks-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin-left: 35px;
   justify-content: center;
   align-items: center;
-  max-width: 100vw;
-  min-width: 100vw;
+  max-width: 100%;
+  min-width: 100%;
   height: fit-content;
   overflow: hidden;
   gap: 10px;
-  padding-top: 40px;
   /* border: red 1px solid; */
   /* overflow: visible; */
 }
@@ -44,7 +41,7 @@
   box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease-in-out;
   padding: 15px;
-  width: 35%;
+  width: 45%;
   height: 290px;
   cursor: pointer;
   overflow: hidden;
@@ -88,14 +85,22 @@
 
 @media screen and (max-width: 900px) {
   .drinks-list {
+    top: 10%;
+    left: 10%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-width: 75vw;
+    max-width: 75vw;
+    z-index: 1;
   }
 
   .drinks-container {
-    margin-left: 15%;
+    margin-left: 7%;
   }
 
   .drink-card {
-    width: 70%;
+    width: 100%;
     height: 320px;
   }
   .drink-card:hover {

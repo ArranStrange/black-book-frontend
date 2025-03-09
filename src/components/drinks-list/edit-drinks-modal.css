@@ -11,14 +11,13 @@
   align-items: center;
   backdrop-filter: blur(8px);
   background-color: rgba(0, 0, 0, 0.6);
-  z-index: 998;
+  z-index: 11;
 }
 
 .edit-drink-modal-content {
   background: var(--background-color, #2c2c2c);
-  color: var(--white, #fff);
+  color: var(--white);
   border-radius: 12px;
-  margin-top: 20px;
   padding: 25px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   max-width: 800px;
@@ -130,7 +129,6 @@
   .edit-drink-modal-content {
     width: 90%;
     padding: 12px;
-    margin-top: 50px;
     min-height: 85vh;
     justify-content: center;
     align-items: center;
@@ -197,7 +195,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 11;
   background-color: #262523;
   padding: 20px;
   border-radius: 8px;

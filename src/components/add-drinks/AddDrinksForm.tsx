@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { API_URL } from "../../utils/config";
 import axios from "axios";
 import "./add-drinks.css";
 
@@ -28,7 +29,6 @@ const AddDrinkForm: React.FC = () => {
 
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const API_URL = "https://black-book-backend.onrender.com";
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -46,7 +46,7 @@ const AddDrinkForm: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(`${API_URL}/drinks`, formData);
+      const response = await axios.post(`${API_URL}/api/drinks`, formData);
       console.log("Drink added:", response.data);
       setSuccess("Drink added successfully!");
 

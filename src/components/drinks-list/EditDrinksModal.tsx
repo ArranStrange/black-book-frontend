@@ -25,7 +25,6 @@ const EditDrinkModal: React.FC<EditDrinkModalProps> = ({
   const [showConfirmDelete, setShowConfirmDelete] = useState<boolean>(false);
 
   const handleSave = async () => {
-    console.log("Edited drink before saving:", editedDrink);
     await onSave(editedDrink);
     // window.location.reload();
   };
@@ -85,8 +84,8 @@ const EditDrinkModal: React.FC<EditDrinkModalProps> = ({
         />
         <label htmlFor="shortDescription">Description</label>
         <textarea
-          id="description"
-          name="shortDescription"
+          id="shortDescription"
+          name="drinkShortDescription"
           className="edit-input define-description"
           value={editedDrink.shortDescription}
           onChange={(e) =>

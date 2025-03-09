@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { API_URL } from "../../utils/config";
 import axios from "axios";
 import "../Login/login.css";
 
@@ -14,8 +15,6 @@ const Login: React.FC<LoginProps> = ({
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
-  // const API_URL = process.env.API_BASE_URL;
-  const API_URL = "https://black-book-backend.onrender.com";
 
   // Check if user is already logged in on component mount
   useEffect(() => {
@@ -33,7 +32,7 @@ const Login: React.FC<LoginProps> = ({
 
     try {
       // Sending username and password to backend
-      const response = await axios.get(`${API_URL}/users`, {
+      const response = await axios.get(`${API_URL}/auth/users`, {
         params: {
           username,
           password,

@@ -11,13 +11,13 @@
   position: fixed;
   top: 0.2rem;
   right: 0.5rem;
-  z-index: 990;
   background-color: #26252300;
   color: var(--white);
   border: none;
   padding: 10px 15px;
   cursor: pointer;
   text-transform: uppercase;
+  z-index: 2000;
 }
 
 .toggle-drink-form-button:hover {

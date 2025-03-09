@@ -23,24 +23,22 @@ export default function Nav({ onSelectLetter }: Props) {
   }, []);
 
   return (
-    <>
+    <nav>
       <motion.h1 className="current-letter">{selectedLetter}</motion.h1>
 
-      <nav>
-        <ul className="alphabet">
-          {Array.from(Array(26), (_, i) => String.fromCharCode(65 + i)).map(
-            (letter, index) => (
-              <motion.li
-                whileHover={{ scale: 1.5 }}
-                key={index}
-                onClick={() => handleLetterClick(letter)}
-              >
-                {letter}
-              </motion.li>
-            )
-          )}
-        </ul>
-      </nav>
-    </>
+      <ul className="alphabet">
+        {Array.from(Array(26), (_, i) => String.fromCharCode(65 + i)).map(
+          (letter, index) => (
+            <motion.li
+              whileHover={{ scale: 1.5 }}
+              key={index}
+              onClick={() => handleLetterClick(letter)}
+            >
+              {letter}
+            </motion.li>
+          )
+        )}
+      </ul>
+    </nav>
   );
 }

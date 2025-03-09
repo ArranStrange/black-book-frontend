@@ -7,7 +7,8 @@ import Search from "./components/Nav/search";
 import Login from "./components/Login/login";
 import Register from "./components/Register/register";
 import FilmGrain from "./components/assets/film-grain.jpeg";
-import { IoIosClose } from "react-icons/io";
+import { IoIosClose, IoMdAdd } from "react-icons/io";
+import { motion } from "framer-motion";
 
 const App: React.FC = () => {
   const [selectedLetter, setSelectedLetter] = useState("");
@@ -21,6 +22,8 @@ const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isRegisterVisible, setIsRegisterVisible] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState(true);
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const isGuest = localStorage.getItem("authToken") === "guest";
 
   const closePopup = () => setIsOpen(false);
 
@@ -48,13 +51,16 @@ const App: React.FC = () => {
       glass: query.glass ?? prev.glass,
       ice: query.ice ?? prev.ice,
     }));
-
-    console.log("✅ Updated Search Query in App:", query);
   };
 
   const onShowAll = () => {
     setSearchQuery({});
     setSelectedLetter("");
+  };
+
+  const handleToggleClick = () => {
+    toggleAddDrinkForm();
+    setIsFormVisible((prev) => !prev);
   };
 
   return (
@@ -83,12 +89,25 @@ const App: React.FC = () => {
             onShowAll={onShowAll}
           />
           <Nav onSelectLetter={handleLetterSelection} />
-          <div className="main-drinks-list">
-            <DrinksList
-              selectedLetter={selectedLetter}
-              searchQuery={searchQuery}
-            />
-          </div>
+          <DrinksList
+            selectedLetter={selectedLetter}
+            searchQuery={searchQuery}
+          />
+
+          {!isGuest && (
+            <button
+              className="toggle-drink-form-button"
+              onClick={handleToggleClick}
+            >
+              <motion.div
+                animate={{ rotate: isFormVisible ? 45 : 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <IoMdAdd style={{ fontSize: "3rem" }} />
+              </motion.div>
+            </button>
+          )}
+
           {isAddDrinkFormVisible && <AddDrinkForm />}
         </>
       ) : isRegisterVisible ? (

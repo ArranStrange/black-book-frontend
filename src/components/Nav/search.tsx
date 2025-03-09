@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { RxCross2, RxHamburgerMenu } from "react-icons/rx";
 import { IoMdAdd } from "react-icons/io";
 import { motion } from "framer-motion";
+import "./search.css";
 
 interface Props {
   onSearch: (searchQuery: {
@@ -14,14 +15,10 @@ interface Props {
   onShowAll: () => void;
 }
 
-export default function Search({
-  onSearch,
-  toggleAddDrinkForm,
-  onShowAll,
-}: Props) {
+export default function Search({ onSearch, onShowAll }: Props) {
   const [searchQuery, setSearchQuery] = useState("");
   const [dropdown, setDropdown] = useState(false);
-  const [isFormVisible, setIsFormVisible] = useState(false);
+
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedGlass, setSelectedGlass] = useState("");
@@ -30,8 +27,6 @@ export default function Search({
   const handleDropdown = () => {
     setDropdown(!dropdown);
   };
-
-  const isGuest = localStorage.getItem("authToken") === "guest";
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
@@ -46,30 +41,6 @@ export default function Search({
     } else if (name === "ice") {
       setSelectedIce(value);
     }
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    // Construct the search query object
-    const searchQueryObject = {
-      drinkName: searchQuery.trim() ? searchQuery : undefined, // Only include if there's a query
-      category: selectedCategory || undefined, // Only include if selected
-      glass: selectedGlass || undefined, // Only include if selected
-      ice: selectedIce || undefined, // Only include if selected
-    };
-
-    // Call the onSearch function with the query object
-    onSearch(searchQueryObject);
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
-  const handleToggleClick = () => {
-    toggleAddDrinkForm();
-    setIsFormVisible((prev) => !prev);
   };
 
   const handleLogout = () => {
@@ -110,21 +81,16 @@ export default function Search({
     });
   };
 
+  const handleShowAll = () => {
+    setSearchQuery("");
+    setSelectedCategory("");
+    setSelectedGlass("");
+    setSelectedIce("");
+    onShowAll();
+  };
+
   return (
     <div className="search-container">
-      {!isGuest && (
-        <button
-          className="toggle-drink-form-button"
-          onClick={handleToggleClick}
-        >
-          <motion.div
-            animate={{ rotate: isFormVisible ? 45 : 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <IoMdAdd style={{ fontSize: "3rem" }} />
-          </motion.div>
-        </button>
-      )}
       <form
         onFocus={handleFocus}
         onBlur={handleBlur}
@@ -133,6 +99,7 @@ export default function Search({
       >
         <input
           type="search"
+          id="searchInput"
           value={searchQuery}
           onChange={handleChange}
           placeholder="Search"
@@ -203,8 +170,8 @@ export default function Search({
           </div>
         )}
       </form>
-      <button type="button" className="show-all" onClick={onShowAll}>
-        Show All
+      <button type="button" className="show-all" onClick={handleShowAll}>
+        Clear filters
       </button>
 
       <div className="dropdown-buttons" onClick={handleDropdown}>

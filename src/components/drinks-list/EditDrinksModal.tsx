@@ -9,6 +9,7 @@ import { Drink } from "../types/types";
 interface EditDrinkModalProps {
   drink: Drink;
   onSave: (updatedDrink: Drink) => void;
+  setShowEditModal: (value: boolean) => void;
   onCancel: () => void;
   onDelete: (id: string) => void;
   setConfirmDelete: (id: string) => void;
@@ -17,6 +18,7 @@ interface EditDrinkModalProps {
 const EditDrinkModal: React.FC<EditDrinkModalProps> = ({
   drink,
   onSave,
+  setShowEditModal,
   onCancel,
   onDelete,
   setConfirmDelete,
@@ -26,6 +28,7 @@ const EditDrinkModal: React.FC<EditDrinkModalProps> = ({
 
   const handleSave = async () => {
     await onSave(editedDrink);
+    setShowEditModal(false);
     // window.location.reload();
   };
 

@@ -75,6 +75,7 @@
 
 @media screen and (max-width: 900px) {
   .login-card {
-    width: 300px;
+    width: 90%;
+    max-width: 300px;
   }
 }

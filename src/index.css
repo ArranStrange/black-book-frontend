@@ -27,6 +27,7 @@
 }
 
 body {
+  min-width: 420px;
   color: var(--white);
   background-color: var(--background-color);
   overflow-x: hidden;

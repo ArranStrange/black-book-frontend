@@ -22,7 +22,6 @@ const Login: React.FC<LoginProps> = ({
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (token) {
-      // Automatically log the user in if a token exists
       onLoginSuccess();
     }
   }, [onLoginSuccess]);
@@ -32,41 +31,24 @@ const Login: React.FC<LoginProps> = ({
     console.log("Attempting to login with:", { username, password });
 
     try {
-      const response = await axios.post(`${API_URL}/auth/users`, {
+      const response = await axios.post(`${API_URL}/auth/login`, {
         username,
         password,
       });
 
       console.log("Login response:", response.data);
 
-      if (response.status === 200) {
-        // Store token securely in sessionStorage or HTTP-only cookie
-        sessionStorage.setItem("authToken", response.data.token);
-
-        // Set token in Axios for future requests
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data.token}`;
-
+      if (response.data.message === "Login successful") {
+        localStorage.setItem("authToken", "loggedIn");
         onLoginSuccess();
-      }
-    } catch (err: any) {
-      if (err.response) {
-        // Handle HTTP errors based on status code
-        if (err.response.status === 401) {
-          setModalTitle("Login Failed");
-          setModalMessage("Invalid username or password.");
-        } else if (err.response.status === 500) {
-          setModalTitle("Server Error");
-          setModalMessage("An error occurred. Please try again later.");
-        }
       } else {
-        // Handle network or other unknown errors
-        setModalTitle("Login Error");
-        setModalMessage("Something went wrong. Please check your connection.");
+        setModalTitle("Login Failed");
+        setModalMessage("Invalid username or password");
       }
-
+    } catch (err) {
       console.error("Login error:", err);
+      setModalTitle("Login Error");
+      setModalMessage("Invalid username or password. Please try again.");
     }
   };
 
@@ -87,10 +69,10 @@ const Login: React.FC<LoginProps> = ({
   return (
     <div className="login">
       <div className="login-card">
-        <h3>Login</h3>
+        <h2>Login</h2>
         <form className="login-form" onSubmit={handleLogin}>
           <div>
-            <label htmlFor="username">Username:</label>
+            <label htmlFor="username">Username</label>
             <input
               type="text"
               id="username"
@@ -124,6 +106,7 @@ const Login: React.FC<LoginProps> = ({
       </div>
       <div className="register-guest-box">
         <button onClick={() => setIsRegisterVisible(true)}>Register</button>
+
         <button onClick={handleGuestLogin}>Continue as Guest</button>
       </div>
     </div>

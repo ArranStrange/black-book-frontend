@@ -10,6 +10,7 @@
   text-align: center;
   min-width: 90vw;
   max-width: 90vw;
+  min-height: 100vh;
   z-index: 100 !important;
   /* border: solid green 2px; */
   overflow: auto;
@@ -20,10 +21,11 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+  align-items: start;
   max-width: 100%;
   min-width: 100%;
   height: fit-content;
+  min-height: 100vh;
   overflow: hidden;
   gap: 10px;
   /* border: red 1px solid; */

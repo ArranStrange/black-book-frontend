@@ -1,4 +1,4 @@
-.login {
+.register {
   height: 100vh;
   width: 100vw;
   background-color: var(--background-color);
@@ -8,7 +8,7 @@
   align-items: center;
 }
 
-.login-card {
+.register-card {
   padding: 30px;
   border-radius: 8px;
   border-bottom: 1px solid var(--white);
@@ -17,12 +17,12 @@
   text-align: center;
 }
 
-.login-form {
+.register-form {
   display: flex;
   flex-direction: column;
 }
 
-.login-form label {
+.register-form label {
   color: var(--white);
   text-align: left;
   font-size: 0.9rem;
@@ -30,7 +30,7 @@
   margin-bottom: 5px;
 }
 
-.login-form input {
+.register-form input {
   width: 100%;
   padding: 10px;
   margin: 5px 0 15px 0;
@@ -43,12 +43,12 @@
   color: var(--white);
 }
 
-.login-form input:focus {
+.register-form input:focus {
   border-bottom: 1px solid var(--green);
   border-left: 1px solid var(--green);
 }
 
-.login-form button {
+.register-form button {
   background-color: var(--white);
   color: var(--background-color);
   border: none;
@@ -58,11 +58,11 @@
   transition: background 0.3s;
 }
 
-.login-form button:hover {
+.register-form button:hover {
   background-color: var(--green);
 }
 
-.register-guest-box {
+.login-switch-box {
   display: flex;
   justify-content: space-evenly;
   width: 100%;

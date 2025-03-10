@@ -119,7 +119,11 @@ const App: React.FC = () => {
           )}
         </>
       ) : isRegisterVisible ? (
-        <Register onRegisterSuccess={handleRegisterSuccess} />
+        <Register
+          onRegisterSuccess={handleRegisterSuccess}
+          setIsLoginVisible={() => setIsRegisterVisible(false)}
+          onGuestLogin={handleLoginSuccess}
+        />
       ) : (
         <Login
           onLoginSuccess={handleLoginSuccess}

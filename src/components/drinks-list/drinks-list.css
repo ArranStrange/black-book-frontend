@@ -91,7 +91,7 @@
   .drinks-list {
     min-width: 85vw;
     max-width: 85vw;
-    margin: 60px 25px 100px 0;
+    margin: 60px 0 100px 0;
 
     z-index: 1;
   }
@@ -101,7 +101,7 @@
   }
 
   .drink-card {
-    width: 75%;
+    width: 80%;
     height: 320px;
   }
   .drink-card:hover {

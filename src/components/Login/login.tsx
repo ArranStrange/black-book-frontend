@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { API_URL } from "../../utils/config";
 import axios from "axios";
+import MessageModal from "../message/MessageModal";
 import "../Login/login.css";
 
 interface LoginProps {
@@ -14,7 +15,8 @@ const Login: React.FC<LoginProps> = ({
 }) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [error, setError] = useState<string>("");
+  const [modalTitle, setModalTitle] = useState<string | null>(null);
+  const [modalMessage, setModalMessage] = useState<string | null>(null);
 
   // Check if user is already logged in on component mount
   useEffect(() => {
@@ -27,9 +29,7 @@ const Login: React.FC<LoginProps> = ({
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-
     console.log("Attempting to login with:", { username, password });
-
     try {
       // Sending username and password to backend
       const response = await axios.get(`${API_URL}/auth/users`, {
@@ -38,7 +38,6 @@ const Login: React.FC<LoginProps> = ({
           password,
         },
       });
-
       console.log("Login response:", response.data);
 
       // Check if the backend responded with a success message
@@ -49,11 +48,13 @@ const Login: React.FC<LoginProps> = ({
         // Trigger login success callback
         onLoginSuccess();
       } else {
-        setError("Invalid username or password");
+        setModalTitle("Login Failed");
+        setModalMessage("Invalid username or password");
       }
     } catch (err) {
       console.error("Login error:", err);
-      setError("Invalid username or password");
+      setModalTitle("Login Error");
+      setModalMessage("Invalid username or password. Please try again.");
     }
   };
 
@@ -66,40 +67,53 @@ const Login: React.FC<LoginProps> = ({
     onLoginSuccess();
   };
 
+  const handleCloseModal = () => {
+    setModalTitle(null);
+    setModalMessage(null);
+  };
+
   return (
     <div className="login">
-      <h2>Login</h2>
-      <form className="login-form" onSubmit={handleLogin}>
-        <div>
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
+      <div className="login-card">
+        <h2>Login</h2>
+        <form className="login-form" onSubmit={handleLogin}>
+          <div>
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          {modalTitle && modalMessage && (
+            <MessageModal
+              title={modalTitle}
+              message={modalMessage}
+              onClose={handleCloseModal}
+            />
+          )}
+
+          <button type="submit">Login</button>
+        </form>
+        <div className="register-guest-box">
+          <button onClick={() => setIsRegisterVisible(true)}>Register</button>
+
+          <button onClick={handleGuestLogin}>Continue as Guest</button>
         </div>
-
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-
-        {error && <p style={{ color: "red" }}>{error}</p>}
-
-        <button type="submit">Login</button>
-      </form>
-      <div className="register-guest-box">
-        <button onClick={() => setIsRegisterVisible(true)}>Register</button>
-
-        <button onClick={handleGuestLogin}>Continue as Guest</button>
       </div>
     </div>
   );

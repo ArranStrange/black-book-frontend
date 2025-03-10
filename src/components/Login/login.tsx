@@ -30,31 +30,43 @@ const Login: React.FC<LoginProps> = ({
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Attempting to login with:", { username, password });
+
     try {
-      // Sending username and password to backend
-      const response = await axios.get(`${API_URL}/auth/users`, {
-        params: {
-          username,
-          password,
-        },
+      const response = await axios.post(`${API_URL}/auth/users`, {
+        username,
+        password,
       });
+
       console.log("Login response:", response.data);
 
-      // Check if the backend responded with a success message
-      if (response.data.message === "Login successful") {
-        // Login is successful, store token in localStorage
-        localStorage.setItem("authToken", response.data.token || "loggedIn");
+      if (response.status === 200) {
+        // Store token securely in sessionStorage or HTTP-only cookie
+        sessionStorage.setItem("authToken", response.data.token);
 
-        // Trigger login success callback
+        // Set token in Axios for future requests
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${response.data.token}`;
+
         onLoginSuccess();
-      } else {
-        setModalTitle("Login Failed");
-        setModalMessage("Invalid username or password");
       }
-    } catch (err) {
+    } catch (err: any) {
+      if (err.response) {
+        // Handle HTTP errors based on status code
+        if (err.response.status === 401) {
+          setModalTitle("Login Failed");
+          setModalMessage("Invalid username or password.");
+        } else if (err.response.status === 500) {
+          setModalTitle("Server Error");
+          setModalMessage("An error occurred. Please try again later.");
+        }
+      } else {
+        // Handle network or other unknown errors
+        setModalTitle("Login Error");
+        setModalMessage("Something went wrong. Please check your connection.");
+      }
+
       console.error("Login error:", err);
-      setModalTitle("Login Error");
-      setModalMessage("Invalid username or password. Please try again.");
     }
   };
 
@@ -89,7 +101,7 @@ const Login: React.FC<LoginProps> = ({
           </div>
 
           <div>
-            <label htmlFor="password">Password:</label>
+            <label htmlFor="password">Password</label>
             <input
               type="password"
               id="password"

@@ -33,15 +33,22 @@ const Register: React.FC<RegisterProps> = ({
 
       const data = await response.json();
 
+      if (response.status === 400) {
+        throw new Error(data.message || "Username already exists");
+      }
+
       if (!response.ok) {
         throw new Error(data.message || "Something went wrong");
       }
 
       setModalTitle("Registration successful!");
-      onRegisterSuccess();
+      setModalMessage("You can now log in.");
+
       setUsername("");
       setPassword("");
+      setIsLoginVisible(true);
     } catch (err: any) {
+      setModalTitle("Registration failed");
       setModalMessage(err.message);
     }
   };

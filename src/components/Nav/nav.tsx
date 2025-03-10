@@ -20,13 +20,12 @@ export default function Nav({ onSelectLetter }: Props) {
 
   useEffect(() => {
     handleLetterClick("");
-  }, []);
+  });
 
   return (
     <nav>
       <motion.h1 className="current-letter">{selectedLetter}</motion.h1>
-
-      <ul className="alphabet">
+      <div className="alphabet">
         {Array.from(Array(26), (_, i) => String.fromCharCode(65 + i)).map(
           (letter, index) => (
             <motion.li
@@ -38,7 +37,7 @@ export default function Nav({ onSelectLetter }: Props) {
             </motion.li>
           )
         )}
-      </ul>
+      </div>
     </nav>
   );
 }

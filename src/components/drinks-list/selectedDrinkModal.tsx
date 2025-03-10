@@ -1,5 +1,5 @@
 import React from "react";
-import "/Users/arranstrange/Documents/Coding/black-book/black-book/src/components/drinks-list/selected-drink-modal.css";
+import "./selected-drink-modal.css";
 import { IoMdClose } from "react-icons/io";
 import { FaEdit } from "react-icons/fa";
 import { Drink } from "../types/types";

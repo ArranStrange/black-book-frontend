@@ -153,6 +153,9 @@
 
   .selectedDrinks-name {
     margin-top: 5px;
+    font-size: 3rem;
+    line-height: 2.5rem;
+    padding: 5px;
   }
 
   .drinks-category,

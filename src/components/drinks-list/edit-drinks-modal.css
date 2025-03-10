@@ -6,6 +6,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
+  padding-top: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -126,6 +127,10 @@
 }
 
 @media screen and (max-width: 900px) {
+  .edit-drink-modal {
+    padding-top: 25px;
+  }
+
   .edit-drink-modal-content {
     width: 90%;
     padding: 12px;
@@ -181,52 +186,4 @@
     margin-top: 10px;
     width: 100%;
   }
-}
-
-/* CONFIRM DELETE MODAL */
-
-.confirm-delete-modal {
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 11;
-  background-color: #262523;
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.confirm-btn {
-  background: red;
-  color: white;
-  padding: 10px;
-  margin: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.cancel-btn {
-  background: gray;
-  color: white;
-  padding: 10px;
-  margin: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.confirm-btn:hover {
-  background: darkred;
-}
-
-.cancel-btn:hover {
-  background: darkgray;
 }

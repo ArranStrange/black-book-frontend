@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import { API_URL } from "../../utils/config";
+import MessageModal from "../message/MessageModal";
 import axios from "axios";
 import "./add-drinks.css";
 
-const AddDrinkForm: React.FC = () => {
+interface AddDrinkFormProps {
+  toggleAddDrinkForm: () => void;
+}
+
+const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
   const [formData, setFormData] = useState({
     idDrink: Date.now().toString(), //UID
     drinkName: "",
+    shortDescription: "",
     Category: "",
     Glass: "",
     Ice: "",
@@ -27,8 +33,8 @@ const AddDrinkForm: React.FC = () => {
     Instructions: "",
   });
 
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
+  const [modalMessage, setModalMessage] = useState<string | null>(null);
+  const [modalTitle, setModalTitle] = useState<string | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -46,13 +52,14 @@ const AddDrinkForm: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(`${API_URL}/api/drinks`, formData);
-      console.log("Drink added:", response.data);
-      setSuccess("Drink added successfully!");
+      await axios.post(`${API_URL}/api/drinks`, formData);
+      setModalMessage("Drink added successfully!");
+      setModalTitle("success");
 
       setFormData({
         idDrink: Date.now().toString(),
         drinkName: "",
+        shortDescription: "",
         Category: "",
         Glass: "",
         Ice: "",
@@ -72,20 +79,25 @@ const AddDrinkForm: React.FC = () => {
         Rating: 10,
         Instructions: "",
       });
-      setError(null);
     } catch (error) {
       console.error("Error adding drink:", error);
-      setError("Failed to add drink. Please try again.");
-      setSuccess(null);
+      setModalMessage("Failed to add drink.");
+      setModalTitle("error");
+    }
+  };
+
+  const handleCloseModal = () => {
+    setModalMessage(null);
+    setModalTitle(null);
+
+    if (modalTitle === "success") {
+      toggleAddDrinkForm();
     }
   };
 
   return (
     <>
       <form className="add-drinks-form" onSubmit={handleSubmit}>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        {success && <p style={{ color: "green" }}>{success}</p>}
-
         <label>
           Drink Name:
           <input
@@ -353,6 +365,14 @@ const AddDrinkForm: React.FC = () => {
 
         <button type="submit">Add Drink</button>
       </form>
+
+      {modalMessage && modalTitle && (
+        <MessageModal
+          message={modalMessage}
+          title={modalTitle}
+          onClose={handleCloseModal}
+        />
+      )}
     </>
   );
 };

@@ -1,12 +1,3 @@
-.App {
-  min-width: 100vw;
-  max-width: 100vw;
-  background-color: var(--black);
-  color: var(--white);
-  text-align: center;
-  overflow: hidden;
-}
-
 .toggle-drink-form-button {
   position: fixed;
   top: 0.2rem;

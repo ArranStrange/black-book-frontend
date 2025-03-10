@@ -1,0 +1,65 @@
+.confirm-delete-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--background-color);
+  border-radius: 10px;
+  border-bottom: solid var(--white) 1px;
+  border-right: solid var(--white) 1px;
+  width: 350px;
+  height: fit-content;
+  text-align: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.confirm-delete-modal h2 {
+  color: var(--white);
+}
+
+.confirm-delete-modal span {
+  color: var(--red);
+}
+
+.confirm-delete-modal p {
+  color: var(--white);
+}
+
+.confirm-btn,
+.cancel-btn {
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 10px;
+  transition: all 0.2s ease-in-out;
+}
+
+.confirm-btn {
+  background-color: var(--red);
+  color: var(--white);
+}
+
+.cancel-btn {
+  background-color: var(--white);
+  color: var(--background-color);
+}
+
+.confirm-btn:hover {
+  background-color: var(--red);
+}
+
+.cancel-btn:hover {
+  background-color: var(--green);
+}
+
+.confirm-delete-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 999;
+}

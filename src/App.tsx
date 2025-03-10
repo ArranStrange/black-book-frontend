@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddDrinkForm from "./components/add-drinks/AddDrinksForm";
 import "./App.css";
 import DrinksList from "./components/drinks-list/DrinksList";
@@ -7,8 +7,9 @@ import Search from "./components/Nav/search";
 import Login from "./components/Login/login";
 import Register from "./components/Register/register";
 import FilmGrain from "./components/assets/film-grain.jpeg";
-import { IoIosClose, IoMdAdd } from "react-icons/io";
+import { IoMdAdd } from "react-icons/io";
 import { motion } from "framer-motion";
+import MessageModal from "./components/message/MessageModal";
 
 const App: React.FC = () => {
   const [selectedLetter, setSelectedLetter] = useState("");
@@ -21,11 +22,10 @@ const App: React.FC = () => {
   const [isAddDrinkFormVisible, setIsAddDrinkFormVisible] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isRegisterVisible, setIsRegisterVisible] = useState<boolean>(false);
-  const [isOpen, setIsOpen] = useState(true);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const isGuest = localStorage.getItem("authToken") === "guest";
-
-  const closePopup = () => setIsOpen(false);
+  const [modalMessage, setModalMessage] = useState<string | null>(null);
+  const [modalTitle, setModalTitle] = useState<string | null>(null);
 
   const handleLoginSuccess = () => {
     setIsAuthenticated(true);
@@ -63,36 +63,42 @@ const App: React.FC = () => {
     setIsFormVisible((prev) => !prev);
   };
 
+  useEffect(() => {
+    setModalMessage(
+      "The backend of this app is hosted on a free server, please be patient it can be a little slow."
+    );
+    setModalTitle("A Heads Up");
+  }, []);
+
+  const handleCloseModal = () => {
+    setModalMessage(null);
+    setModalTitle(null);
+  };
+
   return (
     <>
       <img src={FilmGrain} className="overlay" alt="website overlay" />
 
-      {isOpen && (
-        <div className="pop-up-container">
-          <div className="pop-up">
-            <button onClick={closePopup} className="pop-up-close-button">
-              <IoIosClose />
-            </button>
-            <p className="pop-up-message">
-              The backend of this app is hosted on a free server, please be
-              patient it can be a little slow
-            </p>
-          </div>
-        </div>
+      {modalMessage && modalTitle && (
+        <MessageModal
+          message={modalMessage}
+          title={modalTitle}
+          onClose={handleCloseModal}
+        />
       )}
 
       {isAuthenticated ? (
         <>
+          <DrinksList
+            selectedLetter={selectedLetter}
+            searchQuery={searchQuery}
+          />
           <Search
             onSearch={handleSearch}
             toggleAddDrinkForm={toggleAddDrinkForm}
             onShowAll={onShowAll}
           />
           <Nav onSelectLetter={handleLetterSelection} />
-          <DrinksList
-            selectedLetter={selectedLetter}
-            searchQuery={searchQuery}
-          />
 
           {!isGuest && (
             <button
@@ -108,7 +114,9 @@ const App: React.FC = () => {
             </button>
           )}
 
-          {isAddDrinkFormVisible && <AddDrinkForm />}
+          {isAddDrinkFormVisible && (
+            <AddDrinkForm toggleAddDrinkForm={toggleAddDrinkForm} />
+          )}
         </>
       ) : isRegisterVisible ? (
         <Register onRegisterSuccess={handleRegisterSuccess} />

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { MdCancel } from "react-icons/md";
 import { GiConfirmed } from "react-icons/gi";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import "/Users/arranstrange/Documents/Coding/black-book/black-book/src/components/drinks-list/edit-drinks-modal.css";
+import "./edit-drinks-modal.css";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import { Drink } from "../types/types";
 
@@ -142,7 +142,11 @@ const EditDrinkModal: React.FC<EditDrinkModalProps> = ({
       {showConfirmDelete && (
         <ConfirmDeleteModal
           drinkName={drink.drinkName}
-          onConfirm={() => onDelete(drink._id)}
+          onConfirm={() => {
+            onDelete(drink._id);
+            setShowConfirmDelete(false);
+            setShowEditModal(false);
+          }}
           onCancel={() => setShowConfirmDelete(false)}
         />
       )}

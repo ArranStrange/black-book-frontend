@@ -1,19 +1,21 @@
 .drinks-list {
   position: absolute;
-  top: 10%;
-  left: 5%;
-  padding: 20px;
+  top: 0;
+  right: 0;
+  margin-top: 55px;
+  padding: 15px 15px 100px 0;
   display: flex;
   flex-direction: column;
   justify-content: start;
   align-items: center;
   text-align: center;
-  min-width: 90vw;
-  max-width: 90vw;
-  min-height: 100vh;
-  z-index: 100 !important;
+  min-width: 95vw;
+  max-width: 95vw;
+  min-height: 94vh;
+  max-height: 94vh;
+  z-index: 700 !important;
   /* border: solid green 2px; */
-  overflow: auto;
+  overflow: hidden;
 }
 
 .drinks-container {
@@ -26,7 +28,7 @@
   min-width: 100%;
   height: fit-content;
   min-height: 100vh;
-  overflow: hidden;
+  overflow: scroll;
   gap: 10px;
   /* border: red 1px solid; */
   /* overflow: visible; */
@@ -87,22 +89,19 @@
 
 @media screen and (max-width: 900px) {
   .drinks-list {
-    top: 10%;
-    left: 10%;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    min-width: 75vw;
-    max-width: 75vw;
+    min-width: 85vw;
+    max-width: 85vw;
+    margin: 60px 25px 100px 0;
+
     z-index: 1;
   }
 
   .drinks-container {
-    margin-left: 7%;
+    margin-left: 0%;
   }
 
   .drink-card {
-    width: 100%;
+    width: 75%;
     height: 320px;
   }
   .drink-card:hover {

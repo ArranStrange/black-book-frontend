@@ -54,7 +54,7 @@ const Register: React.FC<RegisterProps> = ({
   return (
     <div className="register">
       <div className="register-card">
-        <h2>Register</h2>
+        <h3>Register</h3>
         <form className="register-form" onSubmit={handleRegister}>
           <div>
             <label htmlFor="username">Username:</label>
@@ -78,11 +78,10 @@ const Register: React.FC<RegisterProps> = ({
           </div>
           <button type="submit">Register</button>
         </form>
-
-        <div className="login-switch-box">
-          <button onClick={() => setIsLoginVisible(true)}>Back to Login</button>
-          <button onClick={onGuestLogin}>Continue as Guest</button>
-        </div>
+      </div>
+      <div className="login-switch-box">
+        <button onClick={() => setIsLoginVisible(true)}>Login</button>
+        <button onClick={onGuestLogin}>Continue as Guest</button>
       </div>
 
       {modalTitle && modalMessage && (

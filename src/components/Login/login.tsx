@@ -75,10 +75,10 @@ const Login: React.FC<LoginProps> = ({
   return (
     <div className="login">
       <div className="login-card">
-        <h2>Login</h2>
+        <h3>Login</h3>
         <form className="login-form" onSubmit={handleLogin}>
           <div>
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username">Username:</label>
             <input
               type="text"
               id="username"
@@ -89,7 +89,7 @@ const Login: React.FC<LoginProps> = ({
           </div>
 
           <div>
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">Password:</label>
             <input
               type="password"
               id="password"
@@ -109,11 +109,10 @@ const Login: React.FC<LoginProps> = ({
 
           <button type="submit">Login</button>
         </form>
-        <div className="register-guest-box">
-          <button onClick={() => setIsRegisterVisible(true)}>Register</button>
-
-          <button onClick={handleGuestLogin}>Continue as Guest</button>
-        </div>
+      </div>
+      <div className="register-guest-box">
+        <button onClick={() => setIsRegisterVisible(true)}>Register</button>
+        <button onClick={handleGuestLogin}>Continue as Guest</button>
       </div>
     </div>
   );

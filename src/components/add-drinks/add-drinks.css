@@ -65,7 +65,7 @@ label {
   height: 50%;
 }
 
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 900px) {
   .add-drinks-form {
     padding-top: 60px;
     z-index: 4;

@@ -93,7 +93,6 @@ export default function Search({ onSearch, onShowAll }: Props) {
     <div className="search-container">
       <form
         onFocus={handleFocus}
-        onBlur={handleBlur}
         className="search-bar"
         onSubmit={handleSearchSubmit} // Update the onSubmit handler
       >
@@ -113,8 +112,10 @@ export default function Search({ onSearch, onShowAll }: Props) {
                 id="category"
                 value={selectedCategory}
                 onChange={handleSelectChange}
+                onMouseDown={(e) => e.stopPropagation()}
               >
                 <option value="">Not Defined</option>
+                <option value="aperitif">Aperitif</option>
                 <option value="cobbler">Cobbler</option>
                 <option value="collins">Collins</option>
                 <option value="daisy">Daisy</option>
@@ -138,6 +139,7 @@ export default function Search({ onSearch, onShowAll }: Props) {
                 id="glass"
                 value={selectedGlass}
                 onChange={handleSelectChange}
+                onMouseDown={(e) => e.stopPropagation()}
               >
                 <option value="">Not Defined</option>
                 <option value="highball">Highball</option>
@@ -155,6 +157,7 @@ export default function Search({ onSearch, onShowAll }: Props) {
                 id="ice"
                 value={selectedIce}
                 onChange={handleSelectChange}
+                onMouseDown={(e) => e.stopPropagation()}
               >
                 <option value="">Not Defined</option>
                 <option value="cubed">Cubed</option>
@@ -164,9 +167,17 @@ export default function Search({ onSearch, onShowAll }: Props) {
                 <option value="straight">Straight Up</option>
               </select>
             </div>
-            <button className="search-button" type="submit">
-              Search
-            </button>
+            <div className="search-buttons">
+              <button className="search-button" type="submit">
+                Search
+              </button>
+              <button
+                className="search-close-button"
+                onClick={() => setIsSearchFocused(false)}
+              >
+                <RxCross2 size={35} />
+              </button>
+            </div>
           </div>
         )}
       </form>

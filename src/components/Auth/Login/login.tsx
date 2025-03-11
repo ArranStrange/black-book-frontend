@@ -1,6 +1,6 @@
 import React from "react";
-import { useUser } from "../../hooks/useUser";
-import MessageModal from "../message/MessageModal";
+import { useUser } from "../../../hooks/useUser";
+import MessageModal from "../../message/MessageModal";
 import "../Login/login.css";
 
 interface LoginProps {

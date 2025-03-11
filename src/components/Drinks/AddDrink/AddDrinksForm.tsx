@@ -1,6 +1,6 @@
 import React from "react";
-import { useDrink } from "../../hooks/useAddDrink";
-import MessageModal from "../message/MessageModal";
+import { useDrink } from "../../../hooks/useAddDrink";
+import MessageModal from "../../message/MessageModal";
 import "./add-drinks.css";
 
 interface AddDrinkFormProps {

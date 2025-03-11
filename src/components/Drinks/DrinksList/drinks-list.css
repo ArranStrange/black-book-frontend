@@ -27,7 +27,8 @@
   max-width: 100%;
   min-width: 100%;
   height: fit-content;
-  min-height: 100vh;
+  min-height: 85vh;
+  margin-bottom: 100px;
   overflow: scroll;
   gap: 10px;
   /* border: red 1px solid; */

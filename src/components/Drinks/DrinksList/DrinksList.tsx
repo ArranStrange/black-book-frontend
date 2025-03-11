@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { useDrinks } from "../../hooks/useDrinks";
-import { useFilterDrinks } from "../../hooks/useFilterDrinks";
-import { Drink } from "../types/types";
+import { useDrinks } from "../../../hooks/useDrinks";
+import { useFilterDrinks } from "../../../hooks/useFilterDrinks";
+import { Drink } from "../../types/types";
 import "./drinks-list.css";
-import EditDrinkModal from "./EditDrinksModal";
-import Shaker from "../assets/shaker.png";
-import Spill from "../assets/spil.png";
-import SelectedDrinkModal from "./selectedDrinkModal";
+import EditDrinkModal from "../EditDrinksModal/EditDrinksModal";
+import Shaker from "../../assets/shaker.png";
+import Spill from "../../assets/spil.png";
+import SelectedDrinkModal from "../SelectedDrinkModal/selectedDrinkModal";
 
 interface DrinksListProps {
   selectedLetter: string;

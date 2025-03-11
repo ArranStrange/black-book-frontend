@@ -2,7 +2,7 @@ import React from "react";
 import "./selected-drink-modal.css";
 import { IoMdClose } from "react-icons/io";
 import { FaEdit } from "react-icons/fa";
-import { Drink } from "../types/types";
+import { Drink } from "../../types/types";
 
 interface SelectedDrinkModalProps {
   drink: Drink;
@@ -17,12 +17,6 @@ const SelectedDrinkModal: React.FC<SelectedDrinkModalProps> = ({
   onEdit,
   isGuest,
 }) => {
-  const toTitleCase = (str?: string) =>
-    str
-      ?.split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-
   return (
     <div className="drink-modal">
       <div className="modal-content">
@@ -40,12 +34,12 @@ const SelectedDrinkModal: React.FC<SelectedDrinkModalProps> = ({
           <div className="table-left">
             <label htmlFor="define-category">Category:</label>
             <h3 id="define-category" className="drinks-category">
-              {toTitleCase(drink.Category || "Category Not Found")}
+              {drink.Category || "Category Not Found"}
             </h3>
             <h2 className="selectedDrinks-name">{drink.drinkName}</h2>
             <label htmlFor="define-glass">Glassware:</label>
             <h3 id="define-glass" className="selectedDrinks-glass">
-              {toTitleCase(drink.Glass)}
+              {drink.Glass}
             </h3>
             <p className="selectedDrinks-instructions">{drink.Instructions}</p>
           </div>
@@ -61,20 +55,17 @@ const SelectedDrinkModal: React.FC<SelectedDrinkModalProps> = ({
               />
               <div className="measure-ingredient-list">
                 <div className="measure-ingredient-col">
-                  <p>{toTitleCase(drink.Ingredient1)}</p>
-                  <p>{toTitleCase(drink.Ingredient2)}</p>
-                  <p>{toTitleCase(drink.Ingredient3)}</p>
-                  <p>{toTitleCase(drink.Ingredient4)}</p>
-                  <p>{toTitleCase(drink.Ingredient5)}</p>
-                  <p>{toTitleCase(drink.Ingredient6)}</p>
+                  {[1, 2, 3, 4, 5, 6].map((index) => {
+                    const ingredient =
+                      drink[`Ingredient${index}` as keyof Drink];
+                    return ingredient ? <p key={index}>{ingredient}</p> : null;
+                  })}
                 </div>
                 <div className="measure-ingredient-col">
-                  {drink.Measure1 && <p>{drink.Measure1}ml</p>}
-                  {drink.Measure2 && <p>{drink.Measure2}ml</p>}
-                  {drink.Measure3 && <p>{drink.Measure3}ml</p>}
-                  {drink.Measure4 && <p>{drink.Measure4}ml</p>}
-                  {drink.Measure5 && <p>{drink.Measure5}ml</p>}
-                  {drink.Measure6 && <p>{drink.Measure6}ml</p>}
+                  {[1, 2, 3, 4, 5, 6].map((index) => {
+                    const measure = drink[`Measure${index}` as keyof Drink];
+                    return measure ? <p key={index}>{measure}ml</p> : null;
+                  })}
                 </div>
               </div>
             </div>

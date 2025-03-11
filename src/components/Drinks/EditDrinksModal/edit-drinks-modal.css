@@ -37,7 +37,7 @@
 
 .edit-input {
   border: none;
-  width: 100%;
+  width: 80%;
   padding: 10px;
   background-color: rgba(255, 255, 255, 0.1);
   color: var(--white);
@@ -53,9 +53,9 @@
 
 .category-glass-edit-field {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   width: 100%;
-  gap: 20px;
+  gap: 40px;
 }
 
 .define-category,
@@ -101,7 +101,6 @@
   display: flex;
   justify-content: center;
   gap: 15px;
-  margin-top: 10px;
   width: 100%;
 }
 

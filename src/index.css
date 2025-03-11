@@ -30,7 +30,7 @@ body {
   min-width: 420px;
   color: var(--white);
   background-color: var(--background-color);
-  overflow-x: hidden;
+  overflow: hidden;
   font-family: "Archivo", sans-serif;
   z-index: 1 !important;
 }
@@ -184,10 +184,10 @@ textarea {
 
 @media (max-width: 768px) {
   body {
-    overflow-x: hidden;
+    overflow: hidden;
   }
   html {
-    overflow-x: hidden;
+    overflow: hidden;
   }
 }
 

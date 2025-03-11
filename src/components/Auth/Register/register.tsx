@@ -1,6 +1,6 @@
 import React from "react";
-import { useRegister } from "../../hooks/useRegister";
-import MessageModal from "../message/MessageModal";
+import { useRegister } from "../../../hooks/useRegister";
+import MessageModal from "../../message/MessageModal";
 import "./register.css";
 
 interface RegisterProps {

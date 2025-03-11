@@ -25,6 +25,7 @@
   flex-direction: column;
   border-bottom: var(--white) 1px solid;
   border-right: var(--white) 1px solid;
+  text-transform: capitalize;
 }
 
 .modal-header {
@@ -94,6 +95,7 @@
 
 .selectedDrinks-instructions {
   text-align: center;
+  text-transform: none;
 }
 
 .table-right {
@@ -163,20 +165,5 @@
   .selectedDrinks-glass {
     line-height: 1rem;
     font-weight: 600;
-  }
-
-  .selectedDrinks-instructions {
-  }
-
-  .table-right {
-  }
-
-  .selectedDrinks-image {
-  }
-
-  .measure-ingredient-list {
-  }
-
-  .measure-ingredient-col p {
   }
 }

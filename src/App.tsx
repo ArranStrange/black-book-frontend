@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import AddDrinkForm from "./components/add-drinks/AddDrinksForm";
+import AddDrinkForm from "./components/Drinks/AddDrink/AddDrinksForm";
 import "./App.css";
-import DrinksList from "./components/drinks-list/DrinksList";
+import DrinksList from "./components/Drinks/DrinksList/DrinksList";
 import Nav from "./components/Nav/nav";
 import Search from "./components/Nav/search";
-import Login from "./components/Login/login";
-import Register from "./components/Register/register";
+import Login from "./components/Auth/Login/login";
+import Register from "./components/Auth/Register/register";
 import FilmGrain from "./components/assets/film-grain.jpeg";
 import { IoMdAdd } from "react-icons/io";
 import { motion } from "framer-motion";

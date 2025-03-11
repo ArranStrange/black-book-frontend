@@ -163,12 +163,12 @@
 // export default EditDrinkModal;
 
 import React from "react";
-import { useEditDrink } from "../../hooks/useEditDrink";
+import { useEditDrink } from "../../../hooks/useEditDrink";
 import { MdCancel } from "react-icons/md";
 import { GiConfirmed } from "react-icons/gi";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import ConfirmDeleteModal from "./ConfirmDeleteModal";
-import { Drink } from "../types/types";
+import ConfirmDeleteModal from "./ConfirmDeleteModal/ConfirmDeleteModal";
+import { Drink } from "../../types/types";
 import "./edit-drinks-modal.css";
 
 interface EditDrinkFormProps {

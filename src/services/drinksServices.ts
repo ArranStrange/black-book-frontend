@@ -13,16 +13,6 @@ export const fetchDrinks = async (): Promise<Drink[]> => {
   }
 };
 
-// Add a new drink
-export const addDrink = async (drinkData: Drink) => {
-  try {
-    const response = await axios.post(`${API_URL}/api/drinks`, drinkData);
-    return response.data;
-  } catch (error) {
-    throw new Error("Failed to add drink.");
-  }
-};
-
 // Edit an existing drink
 export const editDrink = async (updatedDrink: Drink) => {
   try {
@@ -42,5 +32,16 @@ export const deleteDrink = async (id: string) => {
     await axios.delete(`${API_URL}/api/drinks/${id}`);
   } catch (error) {
     throw new Error("Failed to delete drink.");
+  }
+};
+
+// Add Drink
+export const addDrink = async (drinkData: any) => {
+  try {
+    const response = await axios.post(`${API_URL}/api/drinks`, drinkData);
+    return response.data;
+  } catch (error: any) {
+    console.error("Error adding drink:", error);
+    throw new Error("Failed to add drink.");
   }
 };

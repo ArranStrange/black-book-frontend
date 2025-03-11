@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDrinks } from "../../hooks/useDrinks";
+import { useFilterDrinks } from "../../hooks/useFilterDrinks";
 import { Drink } from "../types/types";
 import "./drinks-list.css";
 import EditDrinkModal from "./EditDrinksModal";
@@ -16,30 +17,17 @@ interface DrinksListProps {
     ice?: string;
   };
 }
-// Sorting logic for drinks
-const sortDrinks = (drinksList: Drink[]) => {
-  return [...drinksList].sort((a, b) => a.drinkName.localeCompare(b.drinkName));
-};
 
 const DrinksList: React.FC<DrinksListProps> = ({
   selectedLetter,
   searchQuery,
 }) => {
-  const { drinks, loading, error, handleSaveEdit, handleDelete } = useDrinks(
-    selectedLetter,
-    searchQuery
-  );
-
+  const { drinks, loading, error, handleSaveEdit, handleDelete } = useDrinks();
+  const filteredDrinks = useFilterDrinks(drinks, selectedLetter, searchQuery);
   const isGuest = localStorage.getItem("authToken") === "guest";
-
-  // Modal states
   const [showDrinkModal, setShowDrinkModal] = useState<boolean>(false);
   const [selectedDrink, setSelectedDrink] = useState<Drink | null>(null);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
-  // typescript throw an error because state isn't used within this component but passed to editModal
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
-  const sortedDrinks = sortDrinks(drinks);
 
   // Handle opening drink modal
   const handleDrinkClick = (drink: Drink) => {
@@ -96,7 +84,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
     <div className="drinks-list">
       {/*Drinks Map */}
       <div className="drinks-container">
-        {sortedDrinks.map((drink) => (
+        {drinks.map((drink) => (
           <div
             key={drink._id}
             className="drink-card"
@@ -130,7 +118,6 @@ const DrinksList: React.FC<DrinksListProps> = ({
         />
       )}
 
-      {/* Edit Modal */}
       {showEditModal && selectedDrink && (
         <EditDrinkModal
           drink={selectedDrink}
@@ -138,7 +125,6 @@ const DrinksList: React.FC<DrinksListProps> = ({
           setShowEditModal={setShowEditModal}
           onCancel={cancelEdit}
           onDelete={() => handleDelete(selectedDrink._id)}
-          setConfirmDelete={setConfirmDelete}
         />
       )}
     </div>

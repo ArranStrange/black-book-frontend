@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { API_URL } from "../../utils/config";
+import React from "react";
+import { useDrink } from "../../hooks/useAddDrink";
 import MessageModal from "../message/MessageModal";
-import axios from "axios";
 import "./add-drinks.css";
 
 interface AddDrinkFormProps {
@@ -9,91 +8,14 @@ interface AddDrinkFormProps {
 }
 
 const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
-  const [formData, setFormData] = useState({
-    idDrink: Date.now().toString(),
-    drinkName: "",
-    shortDescription: "",
-    Category: "",
-    Glass: "",
-    Ice: "",
-    Ingredient1: "",
-    Ingredient2: "",
-    Ingredient3: "",
-    Ingredient4: "",
-    Ingredient5: "",
-    Ingredient6: "",
-    Measure1: 0,
-    Measure2: 0,
-    Measure3: 0,
-    Measure4: 0,
-    Measure5: 0,
-    Measure6: 0,
-    DrinkThumb: "",
-    Rating: 0,
-    Instructions: "",
-  });
-
-  const [modalMessage, setModalMessage] = useState<string | null>(null);
-  const [modalTitle, setModalTitle] = useState<string | null>(null);
-
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    try {
-      await axios.post(`${API_URL}/api/drinks`, formData);
-      setModalMessage("Drink added successfully!");
-      setModalTitle("success");
-
-      setFormData({
-        idDrink: Date.now().toString(),
-        drinkName: "",
-        shortDescription: "",
-        Category: "",
-        Glass: "",
-        Ice: "",
-        Ingredient1: "",
-        Ingredient2: "",
-        Ingredient3: "",
-        Ingredient4: "",
-        Ingredient5: "",
-        Ingredient6: "",
-        Measure1: 0,
-        Measure2: 0,
-        Measure3: 0,
-        Measure4: 0,
-        Measure5: 0,
-        Measure6: 0,
-        DrinkThumb: "",
-        Rating: 10,
-        Instructions: "",
-      });
-    } catch (error) {
-      console.error("Error adding drink:", error);
-      setModalTitle("error");
-      setModalMessage("Failed to add drink.");
-    }
-  };
-
-  const handleCloseModal = () => {
-    setModalMessage(null);
-    setModalTitle(null);
-
-    if (modalTitle === "success") {
-      toggleAddDrinkForm();
-    }
-  };
+  const {
+    formData,
+    handleChange,
+    handleSubmit,
+    modalTitle,
+    modalMessage,
+    handleCloseModal,
+  } = useDrink(toggleAddDrinkForm);
 
   return (
     <>

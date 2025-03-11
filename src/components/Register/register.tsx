@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { API_URL } from "../../utils/config";
+import React from "react";
+import { useRegister } from "../../hooks/useRegister";
 import MessageModal from "../message/MessageModal";
 import "./register.css";
 
@@ -14,55 +14,25 @@ const Register: React.FC<RegisterProps> = ({
   setIsLoginVisible,
   onGuestLogin,
 }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [modalTitle, setModalTitle] = useState<string | null>(null);
-  const [modalMessage, setModalMessage] = useState<string | null>(null);
-
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    try {
-      const response = await fetch(`${API_URL}/auth/users`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
-      });
-
-      const data = await response.json();
-
-      if (response.status === 400) {
-        throw new Error(data.message || "Username already exists");
-      }
-
-      if (!response.ok) {
-        throw new Error(data.message || "Something went wrong");
-      }
-
-      setModalTitle("Registration successful!");
-      setModalMessage("You can now log in.");
-
-      setUsername("");
-      setPassword("");
-      setIsLoginVisible(true);
-    } catch (err: any) {
-      setModalTitle("Registration failed");
-      setModalMessage(err.message);
-    }
-  };
-
-  const handleCloseModal = () => {
-    setModalTitle(null);
-    setModalMessage(null);
-  };
+  const {
+    username,
+    setUsername,
+    password,
+    setPassword,
+    modalTitle,
+    modalMessage,
+    handleRegister,
+    handleCloseModal,
+  } = useRegister();
 
   return (
     <div className="register">
       <div className="register-card">
         <h3>Register</h3>
-        <form className="register-form" onSubmit={handleRegister}>
+        <form
+          className="register-form"
+          onSubmit={(e) => handleRegister(e, () => setIsLoginVisible(true))}
+        >
           <div>
             <label htmlFor="username">Username:</label>
             <input
@@ -90,7 +60,6 @@ const Register: React.FC<RegisterProps> = ({
         <button onClick={() => setIsLoginVisible(true)}>Login</button>
         <button onClick={onGuestLogin}>Continue as Guest</button>
       </div>
-
       {modalTitle && modalMessage && (
         <MessageModal
           title={modalTitle}

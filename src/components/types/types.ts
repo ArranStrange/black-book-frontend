@@ -12,13 +12,18 @@ export interface Drink {
   Ingredient4?: string;
   Ingredient5?: string;
   Ingredient6?: string;
-  Measure1?: string | number;
-  Measure2?: string | number;
-  Measure3?: string | number;
-  Measure4?: string | number;
-  Measure5?: string | number;
-  Measure6?: string | number;
+  Measure1?: number;
+  Measure2?: number;
+  Measure3?: number;
+  Measure4?: number;
+  Measure5?: number;
+  Measure6?: number;
   DrinkThumb?: string;
   Rating?: number;
   Instructions: string;
+}
+
+export interface User {
+  username: string;
+  password: string;
 }

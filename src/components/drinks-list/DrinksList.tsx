@@ -94,6 +94,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
 
   return (
     <div className="drinks-list">
+      {/*Drinks Map */}
       <div className="drinks-container">
         {sortedDrinks.map((drink) => (
           <div

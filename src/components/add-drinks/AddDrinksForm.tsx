@@ -10,7 +10,7 @@ interface AddDrinkFormProps {
 
 const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
   const [formData, setFormData] = useState({
-    idDrink: Date.now().toString(), //UID
+    idDrink: Date.now().toString(),
     drinkName: "",
     shortDescription: "",
     Category: "",
@@ -26,7 +26,7 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
     Measure2: 0,
     Measure3: 0,
     Measure4: 0,
-    Measure5: "",
+    Measure5: 0,
     Measure6: 0,
     DrinkThumb: "",
     Rating: 0,
@@ -73,7 +73,7 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
         Measure2: 0,
         Measure3: 0,
         Measure4: 0,
-        Measure5: "",
+        Measure5: 0,
         Measure6: 0,
         DrinkThumb: "",
         Rating: 10,
@@ -81,8 +81,8 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
       });
     } catch (error) {
       console.error("Error adding drink:", error);
-      setModalMessage("Failed to add drink.");
       setModalTitle("error");
+      setModalMessage("Failed to add drink.");
     }
   };
 
@@ -103,7 +103,6 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
           <input
             type="text"
             name="drinkName"
-            // placeholder="Drink Name"
             value={formData.drinkName}
             onChange={handleChange}
             required
@@ -184,7 +183,6 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
           <input
             type="text"
             name="Ingredient1"
-            // placeholder="Ingredient 1"
             value={formData.Ingredient1}
             onChange={handleChange}
             required
@@ -197,7 +195,6 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
             <input
               type="number"
               name="Measure1"
-              // placeholder="Measure 1"
               value={formData.Measure1}
               onChange={handleChange}
               required
@@ -211,7 +208,6 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
           <input
             type="text"
             name="Ingredient2"
-            // placeholder="Ingredient 2"
             value={formData.Ingredient2}
             onChange={handleChange}
           />
@@ -222,7 +218,6 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
             <input
               type="number"
               name="Measure2"
-              // placeholder="Measure 2"
               value={formData.Measure2}
               onChange={handleChange}
             />
@@ -235,7 +230,6 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
           <input
             type="text"
             name="Ingredient3"
-            // placeholder="Ingredient 3"
             value={formData.Ingredient3}
             onChange={handleChange}
           />
@@ -246,7 +240,6 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
             <input
               type="number"
               name="Measure3"
-              // placeholder="Measure 3"
               value={formData.Measure3}
               onChange={handleChange}
             />
@@ -259,7 +252,6 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
           <input
             type="text"
             name="Ingredient4"
-            // placeholder="Ingredient 4"
             value={formData.Ingredient4}
             onChange={handleChange}
           />
@@ -270,7 +262,6 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
             <input
               type="number"
               name="Measure4"
-              // placeholder="Measure 4"
               value={formData.Measure4}
               onChange={handleChange}
             />
@@ -283,7 +274,6 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
           <input
             type="text"
             name="Ingredient5"
-            // placeholder="Ingredient 5"
             value={formData.Ingredient5}
             onChange={handleChange}
           />
@@ -294,7 +284,6 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
             <input
               type="number"
               name="Measure5"
-              // placeholder="Measure 5"
               value={formData.Measure5}
               onChange={handleChange}
             />
@@ -307,7 +296,6 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
           <input
             type="text"
             name="Ingredient6"
-            // placeholder="Ingredient 6"
             value={formData.Ingredient6}
             onChange={handleChange}
           />
@@ -318,7 +306,6 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
             <input
               type="number"
               name="Measure6"
-              // placeholder="Measure 6"
               value={formData.Measure6}
               onChange={handleChange}
             />
@@ -331,7 +318,6 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
           <input
             type="text"
             name="DrinkThumb"
-            // placeholder="Drink Thumbnail URL"
             value={formData.DrinkThumb}
             onChange={handleChange}
           />
@@ -342,7 +328,6 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
           <input
             type="number"
             name="Rating"
-            // placeholder="Rating (0-10)"
             value={formData.Rating}
             onChange={handleChange}
             required
@@ -356,7 +341,6 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
           <textarea
             name="Instructions"
             id="instructions"
-            // placeholder="Instructions"
             value={formData.Instructions}
             onChange={handleChange}
             required

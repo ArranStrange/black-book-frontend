@@ -29,7 +29,7 @@
   height: fit-content;
   min-height: 85vh;
   margin-bottom: 100px;
-  overflow: scroll;
+  overflow: auto;
   gap: 10px;
   /* border: red 1px solid; */
   /* overflow: visible; */

@@ -245,3 +245,8 @@ textarea {
   width: 75px;
   height: 75px;
 }
+
+/* Hide Scoll Bar */
+::-webkit-scrollbar {
+  display: none;
+}

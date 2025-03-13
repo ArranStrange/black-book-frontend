@@ -47,10 +47,6 @@ export const useAddDrink = (toggleAddDrinkForm: () => void) => {
       await addDrink(formData);
       setModalMessage("Drink added successfully!");
       setModalTitle("Success");
-      setFormData((prevData) => ({
-        ...prevData,
-        idDrink: Date.now().toString(),
-      }));
     } catch (error) {
       setModalTitle("Error");
       setModalMessage("Failed to add drink.");

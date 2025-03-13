@@ -24,7 +24,6 @@ export const useFilterDrinks = (
       const drinkCategory = drink.Category?.toLowerCase().trim();
       const drinkGlass = drink.Glass?.toLowerCase().trim();
       const drinkIce = drink.Ice?.toLowerCase().trim();
-
       const queryCategory = searchQuery.category?.toLowerCase().trim();
       const queryGlass = searchQuery.glass?.toLowerCase().trim();
       const queryIce = searchQuery.ice?.toLowerCase().trim();

@@ -39,20 +39,6 @@ const App: React.FC = () => {
     setIsAddDrinkFormVisible((prev) => !prev);
   };
 
-  // const handleLetterSelection = (letter: string) => {
-  //   setSelectedLetter(letter);
-  // };
-
-  // const handleSearch = (query: any) => {
-  //   setSearchQuery((prev) => ({
-  //     ...prev,
-  //     drinkName: query.drinkName ?? prev.drinkName,
-  //     category: query.category ?? prev.category,
-  //     glass: query.glass ?? prev.glass,
-  //     ice: query.ice ?? prev.ice,
-  //   }));
-  // };
-
   const handleSearch = (query: {
     drinkName?: string;
     category?: string;

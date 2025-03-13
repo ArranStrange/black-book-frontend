@@ -3,13 +3,11 @@ import { useUser } from "../../../hooks/useUser";
 import MessageModal from "../../message/MessageModal";
 import "../Login/login.css";
 
-//Define props from App.tsx
 interface LoginProps {
   onLoginSuccess: () => void;
   setIsRegisterVisible: (visible: boolean) => void;
 }
 
-//React functional component
 const Login: React.FC<LoginProps> = ({
   //destructuring the props
   onLoginSuccess,

@@ -39,18 +39,37 @@ const App: React.FC = () => {
     setIsAddDrinkFormVisible((prev) => !prev);
   };
 
-  const handleLetterSelection = (letter: string) => {
-    setSelectedLetter(letter);
+  // const handleLetterSelection = (letter: string) => {
+  //   setSelectedLetter(letter);
+  // };
+
+  // const handleSearch = (query: any) => {
+  //   setSearchQuery((prev) => ({
+  //     ...prev,
+  //     drinkName: query.drinkName ?? prev.drinkName,
+  //     category: query.category ?? prev.category,
+  //     glass: query.glass ?? prev.glass,
+  //     ice: query.ice ?? prev.ice,
+  //   }));
+  // };
+
+  const handleSearch = (query: {
+    drinkName?: string;
+    category?: string;
+    glass?: string;
+    ice?: string;
+  }) => {
+    setSearchQuery({
+      drinkName: query.drinkName || "",
+      category: query.category || "",
+      glass: query.glass || "",
+      ice: query.ice || "",
+    });
   };
 
-  const handleSearch = (query: any) => {
-    setSearchQuery((prev) => ({
-      ...prev,
-      drinkName: query.drinkName ?? prev.drinkName,
-      category: query.category ?? prev.category,
-      glass: query.glass ?? prev.glass,
-      ice: query.ice ?? prev.ice,
-    }));
+  // Callback passed to Nav to update letter filter
+  const handleLetterSelection = (letter: string) => {
+    setSelectedLetter(letter);
   };
 
   const onShowAll = () => {
@@ -58,7 +77,7 @@ const App: React.FC = () => {
     setSelectedLetter("");
   };
 
-  const handleToggleClick = () => {
+  const handleAddDrinkToggle = () => {
     toggleAddDrinkForm();
     setIsFormVisible((prev) => !prev);
   };
@@ -103,7 +122,7 @@ const App: React.FC = () => {
           {!isGuest && (
             <button
               className="toggle-drink-form-button"
-              onClick={handleToggleClick}
+              onClick={handleAddDrinkToggle}
             >
               <motion.div
                 animate={{ rotate: isFormVisible ? 45 : 0 }}

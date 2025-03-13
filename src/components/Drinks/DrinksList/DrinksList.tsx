@@ -22,6 +22,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
   selectedLetter,
   searchQuery,
 }) => {
+  //useDRINKS TO PROVIDE THE DRINKS ARRRAY
   const { drinks, loading, error, handleSaveEdit, handleDelete } = useDrinks();
   const filteredDrinks = useFilterDrinks(drinks, selectedLetter, searchQuery);
   const isGuest = localStorage.getItem("authToken") === "guest";
@@ -84,7 +85,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
     <div className="drinks-list">
       {/*Drinks Map */}
       <div className="drinks-container">
-        {drinks.map((drink) => (
+        {filteredDrinks.map((drink) => (
           <div
             key={drink._id}
             className="drink-card"

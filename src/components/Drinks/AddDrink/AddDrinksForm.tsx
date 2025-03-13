@@ -1,5 +1,5 @@
-import React from "react";
-import { useDrink } from "../../../hooks/useAddDrink";
+import React, { useRef } from "react";
+import { useAddDrink } from "../../../hooks/useAddDrink";
 import MessageModal from "../../message/MessageModal";
 import "./add-drinks.css";
 
@@ -15,7 +15,7 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
     modalTitle,
     modalMessage,
     handleCloseModal,
-  } = useDrink(toggleAddDrinkForm);
+  } = useAddDrink(toggleAddDrinkForm);
 
   return (
     <>

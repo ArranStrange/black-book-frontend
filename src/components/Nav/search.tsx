@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { RxCross2, RxHamburgerMenu } from "react-icons/rx";
-import { IoMdAdd } from "react-icons/io";
-import { motion } from "framer-motion";
 import "./search.css";
 
 interface Props {
@@ -18,7 +16,6 @@ interface Props {
 export default function Search({ onSearch, onShowAll }: Props) {
   const [searchQuery, setSearchQuery] = useState("");
   const [dropdown, setDropdown] = useState(false);
-
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedGlass, setSelectedGlass] = useState("");
@@ -94,7 +91,8 @@ export default function Search({ onSearch, onShowAll }: Props) {
       <form
         onFocus={handleFocus}
         className="search-bar"
-        onSubmit={handleSearchSubmit} // Update the onSubmit handler
+        onSubmit={handleSearchSubmit}
+        onBlur={handleBlur}
       >
         <input
           type="search"

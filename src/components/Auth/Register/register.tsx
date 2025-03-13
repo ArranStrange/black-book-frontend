@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useRegister } from "../../../hooks/useRegister";
 import MessageModal from "../../message/MessageModal";
 import "./register.css";
@@ -14,44 +14,44 @@ const Register: React.FC<RegisterProps> = ({
   setIsLoginVisible,
   onGuestLogin,
 }) => {
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
   const {
     username,
-    setUsername,
     password,
-    setPassword,
     modalTitle,
     modalMessage,
     handleRegister,
     handleCloseModal,
   } = useRegister();
 
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    //save the form input into a variable
+    const username = usernameRef.current?.value || "";
+    const password = passwordRef.current?.value || "";
+
+    if (!username || !password) {
+      console.error("Username and Password are required.");
+      return;
+    }
+
+    handleRegister(e, username, password, onRegisterSuccess);
+  };
+
   return (
     <div className="register">
       <div className="register-card">
         <h3>Register</h3>
-        <form
-          className="register-form"
-          onSubmit={(e) => handleRegister(e, () => setIsLoginVisible(true))}
-        >
+        <form className="register-form" onSubmit={onSubmit}>
           <div>
             <label htmlFor="username">Username:</label>
-            <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
+            <input type="text" id="username" ref={usernameRef} required />
           </div>
           <div>
             <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <input type="password" id="password" ref={passwordRef} required />
           </div>
           <button type="submit">Register</button>
         </form>

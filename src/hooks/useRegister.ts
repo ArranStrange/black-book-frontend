@@ -9,6 +9,8 @@ export const useRegister = () => {
 
   const handleRegister = async (
     e: React.FormEvent,
+    username: string,
+    password: string,
     onRegisterSuccess: () => void
   ) => {
     e.preventDefault();

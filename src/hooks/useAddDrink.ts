@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { addDrink } from "../services/drinksServices";
 
-export const useDrink = (toggleAddDrinkForm: () => void) => {
+export const useAddDrink = (toggleAddDrinkForm: () => void) => {
   const [formData, setFormData] = useState({
     idDrink: Date.now().toString(),
     drinkName: "",

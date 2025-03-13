@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { loginUser, registerUser } from "../services/userServices";
+import { loginUser } from "../services/userServices";
 
 export const useUser = (onLoginSuccess: () => void) => {
   const [username, setUsername] = useState<string>("");
@@ -14,9 +14,13 @@ export const useUser = (onLoginSuccess: () => void) => {
     }
   }, [onLoginSuccess]);
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (
+    e: React.FormEvent,
+    username: string,
+    password: string
+  ) => {
     e.preventDefault();
-    console.log("Attempting to login with:", { username, password });
+    // console.log("Attempting to login with:", { username, password });
 
     try {
       const data = await loginUser(username, password);
@@ -31,20 +35,6 @@ export const useUser = (onLoginSuccess: () => void) => {
       }
     } catch (error: any) {
       setModalTitle("Login Error");
-      setModalMessage(error.message);
-    }
-  };
-
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      await registerUser(username, password);
-      setModalTitle("Registration successful!");
-      setModalMessage("You can now log in.");
-      setUsername("");
-      setPassword("");
-    } catch (error: any) {
-      setModalTitle("Registration failed");
       setModalMessage(error.message);
     }
   };

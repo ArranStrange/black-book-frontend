@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useAddDrink } from "../../../hooks/useAddDrink";
 import MessageModal from "../../message/MessageModal";
 import "./add-drinks.css";

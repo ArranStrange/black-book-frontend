@@ -1,3 +1,5 @@
+//typescrip declaring the interfaces
+
 export interface Drink {
   _id: string;
   idDrink?: string;

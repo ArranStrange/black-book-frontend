@@ -159,6 +159,8 @@ export default function Search({
                 id="category"
                 value={selectedCategory}
                 onChange={handleSelectChange}
+                // stop propagation used to isolate the event
+                // e.g wont autmatically submit the form when a value is selected
                 onMouseDown={(e) => e.stopPropagation()}
               >
                 <option value="">Not Defined</option>
@@ -186,6 +188,8 @@ export default function Search({
                 id="glass"
                 value={selectedGlass}
                 onChange={handleSelectChange}
+                // stop propagation used to isolate the event
+                // e.g wont autmatically submit the form when a value is selected
                 onMouseDown={(e) => e.stopPropagation()}
               >
                 <option value="">Not Defined</option>
@@ -204,6 +208,8 @@ export default function Search({
                 id="ice"
                 value={selectedIce}
                 onChange={handleSelectChange}
+                // stop propagation used to isolate the event
+                // e.g wont autmatically submit the form when a value is selected
                 onMouseDown={(e) => e.stopPropagation()}
               >
                 <option value="">Not Defined</option>

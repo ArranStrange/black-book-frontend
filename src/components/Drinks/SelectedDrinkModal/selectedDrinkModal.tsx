@@ -3,19 +3,22 @@ import "./selected-drink-modal.css";
 import { IoMdClose } from "react-icons/io";
 import { FaEdit } from "react-icons/fa";
 import { Drink } from "../../types/types";
-
+//
+//
+//typescript defining the props
 interface SelectedDrinkModalProps {
   drink: Drink;
   onClose: () => void;
   onEdit: () => void;
   isGuest: boolean;
 }
-
+//
+//
 const SelectedDrinkModal: React.FC<SelectedDrinkModalProps> = ({
-  drink,
-  onClose,
-  onEdit,
-  isGuest,
+  drink, // selected drinks object decieved through props
+  onClose, // handle close modal function passed from drinksList
+  onEdit, // on edit passed from drinks list
+  isGuest, // isGuest state passed from drinks list
 }) => {
   return (
     <div className="drink-modal">
@@ -25,6 +28,7 @@ const SelectedDrinkModal: React.FC<SelectedDrinkModalProps> = ({
             <IoMdClose />
           </button>
           {!isGuest && (
+            //edit modal only displayed if the localstorage token isn't guest
             <button className="edit-button" onClick={onEdit}>
               <FaEdit />
             </button>
@@ -55,17 +59,30 @@ const SelectedDrinkModal: React.FC<SelectedDrinkModalProps> = ({
               />
               <div className="measure-ingredient-list">
                 <div className="measure-ingredient-col">
-                  {[1, 2, 3, 4, 5, 6].map((index) => {
-                    const ingredient =
-                      drink[`Ingredient${index}` as keyof Drink];
-                    return ingredient ? <p key={index}>{ingredient}</p> : null;
-                  })}
+                  {
+                    //maps over a fixed range of the ingredients allowing 6 properties only
+                    // for each iteration i stores the current number
+                    [1, 2, 3, 4, 5, 6].map((i) => {
+                      //stores the drink ingredient name and index (as keyof Drink - typescript type checking)
+                      const ingredient = drink[`Ingredient${i}` as keyof Drink];
+                      //if ingredient is truthy, returns the <p> with the ingredient name stored
+                      //key used to help react identify each element uniquly using  i
+                      return ingredient ? <p key={i}>{ingredient}</p> : null;
+                      //if ingredient is falsy will return null
+                    })
+                  }
                 </div>
                 <div className="measure-ingredient-col">
-                  {[1, 2, 3, 4, 5, 6].map((index) => {
-                    const measure = drink[`Measure${index}` as keyof Drink];
-                    return measure ? <p key={index}>{measure}ml</p> : null;
-                  })}
+                  {
+                    // maps over a fixed range of the measurement allowing 6 properties only
+                    // for each iteration i stores the current number
+                    [1, 2, 3, 4, 5, 6].map((i) => {
+                      //stores the drink measurement and index (as keyof Drink - typescript type checking)
+                      const measure = drink[`Measure${i}` as keyof Drink];
+                      //if measurement is truthy, return the <p> element, if falsy return null
+                      return measure ? <p key={i}>{measure}ml</p> : null;
+                    })
+                  }
                 </div>
               </div>
             </div>

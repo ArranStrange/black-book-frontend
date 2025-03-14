@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { RxCross2, RxHamburgerMenu } from "react-icons/rx";
 import "./search.css";
 
+//typescript defining props
 interface Props {
   onSearch: (searchQuery: {
     drinkName?: string;
@@ -13,77 +14,125 @@ interface Props {
   onShowAll: () => void;
 }
 
-export default function Search({ onSearch, onShowAll }: Props) {
-  const [searchQuery, setSearchQuery] = useState("");
+export default function Search({
+  //props
+  onSearch,
+  onShowAll,
+}: Props) {
+  //
+  //
+  //state
+  //UI effecting state
   const [dropdown, setDropdown] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedGlass, setSelectedGlass] = useState("");
-  const [selectedIce, setSelectedIce] = useState("");
-
+  //
+  //
+  // Search effecting state
+  const [searchQuery, setSearchQuery] = useState(""); // holds the value of the text input
+  const [selectedCategory, setSelectedCategory] = useState(""); //holds the value of the category dropdown
+  const [selectedGlass, setSelectedGlass] = useState(""); //holds the value of the glass dropdown
+  const [selectedIce, setSelectedIce] = useState(""); //holds the value of the ice dropdown
+  //
+  //
+  // when search is focused and unfocused toggles the category, ice and glass dropdown
   const handleDropdown = () => {
     setDropdown(!dropdown);
   };
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //
+  //
+  // handles changes in the text input
+  const handleSearchQueryChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    //updates the state to the current value
     setSearchQuery(event.target.value);
   };
-
+  //
+  //
+  // reads the name and the value of the dropdown elements and updates the state
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    // looks at the name and the value of the HTML field
     const { name, value } = event.target;
+    // if name === category, updated the selected Category state with the value
     if (name === "category") {
       setSelectedCategory(value);
+      // if name === glass, updated the selected Glass state with the value
     } else if (name === "glass") {
       setSelectedGlass(value);
+      // if name === Ice, updated the selected Ice state with the value
     } else if (name === "ice") {
       setSelectedIce(value);
     }
   };
-
-  const handleLogout = () => {
-    window.location.reload();
-    localStorage.removeItem("authToken");
-  };
-
+  //
+  //
+  //
+  // handles on focuse for the search elements
   const handleFocus = () => {
     setIsSearchFocused(true);
+    //this triggers the dropdown
   };
-
+  //
+  //
+  //
   const handleBlur = (e: React.FocusEvent<HTMLFormElement>) => {
+    // checks if the search element is still in focus
     if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+      // if not in focus, set is Search Focused to false - closing the dropdown
       setIsSearchFocused(false);
     }
   };
-
-  const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  //
+  //
+  // handles the search submit
+  const handleSearchSubmit = (
+    //takes the form
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault(); //prevents the page from rerendering
+    // creates the searchQueryObject
     const searchQueryObject = {
+      //takes the text from the text input state and removes the white space, or sets as undefined
       drinkName: searchQuery.trim() || undefined,
+      //sets the category to the input state
       category: selectedCategory || undefined,
+      //sets the glass to the input state
       glass: selectedGlass || undefined,
+      //sets the ice to the input state
       ice: selectedIce || undefined,
     };
-
+    //calls onSearch from app.tsx and passes it the searchQueryObject we just created
     onSearch(searchQueryObject);
 
+    //resets all of the inputs
     setSelectedCategory("");
     setSelectedGlass("");
     setSelectedIce("");
-
+    //sets the focus to false closing the dropdown
     setIsSearchFocused(false);
+    //scrolls to the top of the page to show the returned array from the start
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   };
-
+  //
+  //
+  // handles the clear filters button buy resetting all the inputs of the search
   const handleShowAll = () => {
     setSearchQuery("");
     setSelectedCategory("");
     setSelectedGlass("");
     setSelectedIce("");
     onShowAll();
+  };
+  //
+  //
+  // handles log out
+  const handleLogout = () => {
+    //when log out is clicked,
+    localStorage.removeItem("authToken"); // clears the authToken
+    window.location.reload(); //reloads the page
   };
 
   return (
@@ -98,7 +147,7 @@ export default function Search({ onSearch, onShowAll }: Props) {
           type="search"
           id="searchInput"
           value={searchQuery}
-          onChange={handleChange}
+          onChange={handleSearchQueryChange}
           placeholder="Search"
         />
         {isSearchFocused && (

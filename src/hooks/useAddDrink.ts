@@ -2,8 +2,11 @@ import { useState } from "react";
 import { addDrink } from "../services/drinksServices";
 
 export const useAddDrink = (toggleAddDrinkForm: () => void) => {
+  //initialises the formData state as an object, identical to the Drinks array
   const [formData, setFormData] = useState({
     idDrink: Date.now().toString(),
+    //creates an ID of the date + the now() method and converts it to a string
+    // all other fields begin empty
     drinkName: "",
     shortDescription: "",
     Category: "",
@@ -25,42 +28,65 @@ export const useAddDrink = (toggleAddDrinkForm: () => void) => {
     Rating: 0,
     Instructions: "",
   });
-
+  //
+  //
+  //
   const [modalTitle, setModalTitle] = useState<string | null>(null);
   const [modalMessage, setModalMessage] = useState<string | null>(null);
-
+  //
+  //
+  //
   const handleChange = (
+    // e represents a change event from an input element
     e: React.ChangeEvent<
+      //typescript requires the input types to be stated
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
     >
   ) => {
+    // deconstructing the event from the input element
+    // takes the input elements name and the new value
     const { name, value } = e.target;
+    // initialises setFormData, takes its previous state - ensuring the most recent state is used
     setFormData((prevData) => ({
+      // creates a light copy and spreads the data
       ...prevData,
+      //then sets the object field and its value
       [name]: value,
+      //e.g. if name == "drinkName" and value == "Mojito", this will set the property "drinkName": "Mojito" in the new object.
     }));
   };
-
+  //
+  //
+  //
+  //when the form data is submitted
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    //prevents the page from rerender
     e.preventDefault();
     try {
+      //executes addDrink from drinkServices with the form data
       await addDrink(formData);
+      //sets the modal message if successful
       setModalMessage("Drink added successfully!");
       setModalTitle("Success");
+      //catches any errors and updates the modal with an error message
     } catch (error) {
       setModalTitle("Error");
       setModalMessage("Failed to add drink.");
     }
   };
-
+  //
+  //
+  // handles a the close of the modal message
   const handleCloseModal = () => {
     setModalMessage(null);
     setModalTitle(null);
+    // if modal title is === to success, will also close the add drink form
     if (modalTitle === "Success") {
       toggleAddDrinkForm();
     }
   };
 
+  //returns the relevant state and functions to be used in addDrinkForm
   return {
     formData,
     setFormData,

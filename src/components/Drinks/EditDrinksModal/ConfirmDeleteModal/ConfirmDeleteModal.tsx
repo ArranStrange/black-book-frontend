@@ -1,5 +1,6 @@
 import "./confirm-delete-modal.css";
 
+//type declare for props
 interface ConfirmDeleteModalProps {
   drinkName: string;
   onConfirm: () => void;
@@ -7,9 +8,9 @@ interface ConfirmDeleteModalProps {
 }
 
 const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
-  drinkName,
-  onConfirm,
-  onCancel,
+  drinkName, // drink name to make the message unique
+  onConfirm, // a callback function to handle the delete
+  onCancel, // a call back function that cancels the delete process
 }) => {
   return (
     <>

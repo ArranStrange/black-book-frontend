@@ -3,16 +3,18 @@ import { useUser } from "../../../hooks/useUser";
 import MessageModal from "../../message/MessageModal";
 import "../Login/login.css";
 
+//Typescript defining the props types
 interface LoginProps {
   onLoginSuccess: () => void;
   setIsRegisterVisible: (visible: boolean) => void;
 }
 
 const Login: React.FC<LoginProps> = ({
-  //destructuring the props
+  //props
   onLoginSuccess,
   setIsRegisterVisible,
 }) => {
+  //saves the Refs into a variable
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -25,27 +27,30 @@ const Login: React.FC<LoginProps> = ({
     handleCloseModal,
   } = useUser(onLoginSuccess);
 
+  //on submition of the form
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    //prevents the page rerendering
     e.preventDefault();
 
     //save the form input into a variable
+    //or provides and empty string
     const username = usernameRef.current?.value || "";
     const password = passwordRef.current?.value || "";
 
+    //if there nothing is provided then throw and error
     if (!username || !password) {
       console.error("Username and Password are required.");
       return;
     }
-
+    // calls the handle login function from the hook with the event, username and password
     handleLogin(e, username, password);
   };
 
-  //UI elements of the log-in
   return (
     <div className="login">
+      {/* log in form */}
       <div className="login-card">
         <h2>Login</h2>
-        {/* React Form using onSubmit to handle Login */}
         <form className="login-form" onSubmit={onSubmit}>
           <div>
             <label htmlFor="username">Username</label>
@@ -65,6 +70,7 @@ const Login: React.FC<LoginProps> = ({
           <button type="submit">Login</button>
         </form>
       </div>
+      {/* register or continue as guest */}
       <div className="register-guest-box">
         <button
           onClick={() => {

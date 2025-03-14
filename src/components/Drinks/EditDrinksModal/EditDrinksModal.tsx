@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useEditDrink } from "../../../hooks/useEditDrink";
 import { MdCancel } from "react-icons/md";
 import { GiConfirmed } from "react-icons/gi";
@@ -7,6 +7,7 @@ import ConfirmDeleteModal from "./ConfirmDeleteModal/ConfirmDeleteModal";
 import { Drink } from "../../types/types";
 import "./edit-drinks-modal.css";
 
+//typescript drfining props
 interface EditDrinkFormProps {
   drink: Drink;
   onSave: (updatedDrink: Drink) => void;
@@ -16,17 +17,18 @@ interface EditDrinkFormProps {
 }
 
 const EditDrinkForm: React.FC<EditDrinkFormProps> = ({
-  drink,
-  onSave,
-  setShowEditModal,
-  onCancel,
-  onDelete,
+  drink, // selected drinks object decieved through props
+  onSave, // a callback functino that receives the updated drink on submition
+  setShowEditModal, // toggle for the edit modal
+  onCancel, // on cancel delete function
+  onDelete, // on delete function
 }) => {
+  // initiating the useEditDrink hook
   const {
-    editedDrink,
-    handleChange,
-    handleSave,
-    handleDeleteClick,
+    editedDrink, // state representing the drink being edited
+    handleChange, // the function to updated editedDrink on change
+    handleSave, // on submittion of the form triggers the onSave callback
+    handleDeleteClick, // handles the delete modal open
     handleConfirmDelete,
     showConfirmDelete,
     setShowConfirmDelete,
@@ -87,25 +89,33 @@ const EditDrinkForm: React.FC<EditDrinkFormProps> = ({
         </label>
 
         <div className="ingredients-section">
-          {[1, 2, 3, 4, 5, 6].map((index) => (
-            <div key={index} className="measure-input-table">
-              <input
-                name={`Ingredient${index}`}
-                value={editedDrink[`Ingredient${index}` as keyof Drink] || ""}
-                onChange={handleChange}
-                placeholder={`Ingredient ${index}`}
-                className="ingredient-section-input"
-              />
-              <input
-                name={`Measure${index}`}
-                value={editedDrink[`Measure${index}` as keyof Drink] || ""}
-                onChange={handleChange}
-                placeholder={`Measure ${index}`}
-                className="ingredient-section-input"
-              />
-              ml
-            </div>
-          ))}
+          {
+            //maps over a fixed range of the ingredients allowing 6 properties only
+            // for each iteration i stores the current number
+            [1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="measure-input-table">
+                <input
+                  name={`Ingredient${i}`}
+                  // stores the drink ingredient index (as keyof Drink - typescript type checking)
+                  // accesses the corresponding property from editedDrink
+                  value={editedDrink[`Ingredient${i}` as keyof Drink] || ""}
+                  onChange={handleChange}
+                  placeholder={`Ingredient ${i}`}
+                  // sets the place holder to Ingredient + the i value
+                  className="ingredient-section-input"
+                />
+                <input
+                  name={`Measure${i}`}
+                  // stores the drink measurement index (as keyof Drink - typescript type checking)
+                  value={editedDrink[`Measure${i}` as keyof Drink] || ""}
+                  onChange={handleChange}
+                  placeholder={`Measure ${i}`}
+                  className="ingredient-section-input"
+                />
+                ml
+              </div>
+            ))
+          }
         </div>
 
         <div className="modal-actions">

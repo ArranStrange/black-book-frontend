@@ -19,14 +19,28 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
 
   return (
     <>
-      <form className="add-drinks-form" onSubmit={handleSubmit}>
+      <form
+        className="add-drinks-form"
+        onSubmit={
+          handleSubmit
+          // on submit triggers the function in useAddDrink
+        }
+      >
         <label>
           Drink Name:
           <input
             type="text"
             name="drinkName"
-            value={formData.drinkName}
-            onChange={handleChange}
+            // name is passed to the useAddDrink, handleChange function
+            value={
+              formData.drinkName
+              // each input value is one of formData in the useAddDrink hook
+              // onSubmit the form state is updated with the corresponding inputs data
+            }
+            onChange={
+              handleChange
+              //handle change function in the useAddDrink hook
+            }
             required
           />
         </label>

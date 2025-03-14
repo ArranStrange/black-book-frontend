@@ -2,8 +2,6 @@ import { useState } from "react";
 import { registerUser } from "../services/userServices";
 
 export const useRegister = () => {
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
   const [modalTitle, setModalTitle] = useState<string | null>(null);
   const [modalMessage, setModalMessage] = useState<string | null>(null);
 
@@ -13,32 +11,30 @@ export const useRegister = () => {
     password: string,
     onRegisterSuccess: () => void
   ) => {
-    e.preventDefault();
     try {
+      // takes the params passed from register component and passes them to registerUser in userServices
       await registerUser(username, password);
+      //updates the messagemodal with success message
       setModalTitle("Registration successful!");
       setModalMessage("You can now log in.");
-      setUsername("");
-      setPassword("");
+      //set time out to close the message after 2 seconds and direct you to the main page
       setTimeout(() => {
         onRegisterSuccess();
       }, 2000);
+      //catches any errors and displays the error in the message modal
     } catch (error: any) {
       setModalTitle("Registration failed");
       setModalMessage(error.message);
     }
   };
 
+  //handles close message modal by resetting message state
   const handleCloseModal = () => {
     setModalTitle(null);
     setModalMessage(null);
   };
 
   return {
-    username,
-    setUsername,
-    password,
-    setPassword,
     modalTitle,
     modalMessage,
     handleRegister,

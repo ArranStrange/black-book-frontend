@@ -12,6 +12,10 @@ import { motion } from "framer-motion";
 import MessageModal from "./components/message/MessageModal";
 
 const App: React.FC = () => {
+  //state
+  //
+  //
+  // search related state
   const [selectedLetter, setSelectedLetter] = useState("");
   const [searchQuery, setSearchQuery] = useState<{
     drinkName?: string;
@@ -19,13 +23,17 @@ const App: React.FC = () => {
     glass?: string;
     ice?: string;
   }>({});
+  //
+  //
+  //
   const [isAddDrinkFormVisible, setIsAddDrinkFormVisible] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isRegisterVisible, setIsRegisterVisible] = useState<boolean>(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const isGuest = localStorage.getItem("authToken") === "guest";
   const [modalMessage, setModalMessage] = useState<string | null>(null);
   const [modalTitle, setModalTitle] = useState<string | null>(null);
+  //auth state
+  const isGuest = localStorage.getItem("authToken") === "guest";
 
   const handleLoginSuccess = () => {
     setIsAuthenticated(true);
@@ -38,7 +46,10 @@ const App: React.FC = () => {
   const toggleAddDrinkForm = () => {
     setIsAddDrinkFormVisible((prev) => !prev);
   };
-
+  //
+  //
+  //
+  // on submission handleDearch takes the searchObjectQuery from the search bar
   const handleSearch = (query: {
     drinkName?: string;
     category?: string;

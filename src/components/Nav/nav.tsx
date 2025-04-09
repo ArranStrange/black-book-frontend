@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import "./nav.css";
 
@@ -38,27 +37,17 @@ export default function Nav({
 
   return (
     <nav>
-      <motion.h1 className="current-letter">{selectedLetter}</motion.h1>
-      <div className="alphabet">
-        {
-          // passes an object with a length property set to 26 to Array.from.
-          Array.from(
-            { length: 26 },
-            // maps over the array converting it to the corresponding uppercase letter (A-Z)
-            // 65 = ASCII (and Unicode) code for A
-            (_, i) => String.fromCharCode(65 + i)
-            // then iterates over it with .map() to render each letter as a list item
-          ).map((letter, index) => (
-            <motion.li
-              whileHover={{ scale: 1.5 }}
-              key={index}
-              onClick={() => handleLetterClick(letter)}
-            >
+      <h1 className="current-letter">{selectedLetter}</h1>
+      <ul className="alphabet">
+        {Array.from({ length: 26 }, (_, i) => {
+          const letter = String.fromCharCode(65 + i);
+          return (
+            <li key={i} onClick={() => handleLetterClick(letter)}>
               {letter}
-            </motion.li>
-          ))
-        }
-      </div>
+            </li>
+          );
+        })}
+      </ul>
     </nav>
   );
 }

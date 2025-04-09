@@ -1,4 +1,3 @@
-import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import DrinksList from "./DrinksList";
 import { Drink } from "../../types/types";
@@ -6,12 +5,12 @@ import { Drink } from "../../types/types";
 const testData: Drink[] = [
   {
     _id: "1",
-    drinkName: "Test Drink 1",
-    DrinkThumb: "testthumb1.png",
-    shortDescription: "Test description 1",
-    Category: "test",
-    Glass: "highball",
-    Ice: "crushed",
+    drinkName: "Drink 1",
+    DrinkThumb: "picture.png",
+    shortDescription: "Short Description",
+    Category: "Test",
+    Glass: "Flute",
+    Ice: "Straight Up",
     Ingredient1: "vodka",
     Ingredient2: "",
     Ingredient3: "",
@@ -22,9 +21,9 @@ const testData: Drink[] = [
   },
   {
     _id: "2",
-    drinkName: "Test Drink 2",
-    DrinkThumb: "testthumb2.png",
-    shortDescription: "Test description 2",
+    drinkName: "Drink 2",
+    DrinkThumb: "picture2.png",
+    shortDescription: "Short Description 2",
     Category: "test",
     Glass: "martini",
     Ice: "cubed",
@@ -52,25 +51,27 @@ jest.mock("../../../hooks/useFilterDrinks", () => ({
   useFilterDrinks: (drinks: Drink[]) => drinks,
 }));
 
-const testProps = {
+const Props = {
   selectedLetter: "",
   searchQuery: {},
 };
 
 describe("DrinksList Component", () => {
-  test("renders drink cards based on filtered drinks", () => {
-    render(<DrinksList {...testProps} />);
-    expect(screen.getByText("Test Drink 1")).toBeInTheDocument();
-    expect(screen.getByText("Test Drink 2")).toBeInTheDocument();
+  it("renders drink cards based on filtered drinks", () => {
+    render(<DrinksList {...Props} />);
+    expect(screen.getByText("Drink 1")).toBeInTheDocument();
+    expect(screen.getByText("Drink 2")).toBeInTheDocument();
   });
 
-  test("opens drinks modal when a drink card is clicked", async () => {
-    render(<DrinksList {...testProps} />);
-    const drinkCard = screen.getByText("Test Drink 1");
+  it("opens drinks modal when a drink card is clicked", () => {
+    render(<DrinksList {...Props} />);
+
+    const drinkCard = screen.getByText("Drink 1");
     expect(drinkCard).toBeInTheDocument();
+
     fireEvent.click(drinkCard);
     const modal = screen.getByTestId("selected-drink-modal");
     expect(modal).toBeInTheDocument();
-    expect(modal).toHaveTextContent("Test Drink 1");
+    expect(modal).toHaveTextContent("Drink 1");
   });
 });

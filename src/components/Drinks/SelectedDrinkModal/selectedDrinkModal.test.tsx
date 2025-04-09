@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { Drink } from "../../types/types";
 import SelectedDrinkModal from "./selectedDrinkModal";
 
@@ -26,7 +26,7 @@ const testDrinkData: Drink = {
 };
 
 describe("selectedDrinksModal Component", () => {
-  test("ensure the modal renders with the correct details", () => {
+  it("ensure the modal renders with the correct details", () => {
     const mockOnClose = jest.fn();
     const mockOnEdit = jest.fn();
     render(

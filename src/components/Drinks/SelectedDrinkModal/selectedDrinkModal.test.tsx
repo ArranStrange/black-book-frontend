@@ -25,22 +25,24 @@ const testDrinkData: Drink = {
   Instructions: "Test instructions",
 };
 
-test("ensure the modal renders with the correct details", () => {
-  const mockOnClose = jest.fn();
-  const mockOnEdit = jest.fn();
-  render(
-    <SelectedDrinkModal
-      drink={testDrinkData}
-      onClose={mockOnClose}
-      onEdit={mockOnEdit}
-      isGuest={false}
-    />
-  );
-  const modalContainer = screen.getByTestId("selected-drink-modal");
-  expect(modalContainer).toBeInTheDocument();
+describe("selectedDrinksModal Component", () => {
+  test("ensure the modal renders with the correct details", () => {
+    const mockOnClose = jest.fn();
+    const mockOnEdit = jest.fn();
+    render(
+      <SelectedDrinkModal
+        drink={testDrinkData}
+        onClose={mockOnClose}
+        onEdit={mockOnEdit}
+        isGuest={false}
+      />
+    );
+    const modalContainer = screen.getByTestId("selected-drink-modal");
+    expect(modalContainer).toBeInTheDocument();
 
-  expect(screen.getByText(testDrinkData.drinkName)).toBeInTheDocument();
-  expect(screen.getByText(testDrinkData.Category)).toBeInTheDocument();
-  expect(screen.getByText(testDrinkData.Instructions)).toBeInTheDocument();
-  expect(screen.getByText(testDrinkData.Ingredient1!)).toBeInTheDocument();
+    expect(screen.getByText(testDrinkData.drinkName)).toBeInTheDocument();
+    expect(screen.getByText(testDrinkData.Category)).toBeInTheDocument();
+    expect(screen.getByText(testDrinkData.Instructions)).toBeInTheDocument();
+    expect(screen.getByText(testDrinkData.Ingredient1!)).toBeInTheDocument();
+  });
 });

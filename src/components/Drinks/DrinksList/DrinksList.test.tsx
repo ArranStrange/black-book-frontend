@@ -64,7 +64,7 @@ describe("DrinksList Component", () => {
     expect(screen.getByText("Test Drink 2")).toBeInTheDocument();
   });
 
-  test("opens drinks modal when a drink card is clicked", () => {
+  test("opens drinks modal when a drink card is clicked", async () => {
     render(<DrinksList {...testProps} />);
     const drinkCard = screen.getByText("Test Drink 1");
     expect(drinkCard).toBeInTheDocument();

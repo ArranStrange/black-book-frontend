@@ -10,6 +10,7 @@ import SelectedDrinkModal from "../SelectedDrinkModal/selectedDrinkModal";
 //
 //
 // Typescript defining the props
+//Props from App.tsx
 interface DrinksListProps {
   selectedLetter: string;
   searchQuery: {

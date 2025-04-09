@@ -13,7 +13,7 @@ export const useFilterDrinks = (
     //
     //
     //
-    // uses the filter() method to iterate over every element of the drinks arra
+    // uses the filter() method to iterate over every element of the drinks array
     // and decifers based on the following conditions if it should be included in the return
     return drinks.filter((drink) => {
       // Match by first letter
@@ -26,7 +26,7 @@ export const useFilterDrinks = (
           true;
       //
       //
-      // Match by search query (partial match)
+      // SEARCH BAR (partial match)
       const matchesSearch = searchQuery.drinkName
         ? // of there is a search query run the below code
           drink.drinkName
@@ -71,7 +71,7 @@ export const useFilterDrinks = (
       const matchesIngredient = (ingredient: string | undefined) =>
         //checks if the drink has ingredient if falsy then skips the .includes() method
         ingredient
-          ? // if true will conver the ingredient to lowercase and use the includes() method to check against the search query
+          ? // if true will convert the ingredient to lowercase and use the includes() method to check against the search query
             // search query.drinkName used as that is what the search bar is set to
             ingredient
               .toLowerCase()

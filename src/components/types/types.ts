@@ -1,4 +1,4 @@
-//typescrip declaring the interfaces
+//typescript declaring the interfaces
 
 export interface Drink {
   _id: string;

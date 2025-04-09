@@ -15,13 +15,13 @@ interface SelectedDrinkModalProps {
 //
 //
 const SelectedDrinkModal: React.FC<SelectedDrinkModalProps> = ({
-  drink, // selected drinks object decieved through props
+  drink, // selected drink object recieved through props
   onClose, // handle close modal function passed from drinksList
   onEdit, // on edit passed from drinks list
   isGuest, // isGuest state passed from drinks list
 }) => {
   return (
-    <div className="drink-modal">
+    <div data-testid="selected-drink-modal" className="drink-modal">
       <div className="modal-content">
         <div className="modal-header">
           <button className="close-drink-modal" onClick={onClose}>

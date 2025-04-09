@@ -8,6 +8,7 @@ import { Drink } from "../../types/types";
 import "./edit-drinks-modal.css";
 
 //typescript drfining props
+//Props from DrinksList.tsx
 interface EditDrinkFormProps {
   drink: Drink;
   onSave: (updatedDrink: Drink) => void;
@@ -17,8 +18,8 @@ interface EditDrinkFormProps {
 }
 
 const EditDrinkForm: React.FC<EditDrinkFormProps> = ({
-  drink, // selected drinks object decieved through props
-  onSave, // a callback functino that receives the updated drink on submition
+  drink, // selected drinks object recieved through props
+  onSave, // a callback function that receives the updated drink on submition
   setShowEditModal, // toggle for the edit modal
   onCancel, // on cancel delete function
   onDelete, // on delete function

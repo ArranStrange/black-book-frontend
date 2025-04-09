@@ -1,6 +1,7 @@
 import "./confirm-delete-modal.css";
 
 //type declare for props
+//Props from EditDrinkModal.tsx
 interface ConfirmDeleteModalProps {
   drinkName: string;
   onConfirm: () => void;

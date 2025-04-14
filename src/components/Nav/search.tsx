@@ -77,7 +77,8 @@ export default function Search({
   //
   const handleBlur = (e: React.FocusEvent<HTMLFormElement>) => {
     // checks if the search element is still in focus
-    if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+
+    if (!e.currentTarget.contains(e.relatedTarget)) {
       // if not in focus, set is Search Focused to false - closing the dropdown
       setIsSearchFocused(false);
     }
@@ -149,6 +150,7 @@ export default function Search({
           value={searchQuery}
           onChange={handleSearchQueryChange}
           placeholder="Search"
+          data-testid="search-input"
         />
         {isSearchFocused && (
           <div className="search-dropdown-container">
@@ -162,6 +164,7 @@ export default function Search({
                 // stop propagation used to isolate the event
                 // e.g wont autmatically submit the form when a value is selected
                 onMouseDown={(e) => e.stopPropagation()}
+                data-testid="category-selection"
               >
                 <option value="">Not Defined</option>
                 <option value="aperitif">Aperitif</option>
@@ -191,6 +194,7 @@ export default function Search({
                 // stop propagation used to isolate the event
                 // e.g wont autmatically submit the form when a value is selected
                 onMouseDown={(e) => e.stopPropagation()}
+                data-testid="glass-selection"
               >
                 <option value="">Not Defined</option>
                 <option value="highball">Highball</option>
@@ -211,6 +215,7 @@ export default function Search({
                 // stop propagation used to isolate the event
                 // e.g wont autmatically submit the form when a value is selected
                 onMouseDown={(e) => e.stopPropagation()}
+                data-testid="ice-selection"
               >
                 <option value="">Not Defined</option>
                 <option value="cubed">Cubed</option>
@@ -221,7 +226,11 @@ export default function Search({
               </select>
             </div>
             <div className="search-buttons">
-              <button className="search-button" type="submit">
+              <button
+                className="search-button"
+                type="submit"
+                data-testid="submit-search-button"
+              >
                 Search
               </button>
               <button

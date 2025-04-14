@@ -109,7 +109,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
       {/*Drinks Map - maps over filteredDrinks not the Drinks array*/}
       <div className="drinks-container">
         {filteredDrinks.map((drink) => (
-          // itterates over every object of the flitereedDrinks array
+          // iterates over every object of the flitereedDrinks array
           <div
             key={drink._id}
             className="drink-card"

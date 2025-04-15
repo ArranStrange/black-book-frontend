@@ -16,5 +16,10 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "cypress", "cypress/support/component.d.ts"]
+  "include": [
+    "src",
+    "cypress",
+    "cypress/support/component.d.ts",
+    "cypress/support/index.d.ts"
+  ]
 }

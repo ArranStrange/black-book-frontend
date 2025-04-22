@@ -11,8 +11,8 @@ install:
   - npm ci
 
 before_script:
-  - npm start & # Start dev server
-  - npx wait-on http://localhost:3000 # Wait for it to be ready
+  - npm start &
+  - npx wait-on http://localhost:3000
 
 script:
   - npx cypress run

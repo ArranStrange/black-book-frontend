@@ -51,20 +51,20 @@ jest.mock("../../../hooks/useFilterDrinks", () => ({
   useFilterDrinks: (drinks: Drink[]) => drinks,
 }));
 
-const Props = {
+const TestProps = {
   selectedLetter: "",
   searchQuery: {},
 };
 
 describe("DrinksList Component", () => {
   it("renders drink cards based on filtered drinks", () => {
-    render(<DrinksList {...Props} />);
+    render(<DrinksList {...TestProps} />);
     expect(screen.getByText("Drink 1")).toBeInTheDocument();
     expect(screen.getByText("Drink 2")).toBeInTheDocument();
   });
 
   it("opens drinks modal when a drink card is clicked", () => {
-    render(<DrinksList {...Props} />);
+    render(<DrinksList {...TestProps} />);
 
     const drinkCard = screen.getByText("Drink 1");
     expect(drinkCard).toBeInTheDocument();

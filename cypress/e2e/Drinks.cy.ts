@@ -2,11 +2,7 @@ import "../support/commands";
 
 describe("tests drinks components, view array of drinks, ", () => {
   beforeEach(() => {
-    cy.visit("https://black-book-1454c.web.app/");
-    cy.get(".modal-box > button").click();
-    cy.get(".login-card").should("be.visible");
-    cy.get("#username").type("testuser");
-    cy.get("#password").type("testpassword{enter}");
+    cy.mockLogin();
   });
 
   it("create a drink, ensure it is added to the array and then delete the drink", () => {

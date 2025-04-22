@@ -42,7 +42,11 @@ export default function Nav({
         {Array.from({ length: 26 }, (_, i) => {
           const letter = String.fromCharCode(65 + i);
           return (
-            <li key={i} onClick={() => handleLetterClick(letter)}>
+            <li
+              data-testid="letters"
+              key={i}
+              onClick={() => handleLetterClick(letter)}
+            >
               {letter}
             </li>
           );

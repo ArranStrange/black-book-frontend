@@ -5,6 +5,9 @@ import FilmGrain from "./components/assets/film-grain.jpeg";
 import "./App.css";
 import { IoMdAdd } from "react-icons/io";
 import { motion } from "framer-motion";
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import blackBookTheme from "./theme";
 //
 //Components imports
 import AddDrinkForm from "./components/Drinks/AddDrink/AddDrinksForm";
@@ -119,59 +122,62 @@ const App: React.FC = () => {
 
   return (
     <>
-      <img src={FilmGrain} className="overlay" alt="website overlay" />
+      <ThemeProvider theme={blackBookTheme}>
+        <CssBaseline />
+        <img src={FilmGrain} className="overlay" alt="website overlay" />
 
-      {modalMessage && modalTitle && (
-        <MessageModal
-          message={modalMessage}
-          title={modalTitle}
-          onClose={handleCloseModal}
-        />
-      )}
-
-      {isAuthenticated ? (
-        <>
-          <DrinksList
-            selectedLetter={selectedLetter}
-            searchQuery={searchQuery}
+        {modalMessage && modalTitle && (
+          <MessageModal
+            message={modalMessage}
+            title={modalTitle}
+            onClose={handleCloseModal}
           />
-          <Search
-            onSearch={handleSearch}
-            toggleAddDrinkForm={toggleAddDrinkForm}
-            onShowAll={onShowAll}
-          />
-          <Nav onSelectLetter={handleLetterSelection} />
+        )}
 
-          {!isGuest && (
-            <button
-              className="toggle-drink-form-button"
-              onClick={handleAddDrinkToggle}
-            >
-              <motion.div
-                animate={{ rotate: isFormVisible ? 45 : 0 }}
-                transition={{ duration: 0.3 }}
+        {isAuthenticated ? (
+          <>
+            <DrinksList
+              selectedLetter={selectedLetter}
+              searchQuery={searchQuery}
+            />
+            <Search
+              onSearch={handleSearch}
+              toggleAddDrinkForm={toggleAddDrinkForm}
+              onShowAll={onShowAll}
+            />
+            <Nav onSelectLetter={handleLetterSelection} />
+
+            {!isGuest && (
+              <button
+                className="toggle-drink-form-button"
+                onClick={handleAddDrinkToggle}
               >
-                <IoMdAdd style={{ fontSize: "3rem" }} />
-              </motion.div>
-            </button>
-          )}
+                <motion.div
+                  animate={{ rotate: isFormVisible ? 45 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <IoMdAdd style={{ fontSize: "3rem" }} />
+                </motion.div>
+              </button>
+            )}
 
-          {isAddDrinkFormVisible && (
-            <AddDrinkForm toggleAddDrinkForm={toggleAddDrinkForm} />
-          )}
-        </>
-      ) : isRegisterVisible ? (
-        <Register
-          onRegisterSuccess={handleRegisterSuccess}
-          setIsLoginVisible={() => setIsRegisterVisible(false)}
-          onGuestLogin={handleLoginSuccess}
-        />
-      ) : (
-        <Login
-          onLoginSuccess={handleLoginSuccess}
-          setIsRegisterVisible={setIsRegisterVisible}
-        />
-      )}
+            {isAddDrinkFormVisible && (
+              <AddDrinkForm toggleAddDrinkForm={toggleAddDrinkForm} />
+            )}
+          </>
+        ) : isRegisterVisible ? (
+          <Register
+            onRegisterSuccess={handleRegisterSuccess}
+            setIsLoginVisible={() => setIsRegisterVisible(false)}
+            onGuestLogin={handleLoginSuccess}
+          />
+        ) : (
+          <Login
+            onLoginSuccess={handleLoginSuccess}
+            setIsRegisterVisible={setIsRegisterVisible}
+          />
+        )}
+      </ThemeProvider>
     </>
   );
 };

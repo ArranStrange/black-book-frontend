@@ -1,38 +1,50 @@
 import React from "react";
-import "./message-modal.css";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+} from "@mui/material";
 
-//typescript defining props
 interface MessageModalProps {
   message: string;
   title: string;
   onClose: () => void;
 }
-//
-//
+
 const MessageModal: React.FC<MessageModalProps> = ({
-  // props
   message,
   title,
   onClose,
-  // as this is a reusable component the props are passed from which ever parent component it is being declared in
 }) => {
-  // Method for the modal to close itself, will need to edit each component to impliment
-  // const [isVisible, setIsVisible] = useState(true);
-  // if (!isVisible) {
-  //   return null;
-  // }
+  const [open, setOpen] = React.useState(true);
+
+  const handleClose = () => {
+    setOpen(false);
+    onClose();
+  };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-box">
-        {/* directly renders the title prop */}
-        <h3>{title}</h3>
-        {/* directly renders the message prop */}
-        <p>{message}</p>
-        <button onClick={onClose}>Close</button>
-        {/* <button onClick={() => setIsVisible(false)}>Close</button> */}
-      </div>
-    </div>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          {message}
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} color="primary" variant="contained">
+          Close
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 

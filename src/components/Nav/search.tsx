@@ -1,7 +1,18 @@
 import React, { useState } from "react";
-import { RxCross2, RxHamburgerMenu } from "react-icons/rx";
-import "./search.css";
+import {
+  Box,
+  TextField,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
+  Button,
+  Collapse,
+  useTheme,
+} from "@mui/material";
+import type { SelectChangeEvent } from "@mui/material";
 
+// Docs: file://./docs/search-bar-notes.md#props
 interface Props {
   onSearch: (searchQuery: {
     drinkName?: string;
@@ -14,52 +25,31 @@ interface Props {
 }
 
 export default function Search({ onSearch, onShowAll }: Props) {
-  // Docs: file://./docs/search-bar-notes.md#UI_States
-  const [dropdown, setDropdown] = useState(false);
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
-  // Docs: file://./docs/search-bar-notes.md#Search_Input_States
+  // Docs: file://./docs/search-bar-notes.md#ui_states
+  const [showFilters, setShowFilters] = useState(false);
+
+  // Docs: file://./docs/search-bar-notes.md#search_input_states
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedGlass, setSelectedGlass] = useState("");
   const [selectedIce, setSelectedIce] = useState("");
 
-  // Docs: file://./docs/search-bar-notes.md#handleDropdown
-  const handleDropdown = () => {
-    setDropdown(!dropdown);
-  };
+  const theme = useTheme();
 
-  // Docs: file://./docs/search-bar-notes.md#handleSearchQueryChange
+  // Docs: file://./docs/search-bar-notes.md#handlesearchquerychange
   const handleSearchQueryChange = (
     event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setSearchQuery(event.target.value);
-  };
+  ) => setSearchQuery(event.target.value);
 
-  // Docs: file://./docs/search-bar-notes.md#handleSelectChange
-  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  // Docs: file://./docs/search-bar-notes.md#handleselectchange
+  const handleSelectChange = (event: SelectChangeEvent<string>) => {
     const { name, value } = event.target;
-    if (name === "category") {
-      setSelectedCategory(value);
-    } else if (name === "glass") {
-      setSelectedGlass(value);
-    } else if (name === "ice") {
-      setSelectedIce(value);
-    }
+    if (name === "category") setSelectedCategory(value);
+    else if (name === "glass") setSelectedGlass(value);
+    else if (name === "ice") setSelectedIce(value);
   };
 
-  // Docs: file://./docs/search-bar-notes.md#handleFocus
-  const handleFocus = () => {
-    setIsSearchFocused(true);
-  };
-
-  // Docs: file://./docs/search-bar-notes.md#handleBlur
-  const handleBlur = (e: React.FocusEvent<HTMLFormElement>) => {
-    if (!e.currentTarget.contains(e.relatedTarget)) {
-      setIsSearchFocused(false);
-    }
-  };
-
-  // Docs: file://./docs/search-bar-notes.md#handleSearchSubmit
+  // Docs: file://./docs/search-bar-notes.md#handlesearchsubmit
   const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const searchQueryObject = {
@@ -69,14 +59,8 @@ export default function Search({ onSearch, onShowAll }: Props) {
       ice: selectedIce || undefined,
     };
     onSearch(searchQueryObject);
-    setSelectedCategory("");
-    setSelectedGlass("");
-    setSelectedIce("");
-    setIsSearchFocused(false);
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    setShowFilters(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   // Docs: file://./docs/search-bar-notes.md#handleshowall
@@ -85,135 +69,154 @@ export default function Search({ onSearch, onShowAll }: Props) {
     setSelectedCategory("");
     setSelectedGlass("");
     setSelectedIce("");
+    setShowFilters(false);
     onShowAll();
   };
 
-  // Docs: file://./docs/search-bar-notes.md#handlelogout
-  const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    window.location.reload();
-  };
-
   return (
-    <div className="search-container">
-      <form
-        onFocus={handleFocus}
-        className="search-bar"
-        onSubmit={handleSearchSubmit}
-        onBlur={handleBlur}
+    <Box
+      component="form"
+      onSubmit={handleSearchSubmit}
+      sx={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1300,
+        width: "100%",
+        maxWidth: "900px",
+        mx: "auto",
+        px: 2,
+        py: 1,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        backgroundColor: "transparent",
+        borderBottom: "none",
+      }}
+    >
+      <Box
+        display="flex"
+        gap={1}
+        alignItems="center"
+        width="100%"
+        justifyContent="center"
+        mb={showFilters ? 2 : 0}
       >
-        <input
-          type="search"
-          id="searchInput"
+        <TextField
+          placeholder="Search"
+          variant="standard"
+          size="small"
           value={searchQuery}
           onChange={handleSearchQueryChange}
-          placeholder="Search"
-          data-testid="search-input"
+          sx={{ flex: 1, input: { color: theme.palette.text.primary } }}
         />
-        {isSearchFocused && (
-          <div className="search-dropdown-container">
-            <div className="selection">
-              <label htmlFor="category">Category:</label>
-              <select
-                name="category"
-                id="category"
-                value={selectedCategory}
-                onChange={handleSelectChange}
-                // stop propagation used to isolate the event
-                // e.g wont autmatically submit the form when a value is selected
-                onMouseDown={(e) => e.stopPropagation()}
-                data-testid="category-selection"
-              >
-                <option value="">Not Defined</option>
-                <option value="aperitif">Aperitif</option>
-                <option value="cobbler">Cobbler</option>
-                <option value="collins">Collins</option>
-                <option value="daisy">Daisy</option>
-                <option value="flip">Flip</option>
-                <option value="frozen">Frozen</option>
-                <option value="highball">Highball</option>
-                <option value="julep">Julep</option>
-                <option value="martini">Martini</option>
-                <option value="punch">Punch</option>
-                <option value="sling">Sling</option>
-                <option value="sour">Sour</option>
-                <option value="tiki">Tiki</option>
-                <option value="toddy">Toddy</option>
-                <option value="spritz">Spritz</option>
-                <option value="fizz">Fizz</option>
-              </select>
+        <Button type="submit" variant="text" size="small">
+          Search
+        </Button>
+        <Button variant="text" size="small" onClick={handleShowAll}>
+          Clear
+        </Button>
+        <Button
+          variant="text"
+          size="small"
+          onClick={() => setShowFilters((prev) => !prev)}
+        >
+          {showFilters ? "Hide Filters" : "Filters"}
+        </Button>
+      </Box>
 
-              <label htmlFor="glass">Glass Type:</label>
-              <select
-                name="glass"
-                id="glass"
-                value={selectedGlass}
-                onChange={handleSelectChange}
-                onMouseDown={(e) => e.stopPropagation()}
-                data-testid="glass-selection"
-              >
-                <option value="">Not Defined</option>
-                <option value="highball">Highball</option>
-                <option value="coup">Coup</option>
-                <option value="hurricane">Hurricane</option>
-                <option value="old fashioned">Old Fashioned</option>
-                <option value="julep tin">Julep Tin</option>
-                <option value="wine">Wine Glass</option>
-                <option value="flute">Flute</option>
-              </select>
+      <Collapse in={showFilters} timeout="auto" unmountOnExit>
+        <Box
+          min-width="100%"
+          mt={1}
+          p={2}
+          borderRadius={2}
+          bgcolor="background.paper"
+          boxShadow={3}
+          display="flex"
+          gap={2}
+          flexWrap="wrap"
+        >
+          <FormControl fullWidth size="small" variant="standard">
+            <InputLabel shrink>Category</InputLabel>
+            <Select
+              name="category"
+              value={selectedCategory}
+              onChange={handleSelectChange}
+              label="Category"
+            >
+              <MenuItem value="">Not Defined</MenuItem>
+              {[
+                "aperitif",
+                "cobbler",
+                "collins",
+                "daisy",
+                "flip",
+                "frozen",
+                "highball",
+                "julep",
+                "martini",
+                "punch",
+                "sling",
+                "sour",
+                "tiki",
+                "toddy",
+                "spritz",
+                "fizz",
+              ].map((opt) => (
+                <MenuItem key={opt} value={opt}>
+                  {opt}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
-              <label htmlFor="ice">Ice Type:</label>
-              <select
-                name="ice"
-                id="ice"
-                value={selectedIce}
-                onChange={handleSelectChange}
-                onMouseDown={(e) => e.stopPropagation()}
-                data-testid="ice-selection"
-              >
-                <option value="">Not Defined</option>
-                <option value="cubed">Cubed</option>
-                <option value="crushed">Crushed</option>
-                <option value="block">Block</option>
-                <option value="shaved">Shaved</option>
-                <option value="straight">Straight Up</option>
-              </select>
-            </div>
-            <div className="search-buttons">
-              <button
-                className="search-button"
-                type="submit"
-                data-testid="submit-search-button"
-              >
-                Search
-              </button>
-              <button
-                className="search-close-button"
-                onClick={() => setIsSearchFocused(false)}
-              >
-                <RxCross2 size={35} />
-              </button>
-            </div>
-          </div>
-        )}
-      </form>
-      <button type="button" className="show-all" onClick={handleShowAll}>
-        Clear filters
-      </button>
+          <FormControl fullWidth size="small" variant="standard">
+            <InputLabel shrink>Glass</InputLabel>
+            <Select
+              name="glass"
+              value={selectedGlass}
+              onChange={handleSelectChange}
+              label="Glass"
+            >
+              <MenuItem value="">Not Defined</MenuItem>
+              {[
+                "Highball",
+                "Coup",
+                "Hurricane",
+                "Old Fashioned",
+                "Julep Tin",
+                "Wine",
+                "Flute",
+              ].map((opt) => (
+                <MenuItem key={opt} value={opt}>
+                  {opt}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
-      <div className="dropdown-buttons" onClick={handleDropdown}>
-        {dropdown ? <RxCross2 size={35} /> : <RxHamburgerMenu size={35} />}
-      </div>
-
-      {dropdown && (
-        <div className="dropdown-options">
-          <button className="logout-button" onClick={handleLogout}>
-            {localStorage.getItem("authToken") === "guest"
-              ? "Log In"
-              : "Log Out"}
-          </button>
-        </div>
-      )}
-    </div>
+          <FormControl fullWidth size="small" variant="standard">
+            <InputLabel shrink>Ice</InputLabel>
+            <Select
+              name="ice"
+              value={selectedIce}
+              onChange={handleSelectChange}
+              label="Ice"
+            >
+              <MenuItem value="">Not Defined</MenuItem>
+              {["Cubed", "Crushed", "Block", "Shaved", "Straight"].map(
+                (opt) => (
+                  <MenuItem key={opt} value={opt}>
+                    {opt}
+                  </MenuItem>
+                )
+              )}
+            </Select>
+          </FormControl>
+        </Box>
+      </Collapse>
+    </Box>
   );
 }

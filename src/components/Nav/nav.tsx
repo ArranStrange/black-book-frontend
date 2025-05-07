@@ -37,7 +37,7 @@ export default function Nav({ onSelectLetter }: Props) {
     <Box
       sx={{
         position: "fixed",
-        top: "50px",
+        top: "10px",
         left: 0,
         height: "calc(100vh - 50px)",
         width: isMobile ? "auto" : 60,
@@ -46,7 +46,6 @@ export default function Nav({ onSelectLetter }: Props) {
         alignItems: "center",
         p: 1,
         zIndex: 10,
-        backgroundColor: "background.default",
         borderRight: `1px solid ${theme.palette.divider}`,
         overflowY: "auto",
       }}
@@ -55,10 +54,10 @@ export default function Nav({ onSelectLetter }: Props) {
         variant="h6"
         sx={{
           writingMode: "vertical-rl",
-          transform: "rotate(180deg)",
           mb: 2,
           color: theme.palette.primary.main,
           fontWeight: 600,
+          transform: "rotate(-90deg)",
         }}
       >
         {selectedLetter || "ALL"}

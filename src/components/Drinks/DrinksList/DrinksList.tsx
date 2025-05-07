@@ -7,10 +7,19 @@ import EditDrinkModal from "../EditDrinksModal/EditDrinksModal";
 import Shaker from "../../assets/shaker.png";
 import Spill from "../../assets/spil.png";
 import SelectedDrinkModal from "../SelectedDrinkModal/selectedDrinkModal";
-//
-//
-// Typescript defining the props
-//Props from App.tsx
+import {
+  Box,
+  Grid,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  CircularProgress,
+  Alert,
+  Button,
+} from "@mui/material";
+
+// Docs: file://./docs/DrinksList.NOTE.md#props
 interface DrinksListProps {
   selectedLetter: string;
   searchQuery: {
@@ -25,59 +34,44 @@ const DrinksList: React.FC<DrinksListProps> = ({
   selectedLetter,
   searchQuery,
 }) => {
-  //
-  //
-  // Hooks
-  // useDrink to handle state management -- drinks data, loading states, error handling, save and delete
+  // Docs: file://./docs/DrinksList.NOTES.md#custom-hooks-used
   const { drinks, loading, error, handleSaveEdit, handleDelete } = useDrinks();
-  // useFilteredDrinks hook to order the drinks and handle searchQueries
   const filteredDrinks = useFilterDrinks(drinks, selectedLetter, searchQuery);
-  //
-  //
-  // Check whether the using is logged in as guest ---- getItem
+
+  // Docs: file://./docs/DrinksList.NOTES.md#authentication-check
   const isGuest = localStorage.getItem("authToken") === "guest";
-  //
-  //
-  // state
+
+  // Docs: file://./docs/DrinksList.NOTES.md#state-management
   const [showDrinkModal, setShowDrinkModal] = useState<boolean>(false);
   const [selectedDrink, setSelectedDrink] = useState<Drink | null>(null);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
-  //
-  //
-  // Handle opening selected drink modal
-  // takes a parameter of the drink object which is sect on drink card click
+
+  // Docs: file://./docs/DrinksList.NOTES.md#handleDrinkClickdrink-drink
   const handleDrinkClick = (drink: Drink) => {
-    //sets selectedDrink state to the drink object
     setSelectedDrink(drink);
-    //shows the drink modal
     setShowDrinkModal(true);
   };
-  //
-  //
-  // Handle closing drink modal
+
+  // Docs: file://./docs/DrinksList.NOTES.md#handleclosedrinkmodal
   const handleCloseDrinkModal = () => {
     setShowDrinkModal(false);
     setSelectedDrink(null);
   };
-  //
-  //
-  // Handle opening edit modal
+
+  // Docs: file://./docs/DrinksList.NOTES.md#handleeditclick
   const handleEditClick = () => {
     if (!selectedDrink) return;
     setShowDrinkModal(false);
     setShowEditModal(true);
   };
-  //
-  //
-  // Handle closing edit modal
+
+  // Docs: file://./docs/DrinksList.NOTES.md#canceledit
   const cancelEdit = () => {
     setShowEditModal(false);
     setSelectedDrink(null);
   };
-  //
-  //
-  //
-  // Conditional rendering for loading
+
+  // Docs: file://./docs/DrinksList.NOTES.md#loading-state
   if (loading) {
     return (
       <div className="fetch-messages">
@@ -88,7 +82,8 @@ const DrinksList: React.FC<DrinksListProps> = ({
       </div>
     );
   }
-  // Conditional rendering for the network error state
+
+  // Docs: file://./docs/DrinksList.NOTES.md#error-state
   if (error) {
     return (
       <div className="fetch-messages">
@@ -105,53 +100,93 @@ const DrinksList: React.FC<DrinksListProps> = ({
   }
 
   return (
-    <div className="drinks-list">
-      {/*Drinks Map - maps over filteredDrinks not the Drinks array*/}
-      <div className="drinks-container">
-        {filteredDrinks.map((drink) => (
-          // iterates over every object of the flitereedDrinks array
-          <div
-            data-testid="drink-card"
-            key={drink._id}
-            className="drink-card"
-            //when a drink is clicked the whole drink object is passed to the handleDrinkClick function
-            //this object contains all the properties of the objects
-            onClick={() => handleDrinkClick(drink)}
-          >
-            <img
-              src={
-                drink.DrinkThumb ||
-                "https://png.pngtree.com/png-vector/20190603/ourmid/pngtree-cocktail-icon-png-image_1376820.jpg"
-              }
-              alt={drink.drinkName}
-              className="drink-thumbnail"
-            />
-            <div className="drink-details">
-              <h2 className="drink-name">{drink.drinkName}</h2>
-              <p className="drink-short-description">
-                {drink.shortDescription || "No description set."}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
+    <>
+      {/* Docs: file://./docs/DrinksList.NOTE.md#drinks-rendering */}
+      <Box
+        sx={{
+          maxHeight: "100vh",
+          overflowY: "auto",
+          p: 10,
+        }}
+      >
+        <Grid container spacing={2} justifyContent="center">
+          {filteredDrinks.map((drink) => (
+            <Grid
+              item
+              key={drink._id}
+              xs={5}
+              sm={6}
+              md={4}
+              lg={3}
+              {...(undefined as any)}
+            >
+              <Card
+                sx={{
+                  height: 320,
+                  width: 300,
+                  borderRadius: 2,
+                  boxShadow: 3,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  cursor: "pointer",
+                }}
+                onClick={() => handleDrinkClick(drink)}
+              >
+                <CardMedia
+                  component="img"
+                  image={
+                    drink.DrinkThumb ||
+                    "https://png.pngtree.com/png-vector/20190603/ourmid/pngtree-cocktail-icon-png-image_1376820.jpg"
+                  }
+                  alt={drink.drinkName}
+                  sx={{ height: 200 }}
+                />
 
-      {/* Drink Modal */}
+                <CardContent
+                  sx={{
+                    flexGrow: 1,
+                    overflow: "hidden",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    padding: 1,
+                  }}
+                >
+                  <Typography variant="h6" noWrap>
+                    {drink.drinkName}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      display: "-webkit-box",
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: "vertical",
+                    }}
+                  >
+                    {drink.shortDescription || "No description set."}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
 
-      {
-        // If showDrinkModal is true and selectedDrink is truthy (occupied)
-        showDrinkModal && selectedDrink && (
-          // on handleDrinkClick selectedDrink state is updated with the clicked drink object
-          // show drinkModal is set to true
-          <SelectedDrinkModal
-            drink={selectedDrink}
-            onClose={handleCloseDrinkModal}
-            onEdit={handleEditClick}
-            isGuest={isGuest}
-          />
-        )
-      }
+      {/* Docs: file://./docs/DrinksList.NOTE.md#selecteddrinkmodal */}
+      {showDrinkModal && selectedDrink && (
+        <SelectedDrinkModal
+          drink={selectedDrink}
+          onClose={handleCloseDrinkModal}
+          onEdit={handleEditClick}
+          isGuest={isGuest}
+        />
+      )}
 
+      {/* Docs: file://./docs/DrinksList.NOTES.md#editdrinkmodal */}
       {showEditModal && selectedDrink && (
         <EditDrinkModal
           drink={selectedDrink}
@@ -161,7 +196,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
           onDelete={() => handleDelete(selectedDrink._id)}
         />
       )}
-    </div>
+    </>
   );
 };
 

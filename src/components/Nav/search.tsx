@@ -8,8 +8,13 @@ import {
   FormControl,
   Button,
   Collapse,
+  IconButton,
   useTheme,
+  useMediaQuery,
+  Grow,
 } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import CloseIcon from "@mui/icons-material/Close";
 import type { SelectChangeEvent } from "@mui/material";
 
 // Docs: file://./docs/search-bar-notes.md#props
@@ -25,23 +30,21 @@ interface Props {
 }
 
 export default function Search({ onSearch, onShowAll }: Props) {
-  // Docs: file://./docs/search-bar-notes.md#ui_states
   const [showFilters, setShowFilters] = useState(false);
+  const [showSearchBar, setShowSearchBar] = useState(false);
 
-  // Docs: file://./docs/search-bar-notes.md#search_input_states
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedGlass, setSelectedGlass] = useState("");
   const [selectedIce, setSelectedIce] = useState("");
 
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  // Docs: file://./docs/search-bar-notes.md#handlesearchquerychange
   const handleSearchQueryChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => setSearchQuery(event.target.value);
 
-  // Docs: file://./docs/search-bar-notes.md#handleselectchange
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
     const { name, value } = event.target;
     if (name === "category") setSelectedCategory(value);
@@ -49,7 +52,6 @@ export default function Search({ onSearch, onShowAll }: Props) {
     else if (name === "ice") setSelectedIce(value);
   };
 
-  // Docs: file://./docs/search-bar-notes.md#handlesearchsubmit
   const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const searchQueryObject = {
@@ -63,7 +65,6 @@ export default function Search({ onSearch, onShowAll }: Props) {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Docs: file://./docs/search-bar-notes.md#handleshowall
   const handleShowAll = () => {
     setSearchQuery("");
     setSelectedCategory("");
@@ -73,150 +74,144 @@ export default function Search({ onSearch, onShowAll }: Props) {
     onShowAll();
   };
 
-  return (
-    <Box
-      component="form"
-      onSubmit={handleSearchSubmit}
-      sx={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 1300,
-        width: "100%",
-        maxWidth: "900px",
-        mx: "auto",
-        px: 2,
-        py: 1,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        backgroundColor: "transparent",
-        borderBottom: "none",
-      }}
-    >
+  // 🔍 Floating button (when hidden)
+  if (!showSearchBar) {
+    return (
       <Box
-        display="flex"
-        gap={1}
-        alignItems="center"
-        width="100%"
-        justifyContent="center"
-        mb={showFilters ? 2 : 0}
+        sx={{
+          position: "fixed",
+          top: 8,
+          left: 100,
+          zIndex: 1300,
+        }}
       >
-        <TextField
-          placeholder="Search"
-          variant="standard"
-          size="small"
-          value={searchQuery}
-          onChange={handleSearchQueryChange}
-          sx={{ flex: 1, input: { color: theme.palette.text.primary } }}
-        />
-        <Button type="submit" variant="text" size="small">
-          Search
-        </Button>
-        <Button variant="text" size="small" onClick={handleShowAll}>
-          Clear
-        </Button>
-        <Button
-          variant="text"
-          size="small"
-          onClick={() => setShowFilters((prev) => !prev)}
+        <IconButton
+          onClick={() => setShowSearchBar(true)}
+          size="large"
+          sx={{
+            backgroundColor: theme.palette.background.paper,
+            color: theme.palette.primary.main,
+            boxShadow: 3,
+            "&:hover": { backgroundColor: theme.palette.action.hover },
+          }}
         >
-          {showFilters ? "Hide Filters" : "Filters"}
-        </Button>
+          <SearchIcon />
+        </IconButton>
       </Box>
+    );
+  }
 
-      <Collapse in={showFilters} timeout="auto" unmountOnExit>
+  return (
+    <Grow in={showSearchBar} timeout={300}>
+      <Box
+        component="form"
+        onSubmit={handleSearchSubmit}
+        sx={{
+          position: "fixed",
+          top: 16,
+          left: 100,
+          zIndex: 1300,
+          width: "auto",
+          backgroundColor: theme.palette.background.paper,
+          boxShadow: 6,
+          borderRadius: 2,
+          px: 2,
+          py: 2,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-start",
+          transformOrigin: "left top",
+        }}
+      >
+        {/* Controls container */}
         <Box
-          min-width="100%"
-          mt={1}
-          p={2}
-          borderRadius={2}
-          bgcolor="background.paper"
-          boxShadow={3}
-          display="flex"
-          gap={2}
-          flexWrap="wrap"
+          id="searchInputContainer"
+          sx={{
+            width: 300, // set this to your preferred width
+            display: "flex",
+            flexDirection: "column",
+            gap: 1,
+          }}
         >
-          <FormControl fullWidth size="small" variant="standard">
-            <InputLabel shrink>Category</InputLabel>
-            <Select
-              name="category"
-              value={selectedCategory}
-              onChange={handleSelectChange}
-              label="Category"
-            >
-              <MenuItem value="">Not Defined</MenuItem>
-              {[
-                "aperitif",
-                "cobbler",
-                "collins",
-                "daisy",
-                "flip",
-                "frozen",
-                "highball",
-                "julep",
-                "martini",
-                "punch",
-                "sling",
-                "sour",
-                "tiki",
-                "toddy",
-                "spritz",
-                "fizz",
-              ].map((opt) => (
-                <MenuItem key={opt} value={opt}>
-                  {opt}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <Box display="flex" alignItems="center" gap={1}>
+            <TextField
+              placeholder="Search"
+              variant="standard"
+              size="small"
+              value={searchQuery}
+              onChange={handleSearchQueryChange}
+              fullWidth
+              sx={{ input: { color: theme.palette.text.primary } }}
+            />
+            <IconButton onClick={() => setShowSearchBar(false)} size="small">
+              <CloseIcon />
+            </IconButton>
+          </Box>
 
-          <FormControl fullWidth size="small" variant="standard">
-            <InputLabel shrink>Glass</InputLabel>
-            <Select
-              name="glass"
-              value={selectedGlass}
-              onChange={handleSelectChange}
-              label="Glass"
+          <Box display="flex" gap={1} mt={1}>
+            <Button type="submit" variant="text" size="small">
+              Search
+            </Button>
+            <Button variant="text" size="small" onClick={handleShowAll}>
+              Clear
+            </Button>
+            <Button
+              variant="text"
+              size="small"
+              onClick={() => setShowFilters((prev) => !prev)}
             >
-              <MenuItem value="">Not Defined</MenuItem>
-              {[
-                "Highball",
-                "Coup",
-                "Hurricane",
-                "Old Fashioned",
-                "Julep Tin",
-                "Wine",
-                "Flute",
-              ].map((opt) => (
-                <MenuItem key={opt} value={opt}>
-                  {opt}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              {showFilters ? "Hide Filters" : "Filters"}
+            </Button>
+          </Box>
 
-          <FormControl fullWidth size="small" variant="standard">
-            <InputLabel shrink>Ice</InputLabel>
-            <Select
-              name="ice"
-              value={selectedIce}
-              onChange={handleSelectChange}
-              label="Ice"
-            >
-              <MenuItem value="">Not Defined</MenuItem>
-              {["Cubed", "Crushed", "Block", "Shaved", "Straight"].map(
-                (opt) => (
-                  <MenuItem key={opt} value={opt}>
-                    {opt}
-                  </MenuItem>
-                )
-              )}
-            </Select>
-          </FormControl>
+          <Collapse in={showFilters} timeout="auto" unmountOnExit>
+            <Box mt={2} display="flex" flexDirection="column" gap={2}>
+              {[
+                {
+                  label: "Category",
+                  value: selectedCategory,
+                  name: "category",
+                  options: ["aperitif", "collins", "tiki", "sour", "fizz"],
+                },
+                {
+                  label: "Glass",
+                  value: selectedGlass,
+                  name: "glass",
+                  options: ["Highball", "Flute", "Wine", "Coup"],
+                },
+                {
+                  label: "Ice",
+                  value: selectedIce,
+                  name: "ice",
+                  options: ["Cubed", "Crushed", "Block"],
+                },
+              ].map(({ label, value, name, options }) => (
+                <FormControl
+                  fullWidth
+                  size="small"
+                  variant="standard"
+                  key={name}
+                >
+                  <InputLabel shrink>{label}</InputLabel>
+                  <Select
+                    name={name}
+                    value={value}
+                    onChange={handleSelectChange}
+                    label={label}
+                  >
+                    <MenuItem value="">Not Defined</MenuItem>
+                    {options.map((opt) => (
+                      <MenuItem key={opt} value={opt}>
+                        {opt}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              ))}
+            </Box>
+          </Collapse>
         </Box>
-      </Collapse>
-    </Box>
+      </Box>
+    </Grow>
   );
 }

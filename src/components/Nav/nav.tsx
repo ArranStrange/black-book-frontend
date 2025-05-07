@@ -1,57 +1,100 @@
 import { useEffect, useState } from "react";
-import "./nav.css";
+import {
+  Box,
+  Typography,
+  Button,
+  Stack,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 
-//typescript defining props
+// Docs: file://./docs/Nav.NOTES.md#props
 interface Props {
   onSelectLetter: (letter: string) => void;
 }
 
-export default function Nav({
-  //props
-  onSelectLetter,
-}: Props) {
-  //
-  //state
-  // selected letter state starts with an empty string
+export default function Nav({ onSelectLetter }: Props) {
+  // Docs: file://./docs/Nav.NOTES.md#state
   const [selectedLetter, setSelectedLetter] = useState("");
-  //
-  //
-  // handles the letter click, takes
+
+  // Docs: file://./docs/Nav.NOTES.md#handleletterclickletter
   const handleLetterClick = (letter: string) => {
-    // calls the prop function and passes the selected letter
     onSelectLetter(letter);
-    // updates the letter state so Nav can disaply the letter
     setSelectedLetter(letter);
-    // scrolls to the top/to the start of the array
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
-  //
-  // useEffect calls the letter click function on render with no params
+
+  // Docs: file://./docs/Nav.NOTES.md#useeffect-on-mount
   useEffect(() => {
     handleLetterClick("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
-    <nav>
-      <h1 className="current-letter">{selectedLetter}</h1>
-      <ul className="alphabet">
+    <Box
+      sx={{
+        position: "fixed",
+        top: "50px",
+        left: 0,
+        height: "calc(100vh - 50px)",
+        width: isMobile ? "auto" : 60,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        p: 1,
+        zIndex: 10,
+        backgroundColor: "background.default",
+        borderRight: `1px solid ${theme.palette.divider}`,
+        overflowY: "auto",
+      }}
+    >
+      <Typography
+        variant="h6"
+        sx={{
+          writingMode: "vertical-rl",
+          transform: "rotate(180deg)",
+          mb: 2,
+          color: theme.palette.primary.main,
+          fontWeight: 600,
+        }}
+      >
+        {selectedLetter || "ALL"}
+      </Typography>
+
+      <Stack spacing={1}>
         {Array.from({ length: 26 }, (_, i) => {
           const letter = String.fromCharCode(65 + i);
+          const isSelected = selectedLetter === letter;
+
           return (
-            <li
+            <Button
+              key={letter}
               data-testid="letters"
-              key={i}
+              variant={isSelected ? "contained" : "outlined"}
+              size="small"
               onClick={() => handleLetterClick(letter)}
+              sx={{
+                minWidth: 36,
+                height: 36,
+                borderRadius: "50%",
+                fontWeight: "bold",
+                padding: 0,
+                color: isSelected ? "background.default" : "text.primary",
+                borderColor: "divider",
+                "&:hover": {
+                  backgroundColor: "primary.main",
+                  color: "background.default",
+                },
+              }}
             >
               {letter}
-            </li>
+            </Button>
           );
         })}
-      </ul>
-    </nav>
+      </Stack>
+    </Box>
   );
 }

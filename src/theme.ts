@@ -27,6 +27,10 @@ const blackBookTheme = createTheme({
   },
   typography: {
     fontFamily: "'Archivo', sans-serif",
+    fontSize: 14,
+    fontWeightLight: 300,
+    fontWeightRegular: 400,
+    fontWeightMedium: 700,
     h1: {
       fontSize: "5.5rem",
       fontFamily: "'Archivo Black', sans-serif",
@@ -39,20 +43,82 @@ const blackBookTheme = createTheme({
       fontSize: "2.5rem",
       fontFamily: "'Archivo Bold', sans-serif",
     },
+    body1: {
+      fontSize: "1rem",
+      lineHeight: 1.6,
+    },
+    body2: {
+      fontSize: "0.875rem",
+      color: "#b8b0a2",
+    },
+    subtitle1: {
+      fontWeight: 600,
+      fontSize: "1rem",
+      color: "#d6b28d",
+    },
     button: {
       textTransform: "uppercase",
       fontWeight: 800,
-      fontFamily: "'Archivo', sans-serif",
     },
   },
   shape: {
     borderRadius: 8,
   },
+  shadows: [
+    "none",
+    "0px 1px 3px rgba(0,0,0,0.2)",
+    "0px 4px 8px rgba(0,0,0,0.25)",
+    "0px 8px 16px rgba(0,0,0,0.3)",
+    "0px 8px 24px rgba(0,0,0,0.2)",
+    "0px 8px 24px rgba(0,0,0,0.2)",
+    "0px 8px 24px rgba(0,0,0,0.2)",
+    "0px 8px 24px rgba(0,0,0,0.2)",
+    "0px 8px 24px rgba(0,0,0,0.2)",
+    "0px 8px 24px rgba(0,0,0,0.2)",
+    "0px 8px 24px rgba(0,0,0,0.2)",
+    "0px 8px 24px rgba(0,0,0,0.2)",
+    "0px 8px 24px rgba(0,0,0,0.2)",
+    "0px 8px 24px rgba(0,0,0,0.2)",
+    "0px 8px 24px rgba(0,0,0,0.2)",
+    "0px 8px 24px rgba(0,0,0,0.2)",
+    "0px 8px 24px rgba(0,0,0,0.2)",
+    "0px 8px 24px rgba(0,0,0,0.2)",
+    "0px 8px 24px rgba(0,0,0,0.2)",
+    "0px 8px 24px rgba(0,0,0,0.2)",
+    "0px 8px 24px rgba(0,0,0,0.2)",
+    "0px 8px 24px rgba(0,0,0,0.2)",
+    "0px 8px 24px rgba(0,0,0,0.2)",
+    "0px 8px 24px rgba(0,0,0,0.2)",
+    "0px 8px 24px rgba(0,0,0,0.2)",
+  ],
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          backgroundColor: "#1e1d1c",
+          color: "#f0e6dc",
+          fontFamily: "'Archivo', sans-serif",
+        },
+      },
+    },
     MuiPaper: {
       styleOverrides: {
         root: {
           backgroundColor: "#2a2a28",
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#2a2a28",
+          boxShadow: "0px 8px 16px rgba(0,0,0,0.3)",
+          border: "1px solid #3a3937",
+          transition: "all 0.3s ease",
+          "&:hover": {
+            transform: "translateY(-4px)",
+            boxShadow: "0px 12px 24px rgba(0,0,0,0.35)",
+          },
         },
       },
     },
@@ -91,6 +157,29 @@ const blackBookTheme = createTheme({
       styleOverrides: {
         root: {
           color: "#d6b28d",
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#2e2e2b",
+          borderRadius: 6,
+          padding: "6px 12px",
+          color: "#f0e6dc",
+        },
+        input: {
+          "&::placeholder": {
+            color: "#aaa",
+          },
+        },
+      },
+    },
+    MuiSelect: {
+      styleOverrides: {
+        select: {
+          backgroundColor: "#2e2e2b",
+          borderRadius: 6,
         },
       },
     },

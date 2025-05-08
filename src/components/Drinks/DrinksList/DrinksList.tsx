@@ -107,6 +107,8 @@ const DrinksList: React.FC<DrinksListProps> = ({
           maxHeight: "100vh",
           overflowY: "auto",
           p: 10,
+          zIndex: 1,
+          position: "relative",
         }}
       >
         <Grid container spacing={2} justifyContent="center">
@@ -158,7 +160,6 @@ const DrinksList: React.FC<DrinksListProps> = ({
                   </Typography>
                   <Typography
                     variant="body2"
-                    color="text.secondary"
                     sx={{
                       overflow: "hidden",
                       textOverflow: "ellipsis",

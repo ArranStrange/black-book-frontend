@@ -31,7 +31,6 @@ const MessageModal: React.FC<MessageModalProps> = ({
       open={open}
       onClose={handleClose}
       aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
     >
       <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
       <DialogContent>
@@ -40,7 +39,7 @@ const MessageModal: React.FC<MessageModalProps> = ({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="primary" variant="contained">
+        <Button onClick={handleClose} variant="outlined" color="primary">
           Close
         </Button>
       </DialogActions>

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 //
 //Styles imports
-import FilmGrain from "./components/assets/film-grain.jpeg";
 import "./App.css";
-import { IoMdAdd } from "react-icons/io";
+import AddIcon from "@mui/icons-material/Add";
 import { motion } from "framer-motion";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -17,6 +16,7 @@ import Search from "./components/Nav/search";
 import Login from "./components/Auth/Login/login";
 import Register from "./components/Auth/Register/register";
 import MessageModal from "./components/message/MessageModal";
+import { Box, Slide } from "@mui/material";
 
 const App: React.FC = () => {
   //state
@@ -109,7 +109,7 @@ const App: React.FC = () => {
   // Throws a message on first render warning of a slow server
   useEffect(() => {
     setModalMessage(
-      "The backend of this app is hosted on a free server, please be patient it can be a little slow."
+      "The backend of this app is hosted on a free server, please be patient it can be a little slow. Up to 30 seconds!"
     );
     setModalTitle("A Heads Up");
   }, []);
@@ -124,7 +124,6 @@ const App: React.FC = () => {
     <>
       <ThemeProvider theme={blackBookTheme}>
         <CssBaseline />
-        <img src={FilmGrain} className="overlay" alt="website overlay" />
 
         {modalMessage && modalTitle && (
           <MessageModal
@@ -136,6 +135,39 @@ const App: React.FC = () => {
 
         {isAuthenticated ? (
           <>
+            {!isGuest && (
+              <button
+                className="toggle-drink-form-button"
+                onClick={handleAddDrinkToggle}
+              >
+                <motion.div
+                  animate={{ rotate: isFormVisible ? 45 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <AddIcon sx={{ fontSize: 36, color: "primary.main" }} />
+                </motion.div>
+              </button>
+            )}
+            <>
+              <Slide in={isAddDrinkFormVisible} direction="left" unmountOnExit>
+                <Box
+                  sx={{
+                    zIndex: 100,
+                    position: "absolute",
+                    p: 4,
+                    minWidth: "100vw",
+                    mx: "auto",
+                    top: 0,
+                    right: 0,
+                    borderRadius: 2,
+                    backgroundColor: "background.default",
+                    boxShadow: 4,
+                  }}
+                >
+                  <AddDrinkForm toggleAddDrinkForm={toggleAddDrinkForm} />
+                </Box>
+              </Slide>
+            </>
             <DrinksList
               selectedLetter={selectedLetter}
               searchQuery={searchQuery}
@@ -146,24 +178,6 @@ const App: React.FC = () => {
               onShowAll={onShowAll}
             />
             <Nav onSelectLetter={handleLetterSelection} />
-
-            {!isGuest && (
-              <button
-                className="toggle-drink-form-button"
-                onClick={handleAddDrinkToggle}
-              >
-                <motion.div
-                  animate={{ rotate: isFormVisible ? 45 : 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <IoMdAdd style={{ fontSize: "3rem" }} />
-                </motion.div>
-              </button>
-            )}
-
-            {isAddDrinkFormVisible && (
-              <AddDrinkForm toggleAddDrinkForm={toggleAddDrinkForm} />
-            )}
           </>
         ) : isRegisterVisible ? (
           <Register

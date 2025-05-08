@@ -82,7 +82,7 @@ export default function Search({ onSearch, onShowAll }: Props) {
           position: "fixed",
           top: 8,
           left: 100,
-          zIndex: 1300,
+          zIndex: 50,
         }}
       >
         <IconButton

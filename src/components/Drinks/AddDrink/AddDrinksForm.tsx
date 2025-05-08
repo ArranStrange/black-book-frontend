@@ -1,13 +1,49 @@
 import React from "react";
+import {
+  Box,
+  TextField,
+  MenuItem,
+  Button,
+  Typography,
+  Grid,
+  Paper,
+} from "@mui/material";
 import { useAddDrink } from "../../../hooks/useAddDrink";
 import MessageModal from "../../message/MessageModal";
-import "./add-drinks.css";
 
-interface AddDrinkFormProps {
-  toggleAddDrinkForm: () => void;
-}
+const categories = [
+  "Cobbler",
+  "Collins",
+  "Daisy",
+  "Flip",
+  "Frozen",
+  "Highball",
+  "Julep",
+  "Martini",
+  "Punch",
+  "Sling",
+  "Sour",
+  "Tiki",
+  "Toddy",
+  "Spritz",
+  "Fizz",
+];
 
-const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
+const glasses = [
+  "Highball",
+  "Coup",
+  "Hurricane",
+  "Old Fashioned",
+  "Julep Tin",
+  "Wine",
+  "Flute",
+];
+
+const iceTypes = ["Cubed", "Crushed", "Block", "Shaved", "Straight"];
+
+const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
+  toggleAddDrinkForm,
+}) => {
   const {
     formData,
     handleChange,
@@ -19,286 +55,183 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
 
   return (
     <>
-      <form
-        className="add-drinks-form"
-        onSubmit={
-          handleSubmit
-          // on submit triggers the function in useAddDrink
-        }
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "1fr",
+            sm: "repeat(2, 1fr)",
+            md: "repeat(4, 1fr)",
+          },
+          gap: 2,
+          p: 4,
+          pb: 10,
+          maxWidth: 1000,
+          height: "100vh",
+          overflowY: "auto",
+          mx: "auto",
+        }}
       >
-        <label>
-          Drink Name:
-          <input
-            type="text"
-            name="drinkName"
-            data-testid="drink-name"
-            // name is passed to the useAddDrink, handleChange function
-            value={
-              formData.drinkName
-              // each input value is one of formData in the useAddDrink hook
-              // onSubmit the form state is updated with the corresponding inputs data
+        <Typography
+          variant="h3"
+          color="primary"
+          component="h1"
+          sx={{
+            textAlign: "center",
+            gridColumn: { xs: "span 4", sm: "span 4", md: "span 4" },
+          }}
+        >
+          Add A Drink
+        </Typography>
+        {/* Row 1: Name, Category, Glass, Ice */}
+        <TextField
+          label="Drink Name"
+          name="drinkName"
+          value={formData.drinkName}
+          onChange={handleChange}
+          required
+          fullWidth
+          sx={{ gridColumn: { xs: "span 4", sm: "span 2", md: "span 2" } }}
+        />
+        <TextField
+          select
+          label="Category"
+          name="Category"
+          value={formData.Category}
+          onChange={handleChange}
+          required
+          fullWidth
+          sx={{ gridColumn: { xs: "span 4", sm: "span 2", md: "span 2" } }}
+        >
+          {categories.map((option) => (
+            <MenuItem key={option} value={option.toLowerCase()}>
+              {option}
+            </MenuItem>
+          ))}
+        </TextField>
+        <TextField
+          select
+          label="Glass"
+          name="Glass"
+          value={formData.Glass}
+          onChange={handleChange}
+          required
+          fullWidth
+          sx={{ gridColumn: { xs: "span 4", sm: "span 2", md: "span 2" } }}
+        >
+          {glasses.map((option) => (
+            <MenuItem key={option} value={option.toLowerCase()}>
+              {option}
+            </MenuItem>
+          ))}
+        </TextField>
+        <TextField
+          select
+          label="Ice"
+          name="Ice"
+          value={formData.Ice}
+          onChange={handleChange}
+          fullWidth
+          sx={{ gridColumn: { xs: "span 4", sm: "span 2", md: "span 2" } }}
+        >
+          {iceTypes.map((option) => (
+            <MenuItem key={option} value={option.toLowerCase()}>
+              {option}
+            </MenuItem>
+          ))}
+        </TextField>
+
+        {/* Row 2: Ingredient/Measure 1/2 */}
+        <TextField
+          label="Ingredient 1"
+          name="Ingredient1"
+          value={formData.Ingredient1}
+          onChange={handleChange}
+          fullWidth
+          sx={{ gridColumn: "span 3" }}
+        />
+        <TextField
+          label="Measure 1 (ml)"
+          name="Measure1"
+          type="number"
+          value={formData.Measure1}
+          onChange={handleChange}
+          fullWidth
+          sx={{ gridColumn: "span 1" }}
+        />
+
+        {/* Row 3: Instructions and Rating */}
+        <TextField
+          label="Instructions"
+          name="Instructions"
+          value={formData.Instructions}
+          onChange={handleChange}
+          required
+          multiline
+          rows={4}
+          fullWidth
+          sx={{
+            gridColumn: { xs: "span 4", sm: "span 3", md: "span 3" },
+            height: "100%",
+          }}
+        />
+        <TextField
+          label="Rating (0–10)"
+          name="Rating"
+          type="number"
+          value={formData.Rating}
+          onChange={handleChange}
+          inputProps={{ min: 0, max: 10 }}
+          required
+          fullWidth
+          sx={{
+            gridColumn: { xs: "span 4", sm: "span 1", md: "span 1" },
+            height: "100%",
+          }}
+        />
+
+        {/* Row 4: Thumbnail and Preview */}
+        <TextField
+          label="Thumbnail URL"
+          name="DrinkThumb"
+          value={formData.DrinkThumb}
+          onChange={handleChange}
+          fullWidth
+          sx={{
+            gridColumn: { xs: "span 4", sm: "span 2", md: "span 2" },
+          }}
+        />
+        <Box
+          sx={{
+            gridColumn: { xs: "span 4", sm: "span 2", md: "span 2" },
+
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            bgcolor: "#2e2e2b",
+            borderRadius: 1,
+            p: 1,
+          }}
+        >
+          <img
+            src={
+              formData.DrinkThumb ||
+              "https://png.pngtree.com/png-vector/20190603/ourmid/pngtree-cocktail-icon-png-image_1376820.jpg"
             }
-            onChange={
-              handleChange
-              //handle change function in the useAddDrink hook
-            }
-            required
+            alt="Preview"
+            style={{ maxHeight: "120px", objectFit: "contain" }}
           />
-        </label>
+        </Box>
 
-        <label>
-          Category:
-          <select
-            name="Category"
-            value={formData.Category}
-            onChange={handleChange}
-            data-testid="drink-category"
-            required
-          >
-            <option value="" disabled>
-              Select Category
-            </option>
-            <option value="cobbler">Cobbler</option>
-            <option value="collins">Collins</option>
-            <option value="daisy">Daisy</option>
-            <option value="flip">Flip</option>
-            <option value="frozen">Frozen</option>
-            <option value="highball">Highball</option>
-            <option value="julep">Julep</option>
-            <option value="martini">Martini</option>
-            <option value="punch">Punch</option>
-            <option value="sling">Sling</option>
-            <option value="sour">Sour</option>
-            <option value="tiki">Tiki</option>
-            <option value="toddy">Toddy</option>
-            <option value="spritz">Spritz</option>
-            <option value="fizz">Fizz</option>
-          </select>
-        </label>
-
-        <label>
-          Glass Type:
-          <select
-            name="Glass"
-            value={formData.Glass}
-            onChange={handleChange}
-            data-testid="drink-glass"
-            required
-          >
-            <option value="" disabled>
-              Select Glass Type
-            </option>
-            <option value="highball">Highball</option>
-            <option value="coup">Coup</option>
-            <option value="hurricane">Hurricane</option>
-            <option value="old fashioned">Old Fashioned</option>
-            <option value="julep tin">Julep Tin</option>
-            <option value="wine">Wine Glass</option>
-            <option value="flute">Flute</option>
-          </select>
-        </label>
-
-        <label>
-          Ice Type:
-          <select
-            name="Ice"
-            value={formData.Ice}
-            onChange={handleChange}
-            data-testid="drink-ice"
-          >
-            <option value="" disabled>
-              Select Ice Type
-            </option>
-            <option value="cubed">Cubed</option>
-            <option value="crushed">Crushed</option>
-            <option value="block">Block</option>
-            <option value="shaved">Shaved</option>
-            <option value="straight">Straight Up</option>
-          </select>
-        </label>
-
-        <label>
-          Ingredient 1:
-          <input
-            type="text"
-            name="Ingredient1"
-            value={formData.Ingredient1}
-            onChange={handleChange}
-            data-testid="ingredient-1"
-            required
-          />
-        </label>
-
-        <div className="measurements">
-          <label>
-            Measure 1:
-            <input
-              type="number"
-              name="Measure1"
-              value={formData.Measure1}
-              onChange={handleChange}
-              data-testid="measure-1"
-              required
-            />
-          </label>
-          ml
-        </div>
-
-        <label>
-          Ingredient 2:
-          <input
-            type="text"
-            name="Ingredient2"
-            data-testid="ingredient-2"
-            value={formData.Ingredient2}
-            onChange={handleChange}
-          />
-        </label>
-        <div className="measurements">
-          <label>
-            Measure 2:
-            <input
-              type="number"
-              name="Measure2"
-              data-testid="measure-2"
-              value={formData.Measure2}
-              onChange={handleChange}
-            />
-          </label>
-          ml
-        </div>
-
-        <label>
-          Ingredient 3:
-          <input
-            type="text"
-            name="Ingredient3"
-            data-testid="ingredient-3"
-            value={formData.Ingredient3}
-            onChange={handleChange}
-          />
-        </label>
-        <div className="measurements">
-          <label>
-            Measure 3:
-            <input
-              type="number"
-              name="Measure3"
-              data-testid="measure-3"
-              value={formData.Measure3}
-              onChange={handleChange}
-            />
-          </label>
-          ml
-        </div>
-
-        <label>
-          Ingredient 4:
-          <input
-            type="text"
-            name="Ingredient4"
-            value={formData.Ingredient4}
-            onChange={handleChange}
-          />
-        </label>
-        <div className="measurements">
-          <label>
-            Measure 4:
-            <input
-              type="number"
-              name="Measure4"
-              value={formData.Measure4}
-              onChange={handleChange}
-            />
-          </label>
-          ml
-        </div>
-
-        <label>
-          Ingredient 5:
-          <input
-            type="text"
-            name="Ingredient5"
-            value={formData.Ingredient5}
-            onChange={handleChange}
-          />
-        </label>
-        <div className="measurements">
-          <label>
-            Measure 5:
-            <input
-              type="number"
-              name="Measure5"
-              value={formData.Measure5}
-              onChange={handleChange}
-            />
-          </label>
-          ml
-        </div>
-
-        <label>
-          Ingredient 6:
-          <input
-            type="text"
-            name="Ingredient6"
-            value={formData.Ingredient6}
-            onChange={handleChange}
-          />
-        </label>
-        <div className="measurements">
-          <label>
-            Measure 6:
-            <input
-              type="number"
-              name="Measure6"
-              value={formData.Measure6}
-              onChange={handleChange}
-            />
-          </label>
-          ml
-        </div>
-
-        <label>
-          Drink Thumbnail URL:
-          <input
-            type="text"
-            name="DrinkThumb"
-            data-testid="drink-thumb"
-            value={formData.DrinkThumb}
-            onChange={handleChange}
-          />
-        </label>
-
-        <label>
-          Rating (0-10):
-          <input
-            type="number"
-            name="Rating"
-            value={formData.Rating}
-            onChange={handleChange}
-            data-testid="drink-rating"
-            required
-            min="0"
-            max="10"
-          />
-        </label>
-
-        <label>
-          Instructions:
-          <textarea
-            name="Instructions"
-            id="instructions"
-            value={formData.Instructions}
-            onChange={handleChange}
-            data-testid="drink-instructions"
-            required
-          />
-        </label>
-
-        <button type="submit" data-testid="drink-submit-button">
-          Add Drink
-        </button>
-      </form>
+        {/* Submit Button */}
+        <Box sx={{ gridColumn: "span 4" }}>
+          <Button type="submit" variant="contained" color="primary" fullWidth>
+            Add Drink
+          </Button>
+        </Box>
+      </Box>
 
       {modalMessage && modalTitle && (
         <MessageModal

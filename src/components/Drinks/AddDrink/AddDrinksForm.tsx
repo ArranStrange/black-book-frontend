@@ -1,5 +1,12 @@
 import React from "react";
-import { Box, TextField, MenuItem, Button, Typography } from "@mui/material";
+import {
+  Box,
+  TextField,
+  MenuItem,
+  Button,
+  Typography,
+  Rating,
+} from "@mui/material";
 import { useAddDrink } from "../../../hooks/useAddDrink";
 import MessageModal from "../../message/MessageModal";
 
@@ -163,11 +170,11 @@ const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
           rows={4}
           fullWidth
           sx={{
-            gridColumn: { xs: "span 4", sm: "span 3", md: "span 3" },
+            gridColumn: "span 3",
             height: "100%",
           }}
         />
-        <TextField
+        {/* <TextField
           label="Rating (0–10)"
           name="Rating"
           type="number"
@@ -180,22 +187,11 @@ const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
             gridColumn: { xs: "span 4", sm: "span 1", md: "span 1" },
             height: "100%",
           }}
-        />
+        /> */}
 
-        {/* Row 4 */}
-        <TextField
-          label="Thumbnail URL"
-          name="DrinkThumb"
-          value={formData.DrinkThumb}
-          onChange={handleChange}
-          fullWidth
-          sx={{
-            gridColumn: { xs: "span 4", sm: "span 2", md: "span 2" },
-          }}
-        />
         <Box
           sx={{
-            gridColumn: { xs: "span 4", sm: "span 2", md: "span 2" },
+            gridColumn: "span 1",
             gridRow: "span 1",
             display: "flex",
             alignItems: "center",
@@ -221,9 +217,58 @@ const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
           />
         </Box>
 
+        {/* Row 4 */}
+
+        <TextField
+          label="Thumbnail URL"
+          name="DrinkThumb"
+          value={formData.DrinkThumb}
+          onChange={handleChange}
+          fullWidth
+          sx={{
+            gridColumn: "span 4",
+          }}
+        />
+
+        <Box
+          sx={{
+            gridColumn: "1 / span 4",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Rating
+            name="Rating"
+            value={formData.Rating}
+            max={5}
+            precision={1}
+            onChange={(_, newValue) => {
+              handleChange({
+                target: { name: "Rating", value: newValue ?? 0 },
+              } as unknown as React.ChangeEvent<HTMLInputElement>);
+            }}
+            sx={{
+              color: "primary.main",
+            }}
+          />
+        </Box>
+
         {/* Submit Button */}
-        <Box sx={{ gridColumn: "span 4" }}>
-          <Button type="submit" variant="contained" color="primary" fullWidth>
+        <Box
+          sx={{
+            gridColumn: "span 4",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{ width: "150px" }}
+          >
             Add Drink
           </Button>
         </Box>

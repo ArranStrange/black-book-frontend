@@ -43,6 +43,10 @@ const blackBookTheme = createTheme({
       fontSize: "2.5rem",
       fontFamily: "'Archivo Bold', sans-serif",
     },
+    h4: {
+      fontSize: "1.5rem",
+      fontFamily: "'Archivo', sans-serif",
+    },
     body1: {
       fontSize: "1rem",
       lineHeight: 1.6,

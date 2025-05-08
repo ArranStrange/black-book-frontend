@@ -72,12 +72,26 @@ const SelectedDrinkModal: React.FC<SelectedDrinkModalProps> = ({
                 mb: 2,
               }}
             />
+            <Typography
+              variant="body1"
+              fontWeight={100}
+              gutterBottom
+              color="text.primary"
+            >
+              <i>
+                {" "}
+                {toSentenceCase(drink.shortDescription || "No Description")}
+              </i>
+            </Typography>
             <Box
               display="grid"
               gridTemplateColumns="auto 1fr"
               rowGap={1}
               columnGap={2}
               mb={2}
+              borderTop={`1px solid ${useTheme().palette.divider}`}
+              pt={2}
+              mt={3}
             >
               <Typography variant="subtitle1" fontWeight={600}>
                 Category:
@@ -92,6 +106,11 @@ const SelectedDrinkModal: React.FC<SelectedDrinkModalProps> = ({
               <Typography>
                 {toSentenceCase(drink.Glass || "No Glassware")}
               </Typography>
+
+              <Typography variant="subtitle1" fontWeight={600}>
+                Ice:
+              </Typography>
+              <Typography>{toSentenceCase(drink.Ice || "No Ice")}</Typography>
             </Box>
           </Paper>
 
@@ -111,7 +130,6 @@ const SelectedDrinkModal: React.FC<SelectedDrinkModalProps> = ({
               <Box
                 display="grid"
                 gridTemplateColumns="1fr 1fr"
-                gap={1}
                 component={Table}
                 sx={{ border: "none" }}
               >

@@ -75,7 +75,7 @@ const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
         >
           Add A Drink
         </Typography>
-        {/* Row 1: Name, Category, Glass, Ice */}
+        {/* Row 1*/}
         <TextField
           label="Drink Name"
           name="drinkName"
@@ -133,7 +133,7 @@ const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
           ))}
         </TextField>
 
-        {/* Row 2: Ingredient/Measure 1/2 */}
+        {/* Row 2*/}
         <TextField
           label="Ingredient 1"
           name="Ingredient1"
@@ -152,7 +152,7 @@ const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
           sx={{ gridColumn: "span 1" }}
         />
 
-        {/* Row 3: Instructions and Rating */}
+        {/* Row 3*/}
         <TextField
           label="Instructions"
           name="Instructions"
@@ -182,7 +182,7 @@ const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
           }}
         />
 
-        {/* Row 4: Thumbnail and Preview */}
+        {/* Row 4 */}
         <TextField
           label="Thumbnail URL"
           name="DrinkThumb"

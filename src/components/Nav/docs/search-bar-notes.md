@@ -42,7 +42,7 @@ Closes the dropdown if focus is lost from the search form.
 ### handleSearchSubmit
 
 - Prevents the page from reloading
-- Constructs a `searchQueryObject` from current states
+- Creates a `searchQueryObject` from current states
 - Calls `onSearch` with the query object
 - Resets dropdowns
 - Scrolls the page to the top

@@ -1,17 +1,13 @@
-Here's your clean and well-structured **Markdown documentation file** for the `DrinksList` component, based on all your inline comments.
-
----
-
-### 📄 `drinks-list-notes.md`
+### `drinks-list-notes.md`
 
 ````md
-# 🍹 DrinksList Component Notes
+# DrinksList Component Notes
 
 This document explains the functionality and behavior of the `DrinksList` component in the frontend of the drinks app. It displays a list of drinks, allows viewing and editing drink details, and handles user interaction and application state.
 
 ---
 
-## 📦 Props
+## Props
 
 ```ts
 interface DrinksListProps {
@@ -31,7 +27,7 @@ interface DrinksListProps {
 
 ---
 
-## 🧠 State Management
+## State Management
 
 - `showDrinkModal`: Controls visibility of the drink detail modal.
 - `selectedDrink`: Stores the currently selected drink object.
@@ -39,7 +35,7 @@ interface DrinksListProps {
 
 ---
 
-## 🧲 Custom Hooks Used
+## Custom Hooks Used
 
 ### `useDrinks()`
 
@@ -56,7 +52,7 @@ Manages:
 
 ---
 
-## 🧪 Authentication Check
+## Authentication Check
 
 ```ts
 const isGuest = localStorage.getItem("authToken") === "guest";
@@ -66,7 +62,7 @@ const isGuest = localStorage.getItem("authToken") === "guest";
 
 ---
 
-## 🧾 Core Handlers
+## Core Handlers
 
 ### handleDrinkClick(drink: Drink)
 
@@ -86,7 +82,7 @@ const isGuest = localStorage.getItem("authToken") === "guest";
 
 ---
 
-## ⏳ Conditional Rendering
+## Conditional Rendering
 
 ### Loading State
 
@@ -98,7 +94,7 @@ const isGuest = localStorage.getItem("authToken") === "guest";
 
 ---
 
-## 🗺️ Drinks Rendering
+## Drinks Rendering
 
 ```tsx
 {
@@ -114,7 +110,7 @@ const isGuest = localStorage.getItem("authToken") === "guest";
 
 ---
 
-## 🪟 Modal Management
+## Modal Management
 
 ### SelectedDrinkModal
 
@@ -129,31 +125,3 @@ const isGuest = localStorage.getItem("authToken") === "guest";
 - Closed via `cancelEdit` or after save/delete
 
 ---
-
-## 🧩 UI Files / Assets Used
-
-- `EditDrinkModal`: Modal for editing drinks
-- `SelectedDrinkModal`: Modal for viewing selected drink
-- `Shaker.png`: Shown during loading
-- `Spill.png`: Shown on error
-- `drinks-list.css`: Local styling for component
-
----
-
-## 🧠 Summary
-
-| Feature         | Description                                           |
-| --------------- | ----------------------------------------------------- |
-| Fetch drinks    | Uses `useDrinks()` to retrieve and manage drinks      |
-| Filter logic    | Uses `useFilterDrinks()` for letter/query filtering   |
-| Guest mode      | Checks `authToken` to restrict edit/delete features   |
-| Drink selection | Opens modal with drink info on card click             |
-| Drink editing   | Allows saving or deleting from the edit modal         |
-| Responsive UI   | Conditionally shows loading, error, and modal content |
-
-```
-
----
-
-Let me know if you'd like a refactored `.tsx` version with comments replaced by links to this `.md` file (like you’ve done previously).
-```

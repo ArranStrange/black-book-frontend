@@ -19,7 +19,7 @@ import {
   Button,
 } from "@mui/material";
 
-// Docs: file://./docs/DrinksList.NOTE.md#props
+//file://./docs/DrinksList.NOTE.md#props
 interface DrinksListProps {
   selectedLetter: string;
   searchQuery: {
@@ -34,44 +34,44 @@ const DrinksList: React.FC<DrinksListProps> = ({
   selectedLetter,
   searchQuery,
 }) => {
-  // Docs: file://./docs/DrinksList.NOTES.md#custom-hooks-used
+  //file://./docs/DrinksList.NOTES.md#custom-hooks-used
   const { drinks, loading, error, handleSaveEdit, handleDelete } = useDrinks();
   const filteredDrinks = useFilterDrinks(drinks, selectedLetter, searchQuery);
 
-  // Docs: file://./docs/DrinksList.NOTES.md#authentication-check
+  //file://./docs/DrinksList.NOTES.md#authentication-check
   const isGuest = localStorage.getItem("authToken") === "guest";
 
-  // Docs: file://./docs/DrinksList.NOTES.md#state-management
+  //file://./docs/DrinksList.NOTES.md#state-management
   const [showDrinkModal, setShowDrinkModal] = useState<boolean>(false);
   const [selectedDrink, setSelectedDrink] = useState<Drink | null>(null);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
 
-  // Docs: file://./docs/DrinksList.NOTES.md#handleDrinkClickdrink-drink
+  //file://./docs/DrinksList.NOTES.md#handleDrinkClickdrink-drink
   const handleDrinkClick = (drink: Drink) => {
     setSelectedDrink(drink);
     setShowDrinkModal(true);
   };
 
-  // Docs: file://./docs/DrinksList.NOTES.md#handleclosedrinkmodal
+  //file://./docs/DrinksList.NOTES.md#handleclosedrinkmodal
   const handleCloseDrinkModal = () => {
     setShowDrinkModal(false);
     setSelectedDrink(null);
   };
 
-  // Docs: file://./docs/DrinksList.NOTES.md#handleeditclick
+  //file://./docs/DrinksList.NOTES.md#handleeditclick
   const handleEditClick = () => {
     if (!selectedDrink) return;
     setShowDrinkModal(false);
     setShowEditModal(true);
   };
 
-  // Docs: file://./docs/DrinksList.NOTES.md#canceledit
+  //file://./docs/DrinksList.NOTES.md#canceledit
   const cancelEdit = () => {
     setShowEditModal(false);
     setSelectedDrink(null);
   };
 
-  // Docs: file://./docs/DrinksList.NOTES.md#loading-state
+  //file://./docs/DrinksList.NOTES.md#loading-state
   if (loading) {
     return (
       <div className="fetch-messages">
@@ -83,7 +83,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
     );
   }
 
-  // Docs: file://./docs/DrinksList.NOTES.md#error-state
+  //file://./docs/DrinksList.NOTES.md#error-state
   if (error) {
     return (
       <div className="fetch-messages">
@@ -101,7 +101,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
 
   return (
     <>
-      {/* Docs: file://./docs/DrinksList.NOTE.md#drinks-rendering */}
+      {/*file://./docs/DrinksList.NOTE.md#drinks-rendering */}
       <Box
         sx={{
           maxHeight: "100vh",
@@ -177,7 +177,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
         </Grid>
       </Box>
 
-      {/* Docs: file://./docs/DrinksList.NOTE.md#selecteddrinkmodal */}
+      {/*file://./docs/DrinksList.NOTE.md#selecteddrinkmodal */}
       {showDrinkModal && selectedDrink && (
         <SelectedDrinkModal
           drink={selectedDrink}
@@ -187,7 +187,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
         />
       )}
 
-      {/* Docs: file://./docs/DrinksList.NOTES.md#editdrinkmodal */}
+      {/*file://./docs/DrinksList.NOTES.md#editdrinkmodal */}
       {showEditModal && selectedDrink && (
         <EditDrinkModal
           drink={selectedDrink}

@@ -17,7 +17,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 import type { SelectChangeEvent } from "@mui/material";
 
-// Docs: file://./docs/search-bar-notes.md#props
+//file://./docs/search-bar-notes.md#props
 interface Props {
   onSearch: (searchQuery: {
     drinkName?: string;
@@ -74,7 +74,6 @@ export default function Search({ onSearch, onShowAll }: Props) {
     onShowAll();
   };
 
-  // 🔍 Floating button (when hidden)
   if (!showSearchBar) {
     return (
       <Box
@@ -123,11 +122,10 @@ export default function Search({ onSearch, onShowAll }: Props) {
           transformOrigin: "left top",
         }}
       >
-        {/* Controls container */}
         <Box
           id="searchInputContainer"
           sx={{
-            width: 300, // set this to your preferred width
+            width: 300,
             display: "flex",
             flexDirection: "column",
             gap: 1,

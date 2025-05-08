@@ -4,7 +4,7 @@ const blackBookTheme = createTheme({
   palette: {
     mode: "dark",
     background: {
-      default: "#202123",
+      default: "#1b1c1e",
       paper: "#242526",
     },
     primary: {
@@ -95,7 +95,7 @@ const blackBookTheme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          backgroundColor: "#242526",
+          backgroundColor: "#1b1c1e",
           color: "#f0f0f0",
           fontFamily: "'Archivo', sans-serif",
         },
@@ -104,14 +104,14 @@ const blackBookTheme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          backgroundColor: "#242526",
+          backgroundColor: "#1b1c1e",
         },
       },
     },
     MuiCard: {
       styleOverrides: {
         root: {
-          backgroundColor: "#242526",
+          backgroundColor: "#1b1c1e",
           boxShadow: "0px 8px 16px rgba(0,0,0,0.3)",
           border: "1px solid #3a3b3d",
           transition: "all 0.3s ease",
@@ -125,7 +125,7 @@ const blackBookTheme = createTheme({
     MuiCardContent: {
       styleOverrides: {
         root: {
-          backgroundColor: "	#262729",
+          backgroundColor: "	#1b1c1e",
           transition: "all 0.3s ease",
           "&:hover": {
             color: "#d6b28d",
@@ -133,32 +133,40 @@ const blackBookTheme = createTheme({
         },
       },
     },
-    MuiDialog: {
+    MuiDialogContent: {
       styleOverrides: {
-        paper: {
-          backgroundColor: "#242526",
+        root: {
+          backgroundColor: "#1b1c1e",
           color: "#f0f0f0",
-          border: "1px solid #3a3b3d",
-          borderRadius: 8,
         },
       },
     },
     MuiDialogTitle: {
       styleOverrides: {
         root: {
+          backgroundColor: "#1b1c1e",
           color: "#f0f0f0",
-          fontWeight: 700,
-          paddingBottom: 0,
         },
       },
     },
+
     MuiDialogContentText: {
       styleOverrides: {
         root: {
-          color: "#b8b8b8",
+          color: "#b0b0b0",
         },
       },
     },
+    MuiDialogActions: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#1b1c1e",
+          color: "#f0f0f0",
+          padding: "10px 10px",
+        },
+      },
+    },
+
     MuiButton: {
       styleOverrides: {
         root: {
@@ -168,7 +176,7 @@ const blackBookTheme = createTheme({
           borderColor: "#d6b28d",
           color: "#f0f0f0",
           "&:hover": {
-            backgroundColor: "rgba(214, 178, 141, 0.1)",
+            backgroundColor: "#242526",
             transform: "translateY(-2px)",
           },
         },
@@ -178,6 +186,7 @@ const blackBookTheme = createTheme({
       styleOverrides: {
         root: {
           color: "#d6b28d",
+          backgroundColor: "#242526",
         },
       },
     },

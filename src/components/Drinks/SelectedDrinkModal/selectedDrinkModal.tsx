@@ -1,95 +1,140 @@
 import React from "react";
-import "./selected-drink-modal.css";
+import { toSentenceCase } from "../../../hooks/useToSentenceCase";
 import { IoMdClose } from "react-icons/io";
 import { FaEdit } from "react-icons/fa";
 import { Drink } from "../../types/types";
-//
-//
-//typescript defining the props
+import {
+  Box,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Typography,
+  Paper,
+  Table,
+  TableCell,
+  useTheme,
+} from "@mui/material";
+
 interface SelectedDrinkModalProps {
   drink: Drink;
   onClose: () => void;
   onEdit: () => void;
   isGuest: boolean;
 }
-//
-//
+
 const SelectedDrinkModal: React.FC<SelectedDrinkModalProps> = ({
-  drink, // selected drink object recieved through props
-  onClose, // handle close modal function passed from drinksList
-  onEdit, // on edit passed from drinks list
-  isGuest, // isGuest state passed from drinks list
+  drink,
+  onClose,
+  onEdit,
+  isGuest,
 }) => {
   return (
-    <div data-testid="selected-drink-modal" className="drink-modal">
-      <div className="modal-content">
-        <div className="modal-header">
-          <button className="close-drink-modal" onClick={onClose}>
-            <IoMdClose />
-          </button>
-          {!isGuest && (
-            //edit modal only displayed if the localstorage token isn't guest
-            <button className="edit-button" onClick={onEdit}>
-              <FaEdit />
-            </button>
-          )}
-        </div>
-        <div className="drink-modal-info">
-          <div className="table-left">
-            <label htmlFor="define-category">Category:</label>
-            <h3 id="define-category" className="drinks-category">
-              {drink.Category || "Category Not Found"}
-            </h3>
-            <h2 className="selectedDrinks-name">{drink.drinkName}</h2>
-            <label htmlFor="define-glass">Glassware:</label>
-            <h3 id="define-glass" className="selectedDrinks-glass">
-              {drink.Glass}
-            </h3>
-            <p className="selectedDrinks-instructions">{drink.Instructions}</p>
-          </div>
-          <div className="table-right">
-            <div className="selectedDrink-image-container">
-              <img
-                src={
-                  drink.DrinkThumb ||
-                  "https://www.creativefabrica.com/wp-content/uploads/2021/07/01/Cocktail-icon-Graphics-14120200-1-1-580x387.jpg"
-                }
-                alt={drink.drinkName}
-                className="selectedDrinks-image"
-              />
-              <div className="measure-ingredient-list">
-                <div className="measure-ingredient-col">
-                  {
-                    //maps over a fixed range of the ingredients allowing 6 properties only
-                    // for each iteration i stores the current number
-                    [1, 2, 3, 4, 5, 6].map((i) => {
-                      //stores the drink ingredient name and index (as keyof Drink - typescript type checking)
-                      const ingredient = drink[`Ingredient${i}` as keyof Drink];
-                      //if ingredient is truthy, returns the <p> with the ingredient name stored
-                      //key used to help react identify each element uniquly using  i
-                      return ingredient ? <p key={i}>{ingredient}</p> : null;
-                      //if ingredient is falsy will return null
-                    })
-                  }
-                </div>
-                <div className="measure-ingredient-col">
-                  {
-                    // maps over a fixed range of the measurement allowing 6 properties only
-                    // for each iteration i stores the current number
-                    [1, 2, 3, 4, 5, 6].map((i) => {
-                      //stores the drink measurement and index (as keyof Drink - typescript type checking)
-                      const measure = drink[`Measure${i}` as keyof Drink];
-                      //if measurement is truthy, return the <p> element, if falsy return null
-                      return measure ? <p key={i}>{measure}ml</p> : null;
-                    })
-                  }
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Dialog open onClose={onClose} fullWidth maxWidth="md">
+      <DialogTitle>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Typography variant="h5" fontWeight={700}>
+            {drink.drinkName}
+          </Typography>
+          <Box>
+            {!isGuest && (
+              <IconButton onClick={onEdit} color="primary">
+                <FaEdit />
+              </IconButton>
+            )}
+            <IconButton onClick={onClose} color="error">
+              <IoMdClose />
+            </IconButton>
+          </Box>
+        </Box>
+      </DialogTitle>
+
+      <DialogContent>
+        <Box
+          display="grid"
+          gridTemplateColumns={{ xs: "1fr", md: "1fr 1.2fr" }}
+          gap={4}
+        >
+          {/* Left */}
+          <Paper elevation={3} sx={{ p: 2, borderRadius: 2 }}>
+            <Box
+              component="img"
+              src={
+                drink.DrinkThumb ||
+                "https://www.creativefabrica.com/wp-content/uploads/2021/07/01/Cocktail-icon-Graphics-14120200-1-1-580x387.jpg"
+              }
+              alt={drink.drinkName}
+              sx={{
+                width: "100%",
+                height: 220,
+                objectFit: "cover",
+                borderRadius: 2,
+                mb: 2,
+              }}
+            />
+            <Box
+              display="grid"
+              gridTemplateColumns="auto 1fr"
+              rowGap={1}
+              columnGap={2}
+              mb={2}
+            >
+              <Typography variant="subtitle1" fontWeight={600}>
+                Category:
+              </Typography>
+              <Typography>
+                {toSentenceCase(drink.Category || "No Category")}
+              </Typography>
+
+              <Typography variant="subtitle1" fontWeight={600}>
+                Glassware:
+              </Typography>
+              <Typography>
+                {toSentenceCase(drink.Glass || "No Glassware")}
+              </Typography>
+            </Box>
+          </Paper>
+
+          {/* Right */}
+          <Paper elevation={2} sx={{ p: 3, borderRadius: 2 }}>
+            <Typography variant="subtitle1" fontWeight={600} gutterBottom>
+              Instructions
+            </Typography>
+            <Typography variant="body2" gutterBottom>
+              {drink.Instructions}
+            </Typography>
+
+            <Box mt={3}>
+              <Typography variant="subtitle1" fontWeight={600} gutterBottom>
+                Ingredients
+              </Typography>
+              <Box
+                display="grid"
+                gridTemplateColumns="1fr 1fr"
+                gap={1}
+                component={Table}
+                sx={{ border: "none" }}
+              >
+                {[1, 2, 3, 4, 5, 6].map((i) => {
+                  const ingredient = drink[`Ingredient${i}` as keyof Drink];
+                  const measure = drink[`Measure${i}` as keyof Drink];
+                  return ingredient ? (
+                    <React.Fragment key={i}>
+                      <TableCell sx={{ border: "none", pl: 0 }}>
+                        {ingredient}
+                      </TableCell>
+                      <TableCell sx={{ border: "none", pr: 0 }} align="right">
+                        {measure ? `${measure}ml` : "-"}
+                      </TableCell>
+                    </React.Fragment>
+                  ) : null;
+                })}
+              </Box>
+            </Box>
+          </Paper>
+        </Box>
+      </DialogContent>
+    </Dialog>
   );
 };
 

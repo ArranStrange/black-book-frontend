@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Box,
-  TextField,
-  MenuItem,
-  Button,
-  Typography,
-  Grid,
-  Paper,
-} from "@mui/material";
+import { Box, TextField, MenuItem, Button, Typography } from "@mui/material";
 import { useAddDrink } from "../../../hooks/useAddDrink";
 import MessageModal from "../../message/MessageModal";
 
@@ -61,9 +53,7 @@ const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
         sx={{
           display: "grid",
           gridTemplateColumns: {
-            xs: "1fr",
-            sm: "repeat(2, 1fr)",
-            md: "repeat(4, 1fr)",
+            xs: "repeat(4, 1fr)",
           },
           gap: 2,
           p: 4,
@@ -206,7 +196,7 @@ const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
         <Box
           sx={{
             gridColumn: { xs: "span 4", sm: "span 2", md: "span 2" },
-
+            gridRow: "span 1",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -221,7 +211,13 @@ const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
               "https://png.pngtree.com/png-vector/20190603/ourmid/pngtree-cocktail-icon-png-image_1376820.jpg"
             }
             alt="Preview"
-            style={{ maxHeight: "120px", objectFit: "contain" }}
+            style={{
+              maxHeight: "120px",
+              objectFit: "cover",
+              width: "120px",
+              borderRadius: "8px",
+              overflow: "hidden",
+            }}
           />
         </Box>
 

@@ -1,5 +1,2 @@
-export const //Hosted on Render
-  API_URL = "https://black-book-backend.onrender.com";
-
-//Local Host
-// API_URL = "http://localhost:1000";
+export const API_URL =
+  process.env.REACT_APP_API_URL || "https://black-book-backend.onrender.com";

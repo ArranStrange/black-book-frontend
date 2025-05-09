@@ -1,14 +1,14 @@
-# Project Title
+# Little Black Book
 
-Black Book is a full stack cocktail recipe application that allows users to create, store, and browse a catalogue of cocktails. Built with a React frontend and a Node.js/Express backend connected to a MongoDB database, the app allows users to perform full CRUD operations on cocktail recipes.
+Little Black Book is a full stack cocktail recipe application that allows users to create, store, and browse a catalogue of cocktails. Built with a React frontend and a Node.js/Express backend connected to a MongoDB database, the app allows users to perform full CRUD operations on cocktail recipes.
 Each recipe includes ingredients, measurements, glassware, ice type, preparation instructions, and an optional image. Users can search and filter the catalogue by name, category, glass type, or ice preference, making it easy to browse or locate specific drinks.
 
 The goal of this project is to deepen my understanding of full stack development, particularly:
-*Designing RESTful APIs with Express
-*Managing data with MongoDB
-*Handling asynchronous communication with Axios
-*Building dynamic, responsive interfaces using Material UI and React
-\*Structuring scalable and maintainable code
+1.Designing RESTful APIs with Express
+2.Managing data with MongoDB
+3.Handling asynchronous communication with Axios
+4.Building dynamic, responsive interfaces using Material UI and React
+5.Structuring scalable and maintainable code
 
 This app was designed to explore CRUD patterns, better my understanding of backend integration, offer an attractive and userfriendly UI, while having real world application in the hospitality sector.
 

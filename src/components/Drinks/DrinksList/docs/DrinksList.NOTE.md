@@ -1,9 +1,4 @@
-### `drinks-list-notes.md`
-
-````md
 # DrinksList Component Notes
-
-This document explains the functionality and behavior of the `DrinksList` component in the frontend of the drinks app. It displays a list of drinks, allows viewing and editing drink details, and handles user interaction and application state.
 
 ---
 
@@ -20,20 +15,6 @@ interface DrinksListProps {
   };
 }
 ```
-````
-
-- **selectedLetter**: Used to filter drinks alphabetically.
-- **searchQuery**: An object containing optional fields used to filter the list of drinks.
-
----
-
-## State Management
-
-- `showDrinkModal`: Controls visibility of the drink detail modal.
-- `selectedDrink`: Stores the currently selected drink object.
-- `showEditModal`: Controls visibility of the edit modal.
-
----
 
 ## Custom Hooks Used
 
@@ -62,7 +43,7 @@ const isGuest = localStorage.getItem("authToken") === "guest";
 
 ---
 
-## Core Handlers
+## Handleser
 
 ### handleDrinkClick(drink: Drink)
 

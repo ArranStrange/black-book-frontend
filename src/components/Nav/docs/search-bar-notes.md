@@ -1,23 +1,4 @@
-```md
-# Search Bar Component Notes
-
-## State Management
-
-### UI_States
-
-- **dropdown**: toggles visibility of the dropdown menu
-- **isSearchFocused**: shows or hides the search dropdown
-
-### Search_Input_State
-
-- **searchQuery**: value of the text input field
-- **selectedCategory**: value from the category dropdown
-- **selectedGlass**: value from the glass dropdown
-- **selectedIce**: value from the ice dropdown
-
----
-
-## Event Handlers
+## Handlers
 
 ### handleDropdown
 
@@ -54,4 +35,3 @@ Resets all input values and calls `onShowAll`.
 ### handleLogout
 
 Removes the `authToken` from local storage and reloads the page.
-```

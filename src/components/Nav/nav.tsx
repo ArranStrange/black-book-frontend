@@ -8,23 +8,20 @@ import {
   useMediaQuery,
 } from "@mui/material";
 
-//file://./docs/Nav.NOTES.md#props
+//file://./docs/Nav.NOTES.md
 interface Props {
   onSelectLetter: (letter: string) => void;
 }
 
 export default function Nav({ onSelectLetter }: Props) {
-  //file://./docs/Nav.NOTES.md#state
   const [selectedLetter, setSelectedLetter] = useState("");
 
-  //file://./docs/Nav.NOTES.md#handleletterclickletter
   const handleLetterClick = (letter: string) => {
     onSelectLetter(letter);
     setSelectedLetter(letter);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  //file://./docs/Nav.NOTES.md#useeffect-on-mount
   useEffect(() => {
     handleLetterClick("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -34,7 +31,6 @@ export default function Nav({ onSelectLetter }: Props) {
     handleLetterClick("");
   };
 
-  //file://./docs/Nav.NOTES.md#useeffect-on-mount
   useEffect(() => {
     clearFilter();
     // eslint-disable-next-line react-hooks/exhaustive-deps

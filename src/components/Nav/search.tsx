@@ -17,7 +17,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 import type { SelectChangeEvent } from "@mui/material";
 
-//file://./docs/search-bar-notes.md#props
+//file://./docs/search-bar-notes.md
 interface Props {
   onSearch: (searchQuery: {
     drinkName?: string;
@@ -39,7 +39,6 @@ export default function Search({ onSearch, onShowAll }: Props) {
   const [selectedIce, setSelectedIce] = useState("");
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleSearchQueryChange = (
     event: React.ChangeEvent<HTMLInputElement>

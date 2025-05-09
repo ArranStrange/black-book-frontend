@@ -47,7 +47,7 @@ const Login: React.FC<LoginProps> = ({
   };
 
   return (
-    <div className="login">
+    <div className="login" data-testid="login-form">
       {/* log in form */}
       <div className="login-card">
         <h2>Login</h2>

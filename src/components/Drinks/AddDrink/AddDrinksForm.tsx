@@ -31,6 +31,7 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
           <input
             type="text"
             name="drinkName"
+            data-testid="drink-name"
             // name is passed to the useAddDrink, handleChange function
             value={
               formData.drinkName
@@ -51,6 +52,7 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
             name="Category"
             value={formData.Category}
             onChange={handleChange}
+            data-testid="drink-category"
             required
           >
             <option value="" disabled>
@@ -80,6 +82,7 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
             name="Glass"
             value={formData.Glass}
             onChange={handleChange}
+            data-testid="drink-glass"
             required
           >
             <option value="" disabled>
@@ -101,7 +104,7 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
             name="Ice"
             value={formData.Ice}
             onChange={handleChange}
-            required
+            data-testid="drink-ice"
           >
             <option value="" disabled>
               Select Ice Type
@@ -121,6 +124,7 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
             name="Ingredient1"
             value={formData.Ingredient1}
             onChange={handleChange}
+            data-testid="ingredient-1"
             required
           />
         </label>
@@ -133,6 +137,7 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
               name="Measure1"
               value={formData.Measure1}
               onChange={handleChange}
+              data-testid="measure-1"
               required
             />
           </label>
@@ -144,6 +149,7 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
           <input
             type="text"
             name="Ingredient2"
+            data-testid="ingredient-2"
             value={formData.Ingredient2}
             onChange={handleChange}
           />
@@ -154,6 +160,7 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
             <input
               type="number"
               name="Measure2"
+              data-testid="measure-2"
               value={formData.Measure2}
               onChange={handleChange}
             />
@@ -166,6 +173,7 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
           <input
             type="text"
             name="Ingredient3"
+            data-testid="ingredient-3"
             value={formData.Ingredient3}
             onChange={handleChange}
           />
@@ -176,6 +184,7 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
             <input
               type="number"
               name="Measure3"
+              data-testid="measure-3"
               value={formData.Measure3}
               onChange={handleChange}
             />
@@ -254,6 +263,7 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
           <input
             type="text"
             name="DrinkThumb"
+            data-testid="drink-thumb"
             value={formData.DrinkThumb}
             onChange={handleChange}
           />
@@ -266,6 +276,7 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
             name="Rating"
             value={formData.Rating}
             onChange={handleChange}
+            data-testid="drink-rating"
             required
             min="0"
             max="10"
@@ -279,11 +290,14 @@ const AddDrinkForm: React.FC<AddDrinkFormProps> = ({ toggleAddDrinkForm }) => {
             id="instructions"
             value={formData.Instructions}
             onChange={handleChange}
+            data-testid="drink-instructions"
             required
           />
         </label>
 
-        <button type="submit">Add Drink</button>
+        <button type="submit" data-testid="drink-submit-button">
+          Add Drink
+        </button>
       </form>
 
       {modalMessage && modalTitle && (

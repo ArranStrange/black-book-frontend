@@ -111,6 +111,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
         {filteredDrinks.map((drink) => (
           // iterates over every object of the flitereedDrinks array
           <div
+            data-testid="drink-card"
             key={drink._id}
             className="drink-card"
             //when a drink is clicked the whole drink object is passed to the handleDrinkClick function

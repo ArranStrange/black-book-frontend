@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+  - "18"
+
+cache:
+  directories:
+    - ~/.npm
+    - ~/.cache
+
+install:
+  - npm ci
+
+before_script:
+  - npm start &
+  - npx wait-on http://localhost:3000
+
+script:
+  - npx cypress run

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { RxCross2, RxHamburgerMenu } from "react-icons/rx";
 import "./search.css";
 
-//typescript defining props
 interface Props {
   onSearch: (searchQuery: {
     drinkName?: string;
@@ -14,112 +13,73 @@ interface Props {
   onShowAll: () => void;
 }
 
-export default function Search({
-  //props
-  onSearch,
-  onShowAll,
-}: Props) {
-  //
-  //
-  //state
-  //UI effecting state
+export default function Search({ onSearch, onShowAll }: Props) {
+  // Docs: file://./docs/search-bar-notes.md#UI_States
   const [dropdown, setDropdown] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
-  //
-  //
-  // Search effecting state
-  const [searchQuery, setSearchQuery] = useState(""); // holds the value of the text input
-  const [selectedCategory, setSelectedCategory] = useState(""); //holds the value of the category dropdown
-  const [selectedGlass, setSelectedGlass] = useState(""); //holds the value of the glass dropdown
-  const [selectedIce, setSelectedIce] = useState(""); //holds the value of the ice dropdown
-  //
-  //
-  // when search is focused and unfocused toggles the category, ice and glass dropdown
+  // Docs: file://./docs/search-bar-notes.md#Search_Input_States
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedGlass, setSelectedGlass] = useState("");
+  const [selectedIce, setSelectedIce] = useState("");
+
+  // Docs: file://./docs/search-bar-notes.md#handleDropdown
   const handleDropdown = () => {
     setDropdown(!dropdown);
   };
-  //
-  //
-  // handles changes in the text input
+
+  // Docs: file://./docs/search-bar-notes.md#handleSearchQueryChange
   const handleSearchQueryChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    //updates the state to the current value
     setSearchQuery(event.target.value);
   };
-  //
-  //
-  // reads the name and the value of the dropdown elements and updates the state
+
+  // Docs: file://./docs/search-bar-notes.md#handleSelectChange
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    // looks at the name and the value of the HTML field
     const { name, value } = event.target;
-    // if name === category, updated the selected Category state with the value
     if (name === "category") {
       setSelectedCategory(value);
-      // if name === glass, updated the selected Glass state with the value
     } else if (name === "glass") {
       setSelectedGlass(value);
-      // if name === Ice, updated the selected Ice state with the value
     } else if (name === "ice") {
       setSelectedIce(value);
     }
   };
-  //
-  //
-  //
-  // handles on focuse for the search elements
+
+  // Docs: file://./docs/search-bar-notes.md#handleFocus
   const handleFocus = () => {
     setIsSearchFocused(true);
-    //this triggers the dropdown
   };
-  //
-  //
-  //
-  const handleBlur = (e: React.FocusEvent<HTMLFormElement>) => {
-    // checks if the search element is still in focus
 
+  // Docs: file://./docs/search-bar-notes.md#handleBlur
+  const handleBlur = (e: React.FocusEvent<HTMLFormElement>) => {
     if (!e.currentTarget.contains(e.relatedTarget)) {
-      // if not in focus, set is Search Focused to false - closing the dropdown
       setIsSearchFocused(false);
     }
   };
-  //
-  //
-  // handles the search submit
-  const handleSearchSubmit = (
-    //takes the form
-    event: React.FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault(); //prevents the page from rerendering
-    // creates the searchQueryObject
+
+  // Docs: file://./docs/search-bar-notes.md#handleSearchSubmit
+  const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     const searchQueryObject = {
-      //takes the text from the text input state and removes the white space, or sets as undefined
       drinkName: searchQuery.trim() || undefined,
-      //sets the category to the input state
       category: selectedCategory || undefined,
-      //sets the glass to the input state
       glass: selectedGlass || undefined,
-      //sets the ice to the input state
       ice: selectedIce || undefined,
     };
-    //calls onSearch from app.tsx and passes it the searchQueryObject we just created
     onSearch(searchQueryObject);
-
-    //resets all of the inputs
     setSelectedCategory("");
     setSelectedGlass("");
     setSelectedIce("");
-    //sets the focus to false closing the dropdown
     setIsSearchFocused(false);
-    //scrolls to the top of the page to show the returned array from the start
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   };
-  //
-  //
-  // handles the clear filters button buy resetting all the inputs of the search
+
+  // Docs: file://./docs/search-bar-notes.md#handleshowall
   const handleShowAll = () => {
     setSearchQuery("");
     setSelectedCategory("");
@@ -127,13 +87,11 @@ export default function Search({
     setSelectedIce("");
     onShowAll();
   };
-  //
-  //
-  // handles log out
+
+  // Docs: file://./docs/search-bar-notes.md#handlelogout
   const handleLogout = () => {
-    //when log out is clicked,
-    localStorage.removeItem("authToken"); // clears the authToken
-    window.location.reload(); //reloads the page
+    localStorage.removeItem("authToken");
+    window.location.reload();
   };
 
   return (
@@ -191,8 +149,6 @@ export default function Search({
                 id="glass"
                 value={selectedGlass}
                 onChange={handleSelectChange}
-                // stop propagation used to isolate the event
-                // e.g wont autmatically submit the form when a value is selected
                 onMouseDown={(e) => e.stopPropagation()}
                 data-testid="glass-selection"
               >
@@ -212,8 +168,6 @@ export default function Search({
                 id="ice"
                 value={selectedIce}
                 onChange={handleSelectChange}
-                // stop propagation used to isolate the event
-                // e.g wont autmatically submit the form when a value is selected
                 onMouseDown={(e) => e.stopPropagation()}
                 data-testid="ice-selection"
               >

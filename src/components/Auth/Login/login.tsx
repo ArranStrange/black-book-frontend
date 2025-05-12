@@ -1,24 +1,30 @@
 import React, { useRef } from "react";
 import { useUser } from "../../../hooks/useUser";
 import MessageModal from "../../message/MessageModal";
-import "../Login/login.css";
 
-//Typescript defining the props types
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  TextField,
+  Typography,
+  Stack,
+  Divider,
+} from "@mui/material";
+
 interface LoginProps {
   onLoginSuccess: () => void;
   setIsRegisterVisible: (visible: boolean) => void;
 }
 
 const Login: React.FC<LoginProps> = ({
-  //props
   onLoginSuccess,
   setIsRegisterVisible,
 }) => {
-  //saves the Refs into a variable
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-  //long list of calls to the useUser hook
   const {
     modalTitle,
     modalMessage,
@@ -27,39 +33,58 @@ const Login: React.FC<LoginProps> = ({
     handleCloseModal,
   } = useUser(onLoginSuccess);
 
-  //on submition of the form
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    //prevents the page rerendering
     e.preventDefault();
-
-    //save the form input into a variable
-    //or provides and empty string
     const username = usernameRef.current?.value || "";
     const password = passwordRef.current?.value || "";
-
-    //if there nothing is provided then throw and error
     if (!username || !password) {
       console.error("Username and Password are required.");
       return;
     }
-    // calls the handle login function from the hook with the event, username and password
     handleLogin(e, username, password);
   };
 
   return (
-    <div className="login" data-testid="login-form">
-      {/* log in form */}
-      <div className="login-card">
-        <h2>Login</h2>
-        <form className="login-form" onSubmit={onSubmit}>
-          <div>
-            <label htmlFor="username">Username</label>
-            <input type="text" id="username" ref={usernameRef} required />
-          </div>
-          <div>
-            <label htmlFor="password">Password</label>
-            <input type="password" id="password" ref={passwordRef} required />
-          </div>
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      minHeight="100vh"
+      bgcolor="background.default"
+      px={2}
+      data-testid="login-form"
+    >
+      <Card sx={{ maxWidth: 400, width: "100%", boxShadow: 3 }}>
+        <CardContent>
+          <Typography variant="h5" component="h2" mb={2}>
+            Login
+          </Typography>
+
+          <form onSubmit={onSubmit}>
+            <Stack spacing={2}>
+              <TextField
+                label="Username"
+                inputRef={usernameRef}
+                variant="outlined"
+                fullWidth
+                required
+              />
+              <TextField
+                label="Password"
+                inputRef={passwordRef}
+                variant="outlined"
+                type="password"
+                fullWidth
+                required
+              />
+
+              <Button type="submit" variant="contained" color="primary">
+                Login
+              </Button>
+            </Stack>
+          </form>
+
           {modalTitle && modalMessage && (
             <MessageModal
               title={modalTitle}
@@ -67,22 +92,25 @@ const Login: React.FC<LoginProps> = ({
               onClose={handleCloseModal}
             />
           )}
-          <button type="submit">Login</button>
-        </form>
-      </div>
-      {/* register or continue as guest */}
-      <div className="register-guest-box">
-        <button
-          onClick={() => {
-            console.log("Register button clicked");
-            setIsRegisterVisible(true);
-          }}
-        >
+        </CardContent>
+      </Card>
+
+      <Stack
+        direction="row"
+        spacing={2}
+        mt={2}
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Button variant="text" onClick={() => setIsRegisterVisible(true)}>
           Register
-        </button>
-        <button onClick={handleGuestLogin}>Continue as Guest</button>
-      </div>
-    </div>
+        </Button>
+        <Divider orientation="vertical" flexItem />
+        <Button variant="outlined" onClick={handleGuestLogin}>
+          Continue as Guest
+        </Button>
+      </Stack>
+    </Box>
   );
 };
 

@@ -1,57 +1,109 @@
 import { useEffect, useState } from "react";
-import "./nav.css";
+import {
+  Box,
+  Typography,
+  Button,
+  Stack,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 
-//typescript defining props
+//file://./docs/Nav.NOTES.md
 interface Props {
   onSelectLetter: (letter: string) => void;
 }
 
-export default function Nav({
-  //props
-  onSelectLetter,
-}: Props) {
-  //
-  //state
-  // selected letter state starts with an empty string
+export default function Nav({ onSelectLetter }: Props) {
   const [selectedLetter, setSelectedLetter] = useState("");
-  //
-  //
-  // handles the letter click, takes
+
   const handleLetterClick = (letter: string) => {
-    // calls the prop function and passes the selected letter
     onSelectLetter(letter);
-    // updates the letter state so Nav can disaply the letter
     setSelectedLetter(letter);
-    // scrolls to the top/to the start of the array
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
-  //
-  // useEffect calls the letter click function on render with no params
+
   useEffect(() => {
     handleLetterClick("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const clearFilter = () => {
+    handleLetterClick("");
+  };
+
+  useEffect(() => {
+    clearFilter();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
-    <nav>
-      <h1 className="current-letter">{selectedLetter}</h1>
-      <ul className="alphabet">
-        {Array.from({ length: 26 }, (_, i) => {
-          const letter = String.fromCharCode(65 + i);
-          return (
-            <li
-              data-testid="letters"
-              key={i}
-              onClick={() => handleLetterClick(letter)}
-            >
-              {letter}
-            </li>
-          );
-        })}
-      </ul>
-    </nav>
+    <>
+      <Box
+        sx={{
+          position: "fixed",
+          top: "10px",
+          left: 0,
+          height: "calc(100vh - 50px)",
+          width: isMobile ? "auto" : 60,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          p: 1,
+          zIndex: 10,
+          borderRight: `1px solid ${theme.palette.divider}`,
+          overflowY: "auto",
+        }}
+      >
+        <Stack spacing={1}>
+          {Array.from({ length: 26 }, (_, i) => {
+            const letter = String.fromCharCode(65 + i);
+            const isSelected = selectedLetter === letter;
+
+            return (
+              <Button
+                key={letter}
+                data-testid="letters"
+                variant={isSelected ? "contained" : "outlined"}
+                size="small"
+                onClick={() => handleLetterClick(letter)}
+                sx={{
+                  minWidth: 30,
+                  height: 30,
+                  borderRadius: "50%",
+                  fontWeight: "bold",
+                  padding: 0,
+                  color: isSelected ? "background.default" : "text.primary",
+                  borderColor: "divider",
+                  "&:hover": {
+                    backgroundColor: "primary.main",
+                    color: "background.default",
+                  },
+                }}
+              >
+                {letter}
+              </Button>
+            );
+          })}
+        </Stack>
+      </Box>
+      <Button
+        onClick={clearFilter}
+        variant="text"
+        size="small"
+        sx={{
+          position: "fixed",
+          bottom: 10,
+          left: 0,
+          mt: 2,
+          fontSize: "0.75rem",
+          color: theme.palette.secondary.main,
+        }}
+      >
+        Clear
+      </Button>
+    </>
   );
 }

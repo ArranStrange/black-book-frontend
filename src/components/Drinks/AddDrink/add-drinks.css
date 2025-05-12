@@ -1,4 +1,4 @@
-.add-drinks-form {
+/* .add-drinks-form {
   height: 100vh;
   width: 70vw;
   z-index: 1000 !important;
@@ -12,7 +12,7 @@
   padding: 40px;
   box-sizing: border-box;
   align-items: center;
-}
+} */
 
 .add-drinks-form input,
 .add-drinks-form textarea,

@@ -1,7 +1,13 @@
-import "./confirm-delete-modal.css";
+import React from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Typography,
+} from "@mui/material";
 
-//type declare for props
-//Props from EditDrinkModal.tsx
 interface ConfirmDeleteModalProps {
   drinkName: string;
   onConfirm: () => void;
@@ -9,28 +15,42 @@ interface ConfirmDeleteModalProps {
 }
 
 const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
-  drinkName, // drink name to make the message unique
-  onConfirm, // a callback function to handle the delete
-  onCancel, // a call back function that cancels the delete process
+  drinkName,
+  onConfirm,
+  onCancel,
 }) => {
   return (
-    <>
-      <div className="confirm-delete-overlay"></div>
-      <div className="confirm-delete-modal">
-        <h3>
-          Confirm Deletion of <br />
-          <span>{drinkName}</span>
-        </h3>
-        <p>Are you sure you want to delete {drinkName}?</p>
+    <Dialog
+      open
+      onClose={onCancel}
+      PaperProps={{
+        sx: {
+          zIndex: 1000,
+        },
+      }}
+    >
+      <DialogTitle>
+        Confirm Deletion of <br />
+        <Typography variant="h3" component="span" color="error">
+          {drinkName}
+        </Typography>
+      </DialogTitle>
 
-        <button className="confirm-btn" onClick={onConfirm}>
+      <DialogContent>
+        <Typography>
+          Are you sure you want to delete <strong>{drinkName}</strong>?
+        </Typography>
+      </DialogContent>
+
+      <DialogActions>
+        <Button onClick={onConfirm} color="error" variant="contained">
           Confirm
-        </button>
-        <button className="cancel-btn" onClick={onCancel}>
+        </Button>
+        <Button onClick={onCancel} color="inherit" variant="outlined">
           Cancel
-        </button>
-      </div>
-    </>
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 

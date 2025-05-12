@@ -1,9 +1,18 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useRegister } from "../../../hooks/useRegister";
 import MessageModal from "../../message/MessageModal";
-import "./register.css";
 
-//Typescript defining the props types
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  TextField,
+  Typography,
+  Stack,
+  Divider,
+} from "@mui/material";
+
 interface RegisterProps {
   onRegisterSuccess: () => void;
   setIsLoginVisible: (visible: boolean) => void;
@@ -11,67 +20,112 @@ interface RegisterProps {
 }
 
 const Register: React.FC<RegisterProps> = ({
-  //props
   onRegisterSuccess,
   setIsLoginVisible,
   onGuestLogin,
 }) => {
-  //
-  //
-  //
-  //saves the Refs into a variable
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-  //
-  //
-  // initiates the useRegister hook
-  const {
-    modalTitle, // handles updates of message modal with new title
-    modalMessage, // handles updates of message modal with new message
-    handleRegister, //processes the registration
-    handleCloseModal, // closes the register modal
-  } = useRegister();
-  //
-  //
-  //
+  const confirmPasswordRef = useRef<HTMLInputElement>(null);
+  const [passwordMismatch, setPasswordMismatch] = useState(false);
+
+  const { modalTitle, modalMessage, handleRegister, handleCloseModal } =
+    useRegister();
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    //prevents re-render
     e.preventDefault();
 
-    //save the form input into a variable
     const username = usernameRef.current?.value || "";
     const password = passwordRef.current?.value || "";
-    //if username and password are left empty then throws a error message
+    const confirmPassword = confirmPasswordRef.current?.value || "";
+
     if (!username || !password) {
       console.error("Username and Password are required.");
-
       return;
     }
-    //calls handleRegister from the useRegister hook with the username and password
-    // and runs the success callback
+
+    if (password !== confirmPassword) {
+      setPasswordMismatch(true);
+      return;
+    }
+
+    setPasswordMismatch(false);
     handleRegister(e, username, password, onRegisterSuccess);
   };
 
   return (
-    <div className="register">
-      <div className="register-card">
-        <h3>Register</h3>
-        <form className="register-form" onSubmit={onSubmit}>
-          <div>
-            <label htmlFor="username">Username:</label>
-            <input type="text" id="username" ref={usernameRef} required />
-          </div>
-          <div>
-            <label htmlFor="password">Password:</label>
-            <input type="password" id="password" ref={passwordRef} required />
-          </div>
-          <button type="submit">Register</button>
-        </form>
-      </div>
-      <div className="login-switch-box">
-        <button onClick={() => setIsLoginVisible(true)}>Login</button>
-        <button onClick={onGuestLogin}>Continue as Guest</button>
-      </div>
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      minHeight="100vh"
+      bgcolor="background.default"
+      px={2}
+      data-testid="register-form"
+    >
+      <Card sx={{ maxWidth: 400, width: "100%", boxShadow: 3 }}>
+        <CardContent>
+          <Typography variant="h5" component="h2" mb={2}>
+            Register
+          </Typography>
+
+          <form onSubmit={onSubmit}>
+            <Stack spacing={2}>
+              <TextField
+                label="Username"
+                inputRef={usernameRef}
+                variant="outlined"
+                fullWidth
+                required
+              />
+              <TextField
+                label="Password"
+                inputRef={passwordRef}
+                variant="outlined"
+                type="password"
+                fullWidth
+                required
+              />
+              <TextField
+                label="Confirm Password"
+                inputRef={confirmPasswordRef}
+                variant="outlined"
+                type="password"
+                fullWidth
+                required
+                error={passwordMismatch}
+                helperText={
+                  passwordMismatch
+                    ? "Passwords do not match"
+                    : "Please confirm your password"
+                }
+              />
+
+              <Button type="submit" variant="contained" color="primary">
+                Register
+              </Button>
+            </Stack>
+          </form>
+        </CardContent>
+      </Card>
+
+      <Stack
+        direction="row"
+        spacing={2}
+        mt={2}
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Button variant="text" onClick={() => setIsLoginVisible(true)}>
+          Login
+        </Button>
+        <Divider orientation="vertical" flexItem />
+        <Button variant="outlined" onClick={onGuestLogin}>
+          Continue as Guest
+        </Button>
+      </Stack>
+
       {modalTitle && modalMessage && (
         <MessageModal
           title={modalTitle}
@@ -79,7 +133,7 @@ const Register: React.FC<RegisterProps> = ({
           onClose={handleCloseModal}
         />
       )}
-    </div>
+    </Box>
   );
 };
 

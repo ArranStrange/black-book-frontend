@@ -14,6 +14,7 @@ import {
   Table,
   TableCell,
   useTheme,
+  Rating,
 } from "@mui/material";
 
 interface SelectedDrinkModalProps {
@@ -36,7 +37,15 @@ const SelectedDrinkModal: React.FC<SelectedDrinkModalProps> = ({
           <Typography variant="h5" fontWeight={700}>
             {drink.drinkName}
           </Typography>
-          <Box>
+          <Rating
+            name="rating"
+            value={drink.Rating}
+            max={5}
+            precision={1}
+            readOnly
+            sx={{ color: "primary.main", gap: 1 }}
+          />
+          <Box sx={{ m: 1, display: "flex", gap: 1 }}>
             {!isGuest && (
               <IconButton onClick={onEdit} color="primary">
                 <FaEdit />

@@ -110,7 +110,7 @@ const App: React.FC = () => {
       {isAuthenticated ? (
         <>
           <Box sx={{ position: "fixed", top: 16, right: 16, zIndex: 1300 }}>
-            <UserMenu onLogout={handleLogout} />
+            <UserMenu onLogout={handleLogout} isGuest={isGuest} />
           </Box>
 
           {!isGuest && (

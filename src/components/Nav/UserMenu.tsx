@@ -5,9 +5,10 @@ import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 
 interface UserMenuProps {
   onLogout: () => void;
+  isGuest: boolean;
 }
 
-export const UserMenu: React.FC<UserMenuProps> = ({ onLogout }) => {
+export const UserMenu: React.FC<UserMenuProps> = ({ onLogout, isGuest }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const theme = useTheme();
@@ -51,7 +52,10 @@ export const UserMenu: React.FC<UserMenuProps> = ({ onLogout }) => {
       >
         <MenuItem onClick={handleLogoutClick}>Profile</MenuItem>
         <MenuItem onClick={handleLogoutClick}>Favourites</MenuItem>
-        <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
+        <MenuItem onClick={handleLogoutClick}>
+          {" "}
+          {isGuest ? "Login" : "Logout"}
+        </MenuItem>
         {/* You can add more <MenuItem>s here in future */}
       </Menu>
     </>

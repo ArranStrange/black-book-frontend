@@ -73,6 +73,11 @@ export default function Search({ onSearch, onShowAll }: Props) {
     onShowAll();
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    window.location.reload();
+  };
+
   if (!showSearchBar) {
     return (
       <Box
@@ -100,115 +105,117 @@ export default function Search({ onSearch, onShowAll }: Props) {
   }
 
   return (
-    <Grow in={showSearchBar} timeout={300}>
-      <Box
-        component="form"
-        onSubmit={handleSearchSubmit}
-        sx={{
-          position: "fixed",
-          top: 16,
-          left: 100,
-          zIndex: 1300,
-          width: "auto",
-          backgroundColor: theme.palette.background.paper,
-          boxShadow: 6,
-          borderRadius: 2,
-          px: 2,
-          py: 2,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-          transformOrigin: "left top",
-        }}
-      >
+    <>
+      <Grow in={showSearchBar} timeout={300}>
         <Box
-          id="searchInputContainer"
+          component="form"
+          onSubmit={handleSearchSubmit}
           sx={{
-            width: 300,
+            position: "fixed",
+            top: 20,
+            left: 100,
+            zIndex: 1300,
+            width: "auto",
+            backgroundColor: theme.palette.background.paper,
+            boxShadow: 6,
+            borderRadius: 2,
+            px: 2,
+            py: 2,
             display: "flex",
             flexDirection: "column",
-            gap: 1,
+            alignItems: "flex-start",
+            transformOrigin: "left top",
           }}
         >
-          <Box display="flex" alignItems="center" gap={1}>
-            <TextField
-              placeholder="Search"
-              variant="standard"
-              size="small"
-              value={searchQuery}
-              onChange={handleSearchQueryChange}
-              fullWidth
-              sx={{ input: { color: theme.palette.text.primary } }}
-            />
-            <IconButton onClick={() => setShowSearchBar(false)} size="small">
-              <CloseIcon />
-            </IconButton>
-          </Box>
-
-          <Box display="flex" gap={1} mt={1}>
-            <Button type="submit" variant="text" size="small">
-              Search
-            </Button>
-            <Button variant="text" size="small" onClick={handleShowAll}>
-              Clear
-            </Button>
-            <Button
-              variant="text"
-              size="small"
-              onClick={() => setShowFilters((prev) => !prev)}
-            >
-              {showFilters ? "Hide Filters" : "Filters"}
-            </Button>
-          </Box>
-
-          <Collapse in={showFilters} timeout="auto" unmountOnExit>
-            <Box mt={2} display="flex" flexDirection="column" gap={2}>
-              {[
-                {
-                  label: "Category",
-                  value: selectedCategory,
-                  name: "category",
-                  options: ["aperitif", "collins", "tiki", "sour", "fizz"],
-                },
-                {
-                  label: "Glass",
-                  value: selectedGlass,
-                  name: "glass",
-                  options: ["Highball", "Flute", "Wine", "Coup"],
-                },
-                {
-                  label: "Ice",
-                  value: selectedIce,
-                  name: "ice",
-                  options: ["Cubed", "Crushed", "Block"],
-                },
-              ].map(({ label, value, name, options }) => (
-                <FormControl
-                  fullWidth
-                  size="small"
-                  variant="standard"
-                  key={name}
-                >
-                  <InputLabel shrink>{label}</InputLabel>
-                  <Select
-                    name={name}
-                    value={value}
-                    onChange={handleSelectChange}
-                    label={label}
-                  >
-                    <MenuItem value="">Not Defined</MenuItem>
-                    {options.map((opt) => (
-                      <MenuItem key={opt} value={opt}>
-                        {opt}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              ))}
+          <Box
+            id="searchInputContainer"
+            sx={{
+              width: 300,
+              display: "flex",
+              flexDirection: "column",
+              gap: 1,
+            }}
+          >
+            <Box display="flex" alignItems="center" gap={1}>
+              <TextField
+                placeholder="Search"
+                variant="standard"
+                size="small"
+                value={searchQuery}
+                onChange={handleSearchQueryChange}
+                fullWidth
+                sx={{ input: { color: theme.palette.text.primary } }}
+              />
+              <IconButton onClick={() => setShowSearchBar(false)} size="small">
+                <CloseIcon />
+              </IconButton>
             </Box>
-          </Collapse>
+
+            <Box display="flex" gap={1} mt={1}>
+              <Button type="submit" variant="text" size="small">
+                Search
+              </Button>
+              <Button variant="text" size="small" onClick={handleShowAll}>
+                Clear
+              </Button>
+              <Button
+                variant="text"
+                size="small"
+                onClick={() => setShowFilters((prev) => !prev)}
+              >
+                {showFilters ? "Hide Filters" : "Filters"}
+              </Button>
+            </Box>
+
+            <Collapse in={showFilters} timeout="auto" unmountOnExit>
+              <Box mt={2} display="flex" flexDirection="column" gap={2}>
+                {[
+                  {
+                    label: "Category",
+                    value: selectedCategory,
+                    name: "category",
+                    options: ["aperitif", "collins", "tiki", "sour", "fizz"],
+                  },
+                  {
+                    label: "Glass",
+                    value: selectedGlass,
+                    name: "glass",
+                    options: ["Highball", "Flute", "Wine", "Coup"],
+                  },
+                  {
+                    label: "Ice",
+                    value: selectedIce,
+                    name: "ice",
+                    options: ["Cubed", "Crushed", "Block"],
+                  },
+                ].map(({ label, value, name, options }) => (
+                  <FormControl
+                    fullWidth
+                    size="small"
+                    variant="standard"
+                    key={name}
+                  >
+                    <InputLabel shrink>{label}</InputLabel>
+                    <Select
+                      name={name}
+                      value={value}
+                      onChange={handleSelectChange}
+                      label={label}
+                    >
+                      <MenuItem value="">Not Defined</MenuItem>
+                      {options.map((opt) => (
+                        <MenuItem key={opt} value={opt}>
+                          {opt}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                ))}
+              </Box>
+            </Collapse>
+          </Box>
         </Box>
-      </Box>
-    </Grow>
+      </Grow>
+    </>
   );
 }

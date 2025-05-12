@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
-//
-//Styles imports
-import "./App.css";
-import AddIcon from "@mui/icons-material/Add";
-import { motion } from "framer-motion";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import {
+  Box,
+  Slide,
+  Container,
+  Fab,
+  useTheme,
+  IconButton,
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import { motion } from "framer-motion";
+
+// Theme and Components
 import blackBookTheme from "./theme";
-//
-//Components imports
 import AddDrinkForm from "./components/Drinks/AddDrink/AddDrinksForm";
 import DrinksList from "./components/Drinks/DrinksList/DrinksList";
 import Nav from "./components/Nav/nav";
@@ -16,183 +21,172 @@ import Search from "./components/Nav/search";
 import Login from "./components/Auth/Login/login";
 import Register from "./components/Auth/Register/register";
 import MessageModal from "./components/message/MessageModal";
-import { Box, Slide } from "@mui/material";
+import UserMenu from "./components/Nav/UserMenu";
 
 const App: React.FC = () => {
-  //state
-  //
-  //
-  // search related state
+  const theme = useTheme();
+
   const [selectedLetter, setSelectedLetter] = useState("");
   const [searchQuery, setSearchQuery] = useState<{
-    //stores the search criteria set in the search component
-    drinkName?: string; //defined with a ? to indicate it is optional
+    drinkName?: string;
     category?: string;
     glass?: string;
     ice?: string;
   }>({});
-  //
-  //
-  // UI state management
+
   const [isAddDrinkFormVisible, setIsAddDrinkFormVisible] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isRegisterVisible, setIsRegisterVisible] = useState<boolean>(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState<string | null>(null);
   const [modalTitle, setModalTitle] = useState<string | null>(null);
-  //auth state
+
   const isGuest = localStorage.getItem("authToken") === "guest";
-  //
-  //
-  // handles a successsful log in and sets the auth state to true
-  const handleLoginSuccess = () => {
-    setIsAuthenticated(true);
-  };
-  //
-  //
-  //handles a successful registration and sets the auth state to true
-  const handleRegisterSuccess = () => {
-    setIsAuthenticated(true);
-  };
-  //
-  //
-  //
-  // on submission handleSearch updating the searchQuery state
+
+  const handleLoginSuccess = () => setIsAuthenticated(true);
+  const handleRegisterSuccess = () => setIsAuthenticated(true);
+
   const handleSearch = (query: {
-    //takes the searchObjectQuery from the search bar
     drinkName?: string;
     category?: string;
     glass?: string;
     ice?: string;
   }) => {
     setSearchQuery({
-      // uses setSearchQuery to update the state to with either the value from the search form or an empty string
       drinkName: query.drinkName || "",
       category: query.category || "",
       glass: query.glass || "",
       ice: query.ice || "",
     });
   };
-  //
-  //
-  // updates the selected letter state with the selectedLetter state from Nav
+
   const handleLetterSelection = (letter: string) => {
     setSelectedLetter(letter);
   };
-  //
-  //
-  // clears all search params
+
   const onShowAll = () => {
-    //clears the search query state object
     setSearchQuery({});
-    //clears the selected letter state
     setSelectedLetter("");
   };
-  //
-  //
-  // toggles the addDrinkForm component
+
   const toggleAddDrinkForm = () => {
-    //toggles from its previous state to the oposite
     setIsAddDrinkFormVisible((prev) => !prev);
   };
-  //
-  //
+
   const handleAddDrinkToggle = () => {
-    //calls toggle add drink form
     toggleAddDrinkForm();
-    //Truthy Falsy state for rotating the + to become a x
     setIsFormVisible((prev) => !prev);
   };
-  //
-  //
-  //
-  // Throws a message on first render warning of a slow server
+
+  const handleCloseModal = () => {
+    setModalMessage(null);
+    setModalTitle(null);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    window.location.reload();
+  };
+
   useEffect(() => {
     setModalMessage(
       "The backend of this app is hosted on a free server, please be patient it can be a little slow. Up to 30 seconds!"
     );
     setModalTitle("A Heads Up");
   }, []);
-  //
-  // Close the message modal
-  const handleCloseModal = () => {
-    setModalMessage(null);
-    setModalTitle(null);
-  };
 
   return (
-    <>
-      <ThemeProvider theme={blackBookTheme}>
-        <CssBaseline />
+    <ThemeProvider theme={blackBookTheme}>
+      <CssBaseline />
 
-        {modalMessage && modalTitle && (
-          <MessageModal
-            message={modalMessage}
-            title={modalTitle}
-            onClose={handleCloseModal}
-          />
-        )}
+      {modalMessage && modalTitle && (
+        <MessageModal
+          message={modalMessage}
+          title={modalTitle}
+          onClose={handleCloseModal}
+        />
+      )}
 
-        {isAuthenticated ? (
-          <>
-            {!isGuest && (
-              <button
-                className="toggle-drink-form-button"
-                onClick={handleAddDrinkToggle}
+      {isAuthenticated ? (
+        <>
+          <Box sx={{ position: "fixed", top: 16, right: 16, zIndex: 1300 }}>
+            <UserMenu onLogout={handleLogout} />
+          </Box>
+
+          {!isGuest && (
+            <IconButton
+              onClick={handleAddDrinkToggle}
+              sx={{
+                position: "fixed",
+                bottom: 32,
+                right: 32,
+                zIndex: 1200,
+                backgroundColor: "transparent",
+                color: "primary.main",
+                border: "none",
+                "&:hover": {
+                  backgroundColor: "transparent",
+                  color: "primary.light",
+                },
+                fontSize: 36,
+              }}
+            >
+              <motion.div
+                animate={{ rotate: isFormVisible ? 45 : 0 }}
+                transition={{ duration: 0.3 }}
               >
-                <motion.div
-                  animate={{ rotate: isFormVisible ? 45 : 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <AddIcon sx={{ fontSize: 36, color: "primary.main" }} />
-                </motion.div>
-              </button>
-            )}
-            <>
-              <Slide in={isAddDrinkFormVisible} direction="left" unmountOnExit>
-                <Box
-                  sx={{
-                    zIndex: 100,
-                    position: "absolute",
-                    p: 4,
-                    minWidth: "100vw",
-                    mx: "auto",
-                    top: 0,
-                    right: 0,
-                    borderRadius: 2,
-                    backgroundColor: "background.default",
-                    boxShadow: 4,
-                  }}
-                >
-                  <AddDrinkForm toggleAddDrinkForm={toggleAddDrinkForm} />
-                </Box>
-              </Slide>
-            </>
+                <AddIcon fontSize="inherit" />
+              </motion.div>
+            </IconButton>
+          )}
+
+          <Slide in={isAddDrinkFormVisible} direction="left" unmountOnExit>
+            <Box
+              sx={{
+                zIndex: 100,
+                position: "absolute",
+                p: 2,
+                minWidth: "100vw",
+                mx: "auto",
+                top: 0,
+                right: 0,
+                borderRadius: 2,
+                boxShadow: 4,
+                backgroundColor: "#1b1c1e",
+              }}
+            >
+              <AddDrinkForm toggleAddDrinkForm={toggleAddDrinkForm} />
+            </Box>
+          </Slide>
+
+          <Container maxWidth="lg" sx={{ mt: 4 }}>
             <DrinksList
               selectedLetter={selectedLetter}
               searchQuery={searchQuery}
             />
-            <Search
-              onSearch={handleSearch}
-              toggleAddDrinkForm={toggleAddDrinkForm}
-              onShowAll={onShowAll}
-            />
-            <Nav onSelectLetter={handleLetterSelection} />
-          </>
-        ) : isRegisterVisible ? (
-          <Register
-            onRegisterSuccess={handleRegisterSuccess}
-            setIsLoginVisible={() => setIsRegisterVisible(false)}
-            onGuestLogin={handleLoginSuccess}
+          </Container>
+
+          <Search
+            onSearch={handleSearch}
+            toggleAddDrinkForm={toggleAddDrinkForm}
+            onShowAll={onShowAll}
           />
-        ) : (
-          <Login
-            onLoginSuccess={handleLoginSuccess}
-            setIsRegisterVisible={setIsRegisterVisible}
-          />
-        )}
-      </ThemeProvider>
-    </>
+
+          <Nav onSelectLetter={handleLetterSelection} />
+        </>
+      ) : isRegisterVisible ? (
+        <Register
+          onRegisterSuccess={handleRegisterSuccess}
+          setIsLoginVisible={() => setIsRegisterVisible(false)}
+          onGuestLogin={handleLoginSuccess}
+        />
+      ) : (
+        <Login
+          onLoginSuccess={handleLoginSuccess}
+          setIsRegisterVisible={setIsRegisterVisible}
+        />
+      )}
+    </ThemeProvider>
   );
 };
 

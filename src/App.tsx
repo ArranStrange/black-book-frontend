@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import {
-  Box,
-  Slide,
-  Container,
-  Fab,
-  useTheme,
-  IconButton,
-} from "@mui/material";
+import { Box, Slide, Container, IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { motion } from "framer-motion";
 
@@ -24,7 +17,7 @@ import MessageModal from "./components/message/MessageModal";
 import UserMenu from "./components/Nav/UserMenu";
 
 const App: React.FC = () => {
-  const theme = useTheme();
+  // const theme = useTheme();
 
   const [selectedLetter, setSelectedLetter] = useState("");
   const [searchQuery, setSearchQuery] = useState<{

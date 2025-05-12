@@ -1,12 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Box,
-  Typography,
-  Button,
-  Stack,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, Button, Stack, useTheme, useMediaQuery } from "@mui/material";
 
 //file://./docs/Nav.NOTES.md
 interface Props {

@@ -10,7 +10,6 @@ import {
   Collapse,
   IconButton,
   useTheme,
-  useMediaQuery,
   Grow,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
@@ -71,11 +70,6 @@ export default function Search({ onSearch, onShowAll }: Props) {
     setSelectedIce("");
     setShowFilters(false);
     onShowAll();
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    window.location.reload();
   };
 
   if (!showSearchBar) {

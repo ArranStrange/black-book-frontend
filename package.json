@@ -31,6 +31,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "prebuild": "mv .env.local .env.local.bak || true",
+    "postbuild": "mv .env.local.bak .env.local || true",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

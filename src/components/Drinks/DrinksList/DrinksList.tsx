@@ -4,8 +4,7 @@ import { useFilterDrinks } from "../../../hooks/useFilterDrinks";
 import { Drink } from "../../types/types";
 import "./drinks-list.css";
 import EditDrinkModal from "../EditDrinksModal/EditDrinksModal";
-import Shaker from "../../assets/shaker.png";
-import Spill from "../../assets/spil.png";
+
 import SelectedDrinkModal from "../SelectedDrinkModal/selectedDrinkModal";
 import {
   Box,
@@ -15,6 +14,8 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
+import Loading from "../../Loading/Loading";
+import { ErrorMessage } from "../../Error/Error";
 //
 //Docs: file://./docs/DrinksList.NOTE.md
 //
@@ -65,29 +66,11 @@ const DrinksList: React.FC<DrinksListProps> = ({
   };
 
   if (loading) {
-    return (
-      <div className="fetch-messages">
-        <div className="loading-message">
-          <img src={Shaker} className="loading-shaker" alt="loading shaker" />
-          Loading...
-        </div>
-      </div>
-    );
+    return <Loading />;
   }
 
   if (error) {
-    return (
-      <div className="fetch-messages">
-        <div className="loading-message">
-          <img
-            src={Spill}
-            className="network-error"
-            alt="network error shaker"
-          />
-          {error}
-        </div>
-      </div>
-    );
+    return <ErrorMessage message={error} />;
   }
 
   return (
@@ -96,7 +79,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
         sx={{
           maxHeight: "100vh",
           overflowY: "auto",
-          p: 10,
+          pt: 5,
           zIndex: 1,
           position: "relative",
         }}

@@ -4,14 +4,7 @@ import { useFilterDrinks } from "../../../hooks/useFilterDrinks";
 import { Drink } from "../../types/types";
 import "./drinks-list.css";
 import EditDrinkModal from "../EditDrinksModal/EditDrinksModal";
-import {
-  selectDrink,
-  closeDrinkModal,
-  showEditDrinkModal,
-  closeEditDrinkModal,
-  deleteDrink,
-  updateDrink,
-} from "../../../redux/slices/drinksSlice";
+import { selectDrink } from "../../../redux/slices/drinksSlice";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 
 import SelectedDrinkModal from "../SelectedDrinkModal/selectedDrinkModal";
@@ -44,13 +37,14 @@ const DrinksList: React.FC<DrinksListProps> = ({
   selectedLetter,
   searchQuery,
 }) => {
-  const { drinks, loading, error, handleSaveEdit } = useDrinks();
-  const filteredDrinks = useFilterDrinks(drinks, selectedLetter, searchQuery);
+  const filteredDrinks = useFilterDrinks(selectedLetter, searchQuery);
+  const loading = useAppSelector((state) => state.drinks.loading);
+  const error = useAppSelector((state) => state.drinks.error);
 
   const isGuest = localStorage.getItem("authToken") === "guest";
 
   const dispatch = useAppDispatch();
-  const { showDrinkModal, showEditModal, selectedDrink } = useAppSelector(
+  const { showDrinkModal, showEditModal } = useAppSelector(
     (state) => state.drinks
   );
 
@@ -63,7 +57,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
   }
 
   if (error) {
-    return <ErrorMessage message={error} />;
+    return <ErrorMessage message={error as string} />;
   }
 
   return (

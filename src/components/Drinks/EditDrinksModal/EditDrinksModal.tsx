@@ -38,6 +38,10 @@ const EditDrinkModal: React.FC = () => {
   const dispatch = useAppDispatch();
   const { selectedDrink } = useAppSelector((state) => state.drinks);
 
+  const hook = useEditDrink(selectedDrink ?? { _id: "", drinkName: "" });
+
+  if (!selectedDrink) return null;
+
   const {
     editedDrink,
     handleChange,
@@ -48,9 +52,7 @@ const EditDrinkModal: React.FC = () => {
     setShowConfirmDelete,
     isSaving,
     error,
-  } = useEditDrink(selectedDrink ?? { _id: "", drinkName: "" });
-
-  if (!selectedDrink) return null;
+  } = hook;
 
   return (
     <Dialog

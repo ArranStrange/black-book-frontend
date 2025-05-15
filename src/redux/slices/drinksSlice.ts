@@ -3,73 +3,88 @@ import { Drink } from "../../components/types/types";
 
 interface DrinksState {
   list: Drink[];
+  loading: boolean;
+  error: string | null;
   selectedDrink: Drink | null;
   showDrinkModal: boolean;
   showEditModal: boolean;
-  showDeleteModal: boolean; // new
 }
 
 const initialState: DrinksState = {
   list: [],
+  loading: false,
+  error: null,
   selectedDrink: null,
   showDrinkModal: false,
   showEditModal: false,
-  showDeleteModal: false,
 };
 
 const drinksSlice = createSlice({
   name: "drinks",
   initialState,
   reducers: {
+    // Data fetching
     setDrinks(state, action: PayloadAction<Drink[]>) {
       state.list = action.payload;
     },
+    setLoading(state, action: PayloadAction<boolean>) {
+      state.loading = action.payload;
+    },
+    setError(state, action: PayloadAction<string | null>) {
+      state.error = action.payload;
+    },
+
+    // CRUD operations
     addDrink(state, action: PayloadAction<Drink>) {
       state.list.push(action.payload);
     },
-    deleteDrink(state, action: PayloadAction<string>) {
-      state.list = state.list.filter((d) => d._id !== action.payload);
+    updateDrink(state, action: PayloadAction<Drink>) {
+      const updatedDrink = action.payload;
+      const index = state.list.findIndex((d) => d._id === updatedDrink._id);
+      if (index !== -1) {
+        state.list[index] = updatedDrink;
+      }
+      if (state.selectedDrink?._id === updatedDrink._id) {
+        state.selectedDrink = updatedDrink;
+      }
     },
+    deleteDrinkFromStore(state, action: PayloadAction<string>) {
+      state.list = state.list.filter((drink) => drink._id !== action.payload);
+      state.showDrinkModal = false;
+    },
+
+    // Modal and selection state
     selectDrink(state, action: PayloadAction<Drink>) {
       state.selectedDrink = action.payload;
       state.showDrinkModal = true;
     },
     closeDrinkModal(state) {
       state.showDrinkModal = false;
-      state.selectedDrink = null;
     },
     showEditDrinkModal(state) {
-      state.showDrinkModal = false;
       state.showEditModal = true;
     },
     closeEditDrinkModal(state) {
       state.showEditModal = false;
+    },
+    clearSelectedDrink(state) {
       state.selectedDrink = null;
-    },
-    updateDrink(state, action: PayloadAction<Drink>) {
-      const index = state.list.findIndex((d) => d._id === action.payload._id);
-      if (index !== -1) state.list[index] = action.payload;
-    },
-    openDeleteDrinkModal(state) {
-      state.showDeleteModal = true;
-    },
-    closeDeleteDrinkModal(state) {
-      state.showDeleteModal = false;
     },
   },
 });
 
 export const {
   setDrinks,
+  setLoading,
+  setError,
   addDrink,
   updateDrink,
-  deleteDrink,
+  deleteDrinkFromStore,
   selectDrink,
   closeDrinkModal,
   showEditDrinkModal,
   closeEditDrinkModal,
-  openDeleteDrinkModal,
-  closeDeleteDrinkModal,
+  clearSelectedDrink,
 } = drinksSlice.actions;
 
 export default drinksSlice.reducer;

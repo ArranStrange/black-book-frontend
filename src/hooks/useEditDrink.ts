@@ -2,14 +2,13 @@ import { useState } from "react";
 import { useAppDispatch } from "../redux/hooks";
 import {
   closeEditDrinkModal,
-  deleteDrink as deleteDrinkFromStore,
-  updateDrink as updateDrinkInStore,
+  deleteDrinkFromStore,
+  updateDrink,
 } from "../redux/slices/drinksSlice";
 import * as drinkServices from "../services/drinksServices";
 import { Drink } from "../components/types/types";
 
-export const useEditDrink = (initialDrink: Drink | null) => {
-  if (!initialDrink) throw new Error("initialDrink is null");
+export const useEditDrink = (initialDrink: Drink) => {
   const dispatch = useAppDispatch();
 
   const [editedDrink, setEditedDrink] = useState<Drink>(initialDrink);
@@ -33,11 +32,10 @@ export const useEditDrink = (initialDrink: Drink | null) => {
     setError(null);
     try {
       const updatedDrink = await drinkServices.editDrink(editedDrink);
-      dispatch(updateDrinkInStore(updatedDrink));
+      dispatch(updateDrink(updatedDrink));
       dispatch(closeEditDrinkModal());
     } catch (err: any) {
-      console.error(err);
-      setError(err.message || "Failed to save changes.");
+      setError(err.message || "Failed to update drink.");
     } finally {
       setIsSaving(false);
     }
@@ -50,18 +48,16 @@ export const useEditDrink = (initialDrink: Drink | null) => {
   const handleConfirmDelete = async () => {
     setError(null);
 
-    const id = editedDrink._id;
-    if (!id) {
-      setError("Cannot delete drink: missing ID.");
+    if (!editedDrink._id) {
+      setError("Missing drink ID");
       return;
     }
 
     try {
-      await drinkServices.deleteDrink(id);
-      dispatch(deleteDrinkFromStore(id));
+      await drinkServices.deleteDrink(editedDrink._id);
+      dispatch(deleteDrinkFromStore(editedDrink._id));
       dispatch(closeEditDrinkModal());
     } catch (err: any) {
-      console.error(err);
       setError(err.message || "Failed to delete drink.");
     }
   };

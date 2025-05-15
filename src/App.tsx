@@ -29,6 +29,7 @@ import {
   setSelectedLetter,
   clearFilters,
 } from "./redux/slices/uiSlice";
+import { useDrinks } from "./hooks/useDrinks";
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -44,6 +45,7 @@ const App: React.FC = () => {
     selectedLetter,
   } = useAppSelector((state) => state.ui);
 
+  useDrinks();
   const isGuest = localStorage.getItem("authToken") === "guest";
 
   const handleLoginSuccess = () => dispatch(setAuthenticated(true));

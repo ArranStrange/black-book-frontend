@@ -1,13 +1,13 @@
 import { useMemo } from "react";
 import { Drink } from "../components/types/types";
+import { useAppSelector } from "../redux/hooks";
 //
 //
 //
-export const useFilterDrinks = (
-  drinks: Drink[],
-  selectedLetter: string,
-  searchQuery: any
-) => {
+export const useFilterDrinks = (selectedLetter: string, searchQuery: any) => {
+  const drinks = useAppSelector((state) => state.drinks.list);
+  console.log("Drinks in Redux:", drinks);
+
   // useMemo to only recalculate when a change is made
   return useMemo(() => {
     //

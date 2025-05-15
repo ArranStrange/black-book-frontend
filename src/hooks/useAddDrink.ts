@@ -1,5 +1,11 @@
 import { useState } from "react";
 import { addDrink } from "../services/drinksServices";
+import { useAppDispatch } from "../redux/hooks";
+import {
+  addDrink as addDrinkToStore,
+  setDrinks,
+} from "../redux/slices/drinksSlice";
+import DrinksList from "../components/Drinks/DrinksList/DrinksList";
 
 export const useAddDrink = (toggleAddDrinkForm: () => void) => {
   //initialises the formData state as an object, identical to the Drinks array
@@ -34,6 +40,7 @@ export const useAddDrink = (toggleAddDrinkForm: () => void) => {
   const [modalTitle, setModalTitle] = useState<string | null>(null);
   const [modalMessage, setModalMessage] = useState<string | null>(null);
   //
+  const dispatch = useAppDispatch();
   //
   //
   const handleChange = (
@@ -59,16 +66,15 @@ export const useAddDrink = (toggleAddDrinkForm: () => void) => {
   //
   //
   //when the form data is submitted
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    //prevents the page from rerender
     e.preventDefault();
     try {
-      //executes addDrink from drinkServices with the form data
-      await addDrink(formData);
-      //sets the modal message if successful
+      const createdDrink = await addDrink(formData);
+      dispatch(addDrinkToStore(createdDrink));
+
       setModalMessage("Drink added successfully!");
       setModalTitle("Success");
-      //catches any errors and updates the modal with an error message
     } catch (error) {
       setModalTitle("Error");
       setModalMessage("Failed to add drink.");

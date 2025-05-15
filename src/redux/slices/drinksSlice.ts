@@ -37,6 +37,9 @@ const drinksSlice = createSlice({
     // CRUD operations
     addDrink(state, action: PayloadAction<Drink>) {
       state.list.push(action.payload);
+      state.list.sort((a, b) =>
+        (a.drinkName ?? "").localeCompare(b.drinkName ?? "")
+      );
     },
     updateDrink(state, action: PayloadAction<Drink>) {
       const updatedDrink = action.payload;

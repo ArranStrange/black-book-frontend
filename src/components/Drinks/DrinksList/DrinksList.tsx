@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useDrinks } from "../../../hooks/useDrinks";
+import React from "react";
 import { useFilterDrinks } from "../../../hooks/useFilterDrinks";
 import { Drink } from "../../types/types";
 import "./drinks-list.css";

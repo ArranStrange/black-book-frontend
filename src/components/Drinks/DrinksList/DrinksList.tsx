@@ -4,6 +4,15 @@ import { useFilterDrinks } from "../../../hooks/useFilterDrinks";
 import { Drink } from "../../types/types";
 import "./drinks-list.css";
 import EditDrinkModal from "../EditDrinksModal/EditDrinksModal";
+import {
+  selectDrink,
+  closeDrinkModal,
+  showEditDrinkModal,
+  closeEditDrinkModal,
+  deleteDrink,
+  updateDrink,
+} from "../../../redux/slices/drinksSlice";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 
 import SelectedDrinkModal from "../SelectedDrinkModal/selectedDrinkModal";
 import {
@@ -35,34 +44,18 @@ const DrinksList: React.FC<DrinksListProps> = ({
   selectedLetter,
   searchQuery,
 }) => {
-  const { drinks, loading, error, handleSaveEdit, handleDelete } = useDrinks();
+  const { drinks, loading, error, handleSaveEdit } = useDrinks();
   const filteredDrinks = useFilterDrinks(drinks, selectedLetter, searchQuery);
 
   const isGuest = localStorage.getItem("authToken") === "guest";
 
-  const [showDrinkModal, setShowDrinkModal] = useState<boolean>(false);
-  const [selectedDrink, setSelectedDrink] = useState<Drink | null>(null);
-  const [showEditModal, setShowEditModal] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const { showDrinkModal, showEditModal, selectedDrink } = useAppSelector(
+    (state) => state.drinks
+  );
 
   const handleDrinkClick = (drink: Drink) => {
-    setSelectedDrink(drink);
-    setShowDrinkModal(true);
-  };
-
-  const handleCloseDrinkModal = () => {
-    setShowDrinkModal(false);
-    setSelectedDrink(null);
-  };
-
-  const handleEditClick = () => {
-    if (!selectedDrink) return;
-    setShowDrinkModal(false);
-    setShowEditModal(true);
-  };
-
-  const cancelEdit = () => {
-    setShowEditModal(false);
-    setSelectedDrink(null);
+    dispatch(selectDrink(drink));
   };
 
   if (loading) {
@@ -150,24 +143,8 @@ const DrinksList: React.FC<DrinksListProps> = ({
         </Grid>
       </Box>
 
-      {showDrinkModal && selectedDrink && (
-        <SelectedDrinkModal
-          drink={selectedDrink}
-          onClose={handleCloseDrinkModal}
-          onEdit={handleEditClick}
-          isGuest={isGuest}
-        />
-      )}
-
-      {showEditModal && selectedDrink && (
-        <EditDrinkModal
-          drink={selectedDrink}
-          onSave={handleSaveEdit}
-          setShowEditModal={setShowEditModal}
-          onCancel={cancelEdit}
-          onDelete={() => handleDelete(selectedDrink._id)}
-        />
-      )}
+      {showDrinkModal && <SelectedDrinkModal />}
+      {showEditModal && <EditDrinkModal />}
     </>
   );
 };

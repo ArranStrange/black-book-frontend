@@ -2,7 +2,6 @@ import React from "react";
 import { toSentenceCase } from "../../../hooks/useToSentenceCase";
 import { IoMdClose } from "react-icons/io";
 import { FaEdit } from "react-icons/fa";
-import { Drink } from "../../types/types";
 import {
   Box,
   Dialog,
@@ -17,29 +16,39 @@ import {
   Rating,
 } from "@mui/material";
 
-interface SelectedDrinkModalProps {
-  drink: Drink;
-  onClose: () => void;
-  onEdit: () => void;
-  isGuest: boolean;
-}
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import {
+  closeDrinkModal,
+  showEditDrinkModal,
+} from "../../../redux/slices/drinksSlice";
 
-const SelectedDrinkModal: React.FC<SelectedDrinkModalProps> = ({
-  drink,
-  onClose,
-  onEdit,
-  isGuest,
-}) => {
+const SelectedDrinkModal: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { selectedDrink, showDrinkModal } = useAppSelector(
+    (state) => state.drinks
+  );
+
+  const theme = useTheme();
+
+  const isGuest = localStorage.getItem("authToken") === "guest";
+
+  if (!showDrinkModal || !selectedDrink) return null;
+
   return (
-    <Dialog open onClose={onClose} fullWidth maxWidth="md">
+    <Dialog
+      open={showDrinkModal}
+      onClose={() => dispatch(closeDrinkModal())}
+      fullWidth
+      maxWidth="md"
+    >
       <DialogTitle>
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="h5" fontWeight={700}>
-            {drink.drinkName}
+            {selectedDrink.drinkName}
           </Typography>
           <Rating
             name="rating"
-            value={drink.Rating}
+            value={selectedDrink.Rating}
             max={5}
             precision={1}
             readOnly
@@ -47,11 +56,17 @@ const SelectedDrinkModal: React.FC<SelectedDrinkModalProps> = ({
           />
           <Box sx={{ m: 1, display: "flex", gap: 1 }}>
             {!isGuest && (
-              <IconButton onClick={onEdit} color="primary">
+              <IconButton
+                onClick={() => dispatch(showEditDrinkModal())}
+                color="primary"
+              >
                 <FaEdit />
               </IconButton>
             )}
-            <IconButton onClick={onClose} color="error">
+            <IconButton
+              onClick={() => dispatch(closeDrinkModal())}
+              color="error"
+            >
               <IoMdClose />
             </IconButton>
           </Box>
@@ -69,10 +84,10 @@ const SelectedDrinkModal: React.FC<SelectedDrinkModalProps> = ({
             <Box
               component="img"
               src={
-                drink.DrinkThumb ||
+                selectedDrink.DrinkThumb ||
                 "https://www.creativefabrica.com/wp-content/uploads/2021/07/01/Cocktail-icon-Graphics-14120200-1-1-580x387.jpg"
               }
-              alt={drink.drinkName}
+              alt={selectedDrink.drinkName}
               sx={{
                 width: "100%",
                 height: 220,
@@ -88,8 +103,9 @@ const SelectedDrinkModal: React.FC<SelectedDrinkModalProps> = ({
               color="text.primary"
             >
               <i>
-                {" "}
-                {toSentenceCase(drink.shortDescription || "No Description")}
+                {toSentenceCase(
+                  selectedDrink.shortDescription || "No Description"
+                )}
               </i>
             </Typography>
             <Box
@@ -98,7 +114,7 @@ const SelectedDrinkModal: React.FC<SelectedDrinkModalProps> = ({
               rowGap={1}
               columnGap={2}
               mb={2}
-              borderTop={`1px solid ${useTheme().palette.divider}`}
+              borderTop={`1px solid ${theme.palette.divider}`}
               pt={2}
               mt={3}
             >
@@ -106,20 +122,22 @@ const SelectedDrinkModal: React.FC<SelectedDrinkModalProps> = ({
                 Category:
               </Typography>
               <Typography>
-                {toSentenceCase(drink.Category || "No Category")}
+                {toSentenceCase(selectedDrink.Category || "No Category")}
               </Typography>
 
               <Typography variant="subtitle1" fontWeight={600}>
                 Glassware:
               </Typography>
               <Typography>
-                {toSentenceCase(drink.Glass || "No Glassware")}
+                {toSentenceCase(selectedDrink.Glass || "No Glassware")}
               </Typography>
 
               <Typography variant="subtitle1" fontWeight={600}>
                 Ice:
               </Typography>
-              <Typography>{toSentenceCase(drink.Ice || "No Ice")}</Typography>
+              <Typography>
+                {toSentenceCase(selectedDrink.Ice || "No Ice")}
+              </Typography>
             </Box>
           </Paper>
 
@@ -129,7 +147,7 @@ const SelectedDrinkModal: React.FC<SelectedDrinkModalProps> = ({
               Instructions
             </Typography>
             <Typography variant="body2" gutterBottom>
-              {drink.Instructions}
+              {selectedDrink.Instructions}
             </Typography>
 
             <Box mt={3}>
@@ -143,8 +161,12 @@ const SelectedDrinkModal: React.FC<SelectedDrinkModalProps> = ({
                 sx={{ border: "none" }}
               >
                 {[1, 2, 3, 4, 5, 6].map((i) => {
-                  const ingredient = drink[`Ingredient${i}` as keyof Drink];
-                  const measure = drink[`Measure${i}` as keyof Drink];
+                  const ingredient =
+                    selectedDrink[
+                      `Ingredient${i}` as keyof typeof selectedDrink
+                    ];
+                  const measure =
+                    selectedDrink[`Measure${i}` as keyof typeof selectedDrink];
                   return ingredient ? (
                     <React.Fragment key={i}>
                       <TableCell sx={{ border: "none", pl: 0 }}>

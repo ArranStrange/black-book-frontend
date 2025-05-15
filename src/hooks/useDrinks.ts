@@ -15,7 +15,10 @@ const sortDrinks = (drinksList: Drink[]) =>
   // takes two drinks a & b from the array and compares A's name with localeCompare against B
   // localeCompare returns a negative if A comes before B, a positve if it comes after and a 0 if they are equal
   // sort then arranges the return
-  [...drinksList].sort((a, b) => a.drinkName.localeCompare(b.drinkName));
+  [...drinksList].sort((a, b) =>
+    (a.drinkName ?? "").localeCompare(b.drinkName ?? "")
+  );
+
 //
 //
 //

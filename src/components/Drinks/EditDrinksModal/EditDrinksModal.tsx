@@ -1,10 +1,11 @@
 import React from "react";
-import { useEditDrink } from "../../../hooks/useEditDrink";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { MdCancel } from "react-icons/md";
 import { GiConfirmed } from "react-icons/gi";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import ConfirmDeleteModal from "./ConfirmDeleteModal/ConfirmDeleteModal";
-import { Drink } from "../../types/types";
+import { ConfirmDeleteModal } from "./ConfirmDeleteModal/ConfirmDeleteModal";
+import { useEditDrink } from "../../../hooks/useEditDrink";
+import { closeEditDrinkModal } from "../../../redux/slices/drinksSlice";
 
 import {
   Box,
@@ -19,21 +20,24 @@ import {
   Rating,
 } from "@mui/material";
 
-interface EditDrinkFormProps {
-  drink: Drink;
-  onSave: (updatedDrink: Drink) => void;
-  setShowEditModal: (value: boolean) => void;
-  onCancel: () => void;
-  onDelete: (id: string) => void;
-}
+export type Drink = {
+  drinkName?: string;
+  Category?: string;
+  Glass?: string;
+  Instructions?: string;
+  shortDescription?: string;
+  DrinkThumb?: string;
+  Rating?: number;
+} & {
+  [key in `Ingredient${1 | 2 | 3 | 4 | 5 | 6}`]?: string;
+} & {
+  [key in `Measure${1 | 2 | 3 | 4 | 5 | 6}`]?: string;
+};
 
-const EditDrinkForm: React.FC<EditDrinkFormProps> = ({
-  drink,
-  onSave,
-  setShowEditModal,
-  onCancel,
-  onDelete,
-}) => {
+const EditDrinkModal: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { selectedDrink } = useAppSelector((state) => state.drinks);
+
   const {
     editedDrink,
     handleChange,
@@ -42,10 +46,19 @@ const EditDrinkForm: React.FC<EditDrinkFormProps> = ({
     handleConfirmDelete,
     showConfirmDelete,
     setShowConfirmDelete,
-  } = useEditDrink(drink, onSave, setShowEditModal, onDelete);
+    isSaving,
+    error,
+  } = useEditDrink(selectedDrink ?? { _id: "", drinkName: "" });
+
+  if (!selectedDrink) return null;
 
   return (
-    <Dialog open onClose={onCancel} maxWidth="md" fullWidth>
+    <Dialog
+      open
+      onClose={() => dispatch(closeEditDrinkModal())}
+      maxWidth="md"
+      fullWidth
+    >
       <DialogTitle>Edit Drink</DialogTitle>
       <DialogContent>
         <Box
@@ -61,7 +74,7 @@ const EditDrinkForm: React.FC<EditDrinkFormProps> = ({
           <TextField
             label="Drink Name"
             name="drinkName"
-            value={editedDrink.drinkName}
+            value={editedDrink.drinkName || ""}
             onChange={handleChange}
             fullWidth
           />
@@ -70,14 +83,14 @@ const EditDrinkForm: React.FC<EditDrinkFormProps> = ({
             <TextField
               label="Category"
               name="Category"
-              value={editedDrink.Category}
+              value={editedDrink.Category || ""}
               onChange={handleChange}
               fullWidth
             />
             <TextField
               label="Glass Type"
               name="Glass"
-              value={editedDrink.Glass}
+              value={editedDrink.Glass || ""}
               onChange={handleChange}
               fullWidth
             />
@@ -86,7 +99,7 @@ const EditDrinkForm: React.FC<EditDrinkFormProps> = ({
           <TextField
             label="Instructions"
             name="Instructions"
-            value={editedDrink.Instructions}
+            value={editedDrink.Instructions || ""}
             onChange={handleChange}
             fullWidth
             multiline
@@ -96,7 +109,7 @@ const EditDrinkForm: React.FC<EditDrinkFormProps> = ({
           <TextField
             label="Description"
             name="shortDescription"
-            value={editedDrink.shortDescription}
+            value={editedDrink.shortDescription || ""}
             onChange={handleChange}
             fullWidth
             multiline
@@ -115,6 +128,7 @@ const EditDrinkForm: React.FC<EditDrinkFormProps> = ({
                 onChange={handleChange}
                 fullWidth
               />
+
               <TextField
                 label={`Measure ${i}`}
                 name={`Measure${i}`}
@@ -129,7 +143,7 @@ const EditDrinkForm: React.FC<EditDrinkFormProps> = ({
             <TextField
               label="Thumbnail URL"
               name="DrinkThumb"
-              value={editedDrink.DrinkThumb}
+              value={editedDrink.DrinkThumb || ""}
               onChange={handleChange}
               fullWidth
             />
@@ -161,25 +175,33 @@ const EditDrinkForm: React.FC<EditDrinkFormProps> = ({
 
             <Rating
               name="Rating"
-              value={editedDrink.Rating}
+              value={editedDrink.Rating ?? 0}
               max={5}
               precision={1}
               onChange={(_, newValue) => {
                 handleChange({
-                  target: { name: "Rating", value: newValue ?? 0 },
+                  target: {
+                    name: "Rating",
+                    value: newValue ?? 0,
+                  },
                 } as unknown as React.ChangeEvent<HTMLInputElement>);
               }}
               sx={{ color: "primary.main" }}
             />
           </Stack>
 
+          {error && <Typography color="error">{error}</Typography>}
+
           <Divider />
 
           <Stack direction="row" spacing={2} justifyContent="flex-end">
-            <IconButton color="success" type="submit">
+            <IconButton color="success" type="submit" disabled={isSaving}>
               <GiConfirmed />
             </IconButton>
-            <IconButton color="warning" onClick={onCancel}>
+            <IconButton
+              color="warning"
+              onClick={() => dispatch(closeEditDrinkModal())}
+            >
               <MdCancel />
             </IconButton>
             <IconButton color="error" onClick={handleDeleteClick}>
@@ -190,7 +212,7 @@ const EditDrinkForm: React.FC<EditDrinkFormProps> = ({
 
         {showConfirmDelete && (
           <ConfirmDeleteModal
-            drinkName={drink.drinkName}
+            drinkName={editedDrink.drinkName || "this drink"}
             onConfirm={handleConfirmDelete}
             onCancel={() => setShowConfirmDelete(false)}
           />
@@ -200,4 +222,4 @@ const EditDrinkForm: React.FC<EditDrinkFormProps> = ({
   );
 };
 
-export default EditDrinkForm;
+export default EditDrinkModal;

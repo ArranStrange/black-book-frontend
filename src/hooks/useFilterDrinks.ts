@@ -21,7 +21,9 @@ export const useFilterDrinks = (
         ? //if a selected letter, run the below code
           //trims and toUppercase's the selected letter for consistency
           // uses the startsWith() method to check the selectedLetter against the drinks array .drinkName
-          drink.drinkName.startsWith(selectedLetter.toUpperCase().trim())
+          (drink.drinkName ?? "").startsWith(
+            selectedLetter.toUpperCase().trim()
+          )
         : // if no selected letter, assume all drinks match, showing all drinks in the drinks array
           true;
       //
@@ -29,7 +31,7 @@ export const useFilterDrinks = (
       // SEARCH BAR (partial match)
       const matchesSearch = searchQuery.drinkName
         ? // of there is a search query run the below code
-          drink.drinkName
+          (drink.drinkName ?? "")
             // take the drinks name and convert to lowercase
             // use the includes() method to allow partial matches
             // convers the searchquery to lowercase

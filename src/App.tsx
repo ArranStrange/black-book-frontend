@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Box, Slide, Container, IconButton } from "@mui/material";
@@ -16,65 +16,62 @@ import Register from "./components/Auth/Register/register";
 import MessageModal from "./components/message/MessageModal";
 import UserMenu from "./components/Nav/UserMenu";
 
+// Redux
+import { useAppDispatch, useAppSelector } from "./redux/hooks";
+import {
+  setAuthenticated,
+  setRegisterVisible,
+  toggleAddDrinkForm,
+  toggleFormVisible,
+  setModal,
+  clearModal,
+  setSearchQuery,
+  setSelectedLetter,
+  clearFilters,
+} from "./redux/slices/uiSlice";
+
 const App: React.FC = () => {
-  // const theme = useTheme();
+  const dispatch = useAppDispatch();
 
-  const [selectedLetter, setSelectedLetter] = useState("");
-  const [searchQuery, setSearchQuery] = useState<{
-    drinkName?: string;
-    category?: string;
-    glass?: string;
-    ice?: string;
-  }>({});
-
-  const [isAddDrinkFormVisible, setIsAddDrinkFormVisible] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [isRegisterVisible, setIsRegisterVisible] = useState<boolean>(false);
-  const [isFormVisible, setIsFormVisible] = useState(false);
-  const [modalMessage, setModalMessage] = useState<string | null>(null);
-  const [modalTitle, setModalTitle] = useState<string | null>(null);
+  const {
+    isAuthenticated,
+    isRegisterVisible,
+    isAddDrinkFormVisible,
+    isFormVisible,
+    modalMessage,
+    modalTitle,
+    searchQuery,
+    selectedLetter,
+  } = useAppSelector((state) => state.ui);
 
   const isGuest = localStorage.getItem("authToken") === "guest";
 
-  const handleLoginSuccess = () => setIsAuthenticated(true);
-  const handleRegisterSuccess = () => setIsAuthenticated(true);
+  const handleLoginSuccess = () => dispatch(setAuthenticated(true));
+  const handleRegisterSuccess = () => dispatch(setAuthenticated(true));
 
-  const handleSearch = (query: {
-    drinkName?: string;
-    category?: string;
-    glass?: string;
-    ice?: string;
-  }) => {
-    setSearchQuery({
-      drinkName: query.drinkName || "",
-      category: query.category || "",
-      glass: query.glass || "",
-      ice: query.ice || "",
-    });
+  const handleSearch = (query: typeof searchQuery) => {
+    dispatch(
+      setSearchQuery({
+        drinkName: query.drinkName || "",
+        category: query.category || "",
+        glass: query.glass || "",
+        ice: query.ice || "",
+      })
+    );
   };
 
   const handleLetterSelection = (letter: string) => {
-    setSelectedLetter(letter);
+    dispatch(setSelectedLetter(letter));
   };
 
-  const onShowAll = () => {
-    setSearchQuery({});
-    setSelectedLetter("");
-  };
-
-  const toggleAddDrinkForm = () => {
-    setIsAddDrinkFormVisible((prev) => !prev);
-  };
+  const onShowAll = () => dispatch(clearFilters());
 
   const handleAddDrinkToggle = () => {
-    toggleAddDrinkForm();
-    setIsFormVisible((prev) => !prev);
+    dispatch(toggleAddDrinkForm());
+    dispatch(toggleFormVisible());
   };
 
-  const handleCloseModal = () => {
-    setModalMessage(null);
-    setModalTitle(null);
-  };
+  const handleCloseModal = () => dispatch(clearModal());
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -82,11 +79,14 @@ const App: React.FC = () => {
   };
 
   useEffect(() => {
-    setModalMessage(
-      "The backend of this app is hosted on a free server, please be patient it can be a little slow. Up to 30 seconds!"
+    dispatch(
+      setModal({
+        message:
+          "The backend of this app is hosted on a free server, please be patient it can be a little slow. Up to 30 seconds!",
+        title: "A Heads Up",
+      })
     );
-    setModalTitle("A Heads Up");
-  }, []);
+  }, [dispatch]);
 
   return (
     <ThemeProvider theme={blackBookTheme}>
@@ -148,7 +148,9 @@ const App: React.FC = () => {
                 backgroundColor: "#1b1c1e",
               }}
             >
-              <AddDrinkForm toggleAddDrinkForm={toggleAddDrinkForm} />
+              <AddDrinkForm
+                toggleAddDrinkForm={() => dispatch(toggleAddDrinkForm())}
+              />
             </Box>
           </Slide>
 
@@ -161,7 +163,7 @@ const App: React.FC = () => {
 
           <Search
             onSearch={handleSearch}
-            toggleAddDrinkForm={toggleAddDrinkForm}
+            toggleAddDrinkForm={handleAddDrinkToggle}
             onShowAll={onShowAll}
           />
 
@@ -170,13 +172,13 @@ const App: React.FC = () => {
       ) : isRegisterVisible ? (
         <Register
           onRegisterSuccess={handleRegisterSuccess}
-          setIsLoginVisible={() => setIsRegisterVisible(false)}
+          setIsLoginVisible={() => dispatch(setRegisterVisible(false))}
           onGuestLogin={handleLoginSuccess}
         />
       ) : (
         <Login
           onLoginSuccess={handleLoginSuccess}
-          setIsRegisterVisible={setIsRegisterVisible}
+          setIsRegisterVisible={() => dispatch(setRegisterVisible(true))}
         />
       )}
     </ThemeProvider>

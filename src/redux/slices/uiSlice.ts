@@ -8,6 +8,7 @@ interface SearchQuery {
 }
 
 interface UIState {
+  view: "login" | "register" | "app";
   isAuthenticated: boolean;
   isRegisterVisible: boolean;
   isAddDrinkFormVisible: boolean;
@@ -19,6 +20,7 @@ interface UIState {
 }
 
 const initialState: UIState = {
+  view: "login",
   isAuthenticated: false,
   isRegisterVisible: false,
   isAddDrinkFormVisible: false,
@@ -33,12 +35,10 @@ const uiSlice = createSlice({
   name: "ui",
   initialState,
   reducers: {
-    setAuthenticated(state, action: PayloadAction<boolean>) {
-      state.isAuthenticated = action.payload;
+    setView(state, action: PayloadAction<"login" | "register" | "app">) {
+      state.view = action.payload;
     },
-    setRegisterVisible(state, action: PayloadAction<boolean>) {
-      state.isRegisterVisible = action.payload;
-    },
+
     toggleAddDrinkForm(state) {
       state.isAddDrinkFormVisible = !state.isAddDrinkFormVisible;
     },
@@ -67,8 +67,8 @@ const uiSlice = createSlice({
 });
 
 export const {
-  setAuthenticated,
-  setRegisterVisible,
+  setView,
+
   toggleAddDrinkForm,
   toggleFormVisible,
   setModal,

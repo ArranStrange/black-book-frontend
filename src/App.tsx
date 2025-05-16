@@ -19,8 +19,7 @@ import UserMenu from "./components/Nav/UserMenu";
 // Redux
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import {
-  setAuthenticated,
-  setRegisterVisible,
+  setView,
   toggleAddDrinkForm,
   toggleFormVisible,
   setModal,
@@ -30,13 +29,14 @@ import {
   clearFilters,
 } from "./redux/slices/uiSlice";
 import { useDrinks } from "./hooks/useDrinks";
+import { setGuestMode } from "./redux/slices/authSlice";
+import { syncAuthState } from "./redux/thunks/authThunks";
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const {
-    isAuthenticated,
-    isRegisterVisible,
+    view,
     isAddDrinkFormVisible,
     isFormVisible,
     modalMessage,
@@ -45,11 +45,12 @@ const App: React.FC = () => {
     selectedLetter,
   } = useAppSelector((state) => state.ui);
 
-  useDrinks();
-  const isGuest = localStorage.getItem("authToken") === "guest";
+  const isGuest = useAppSelector((state) => state.auth.isGuest);
+  useEffect(() => {
+    dispatch(syncAuthState());
+  }, [dispatch]);
 
-  const handleLoginSuccess = () => dispatch(setAuthenticated(true));
-  const handleRegisterSuccess = () => dispatch(setAuthenticated(true));
+  useDrinks();
 
   const handleSearch = (query: typeof searchQuery) => {
     dispatch(
@@ -75,10 +76,11 @@ const App: React.FC = () => {
 
   const handleCloseModal = () => dispatch(clearModal());
 
-  const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    window.location.reload();
+  const handleLoginSuccess = () => {
+    dispatch(syncAuthState());
+    dispatch(setView("app"));
   };
+  const handleRegisterSuccess = () => dispatch(setView("app"));
 
   useEffect(() => {
     dispatch(
@@ -89,6 +91,8 @@ const App: React.FC = () => {
       })
     );
   }, [dispatch]);
+
+  console.log("Current view:", view);
 
   return (
     <ThemeProvider theme={blackBookTheme}>
@@ -102,10 +106,10 @@ const App: React.FC = () => {
         />
       )}
 
-      {isAuthenticated ? (
+      {view === "app" ? (
         <>
           <Box sx={{ position: "fixed", top: 16, right: 16, zIndex: 1300 }}>
-            <UserMenu onLogout={handleLogout} isGuest={isGuest} />
+            <UserMenu />
           </Box>
 
           {!isGuest && (
@@ -171,18 +175,18 @@ const App: React.FC = () => {
 
           <Nav onSelectLetter={handleLetterSelection} />
         </>
-      ) : isRegisterVisible ? (
+      ) : view === "register" ? (
         <Register
           onRegisterSuccess={handleRegisterSuccess}
-          setIsLoginVisible={() => dispatch(setRegisterVisible(false))}
+          setIsLoginVisible={() => dispatch(setView("login"))}
           onGuestLogin={handleLoginSuccess}
         />
-      ) : (
+      ) : view === "login" || view === "guest" ? (
         <Login
           onLoginSuccess={handleLoginSuccess}
-          setIsRegisterVisible={() => dispatch(setRegisterVisible(true))}
+          setIsRegisterVisible={() => dispatch(setView("register"))}
         />
-      )}
+      ) : null}
     </ThemeProvider>
   );
 };

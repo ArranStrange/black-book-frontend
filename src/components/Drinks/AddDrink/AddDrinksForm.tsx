@@ -10,36 +10,7 @@ import {
 import { useAddDrink } from "../../../hooks/useAddDrink";
 import MessageModal from "../../message/MessageModal";
 import { useAppSelector } from "../../../redux/hooks";
-
-const categories = [
-  "Cobbler",
-  "Collins",
-  "Daisy",
-  "Flip",
-  "Frozen",
-  "Highball",
-  "Julep",
-  "Martini",
-  "Punch",
-  "Sling",
-  "Sour",
-  "Tiki",
-  "Toddy",
-  "Spritz",
-  "Fizz",
-];
-
-const glasses = [
-  "Highball",
-  "Coup",
-  "Hurricane",
-  "Old Fashioned",
-  "Julep Tin",
-  "Wine",
-  "Flute",
-];
-
-const iceTypes = ["Cubed", "Crushed", "Block", "Shaved", "Straight"];
+import { categories, glasses, iceTypes } from "../../../utils/drinks.constants";
 
 const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
   toggleAddDrinkForm,
@@ -165,6 +136,20 @@ const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
           label="Instructions"
           name="Instructions"
           value={formData.Instructions}
+          onChange={handleChange}
+          required
+          multiline
+          rows={4}
+          fullWidth
+          sx={{
+            gridColumn: "span 4",
+            height: "100%",
+          }}
+        />
+        <TextField
+          label="Description"
+          name="Description"
+          value={formData.shortDescription}
           onChange={handleChange}
           required
           multiline

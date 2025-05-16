@@ -6,6 +6,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { ConfirmDeleteModal } from "./ConfirmDeleteModal/ConfirmDeleteModal";
 import { useEditDrink } from "../../../hooks/useEditDrink";
 import { closeEditDrinkModal } from "../../../redux/slices/drinksSlice";
+import { categories, glasses, iceTypes } from "../../../utils/drinks.constants";
 
 import {
   Box,
@@ -18,6 +19,7 @@ import {
   DialogContent,
   DialogTitle,
   Rating,
+  MenuItem,
 } from "@mui/material";
 
 export type Drink = {
@@ -83,19 +85,53 @@ const EditDrinkModal: React.FC = () => {
 
           <Stack direction="row" spacing={2}>
             <TextField
+              select
               label="Category"
               name="Category"
-              value={editedDrink.Category || ""}
+              value={editedDrink.Category}
               onChange={handleChange}
+              required
               fullWidth
-            />
+              sx={{ gridColumn: { xs: "span 4", sm: "span 2", md: "span 2" } }}
+            >
+              {categories.map((option) => (
+                <MenuItem key={option} value={option.toLowerCase()}>
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>
             <TextField
-              label="Glass Type"
+              select
+              label="Glass"
               name="Glass"
-              value={editedDrink.Glass || ""}
+              value={editedDrink.Glass}
               onChange={handleChange}
+              required
               fullWidth
-            />
+              sx={{ gridColumn: { xs: "span 4", sm: "span 1", md: "span 1" } }}
+            >
+              {glasses.map((option) => (
+                <MenuItem key={option} value={option.toLowerCase()}>
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              select
+              label="Ice Type"
+              name="Ice"
+              value={editedDrink.Ice}
+              onChange={handleChange}
+              required
+              fullWidth
+              sx={{ gridColumn: { xs: "span 4", sm: "span 1", md: "span 1" } }}
+            >
+              {iceTypes.map((option) => (
+                <MenuItem key={option} value={option.toLowerCase()}>
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>
           </Stack>
 
           <TextField

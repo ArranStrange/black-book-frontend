@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+
 import {
   closeDrinkModal,
   showEditDrinkModal,
@@ -24,13 +25,12 @@ import {
 
 const SelectedDrinkModal: React.FC = () => {
   const dispatch = useAppDispatch();
+  const isGuest = useAppSelector((state) => state.auth.isGuest);
   const { selectedDrink, showDrinkModal } = useAppSelector(
     (state) => state.drinks
   );
 
   const theme = useTheme();
-
-  const isGuest = localStorage.getItem("authToken") === "guest";
 
   if (!showDrinkModal || !selectedDrink) return null;
 

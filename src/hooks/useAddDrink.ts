@@ -12,24 +12,45 @@ export const useAddDrink = (toggleAddDrinkForm: () => void) => {
     Category: "",
     Glass: "",
     Ice: "",
-    Ingredient1: "",
-    Ingredient2: "",
-    Ingredient3: "",
-    Ingredient4: "",
-    Ingredient5: "",
-    Ingredient6: "",
-    Measure1: 0,
-    Measure2: 0,
-    Measure3: 0,
-    Measure4: 0,
-    Measure5: 0,
-    Measure6: 0,
+    Ingredients: [{ name: "", measure: 0 }],
     DrinkThumb: "",
     Rating: 0,
     Instructions: "",
   });
 
   const dispatch = useAppDispatch();
+
+  const handleIngredientChange = (
+    index: number,
+    field: "name" | "measure",
+    value: string | number
+  ) => {
+    setFormData((prev) => {
+      const updatedIngredients = [...prev.Ingredients];
+      updatedIngredients[index] = {
+        ...updatedIngredients[index],
+        [field]: field === "measure" ? Number(value) : value,
+      };
+      return {
+        ...prev,
+        Ingredients: updatedIngredients,
+      };
+    });
+  };
+
+  const addIngredientField = () => {
+    setFormData((prev) => ({
+      ...prev,
+      Ingredients: [...prev.Ingredients, { name: "", measure: 0 }],
+    }));
+  };
+
+  const removeIngredientField = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      Ingredients: prev.Ingredients.filter((_, i) => i !== index),
+    }));
+  };
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -60,6 +81,9 @@ export const useAddDrink = (toggleAddDrinkForm: () => void) => {
   return {
     formData,
     setFormData,
+    handleIngredientChange,
+    addIngredientField,
+    removeIngredientField,
     handleChange,
     handleSubmit,
   };

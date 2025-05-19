@@ -1,4 +1,8 @@
-//typescript declaring the interfaces
+export interface Ingredient {
+  name: string;
+  measure: number;
+}
+
 export type Drink = {
   _id: string;
   idDrink?: string;
@@ -7,6 +11,7 @@ export type Drink = {
   Category?: string;
   Glass?: string;
   Ice?: string;
+  Ingredients: Ingredient[];
   Instructions?: string;
   DrinkThumb?: string;
   Rating?: number;

@@ -41,6 +41,35 @@ export const useEditDrink = (initialDrink: Drink) => {
     }
   };
 
+  const handleIngredientChange = (
+    index: number,
+    field: "name" | "measure",
+    value: string | number
+  ) => {
+    setEditedDrink((prev) => {
+      const updated = [...prev.Ingredients];
+      updated[index] = {
+        ...updated[index],
+        [field]: field === "measure" ? Number(value) : value,
+      };
+      return { ...prev, Ingredients: updated };
+    });
+  };
+
+  const addIngredientField = () => {
+    setEditedDrink((prev) => ({
+      ...prev,
+      Ingredients: [...prev.Ingredients, { name: "", measure: 0 }],
+    }));
+  };
+
+  const removeIngredientField = (index: number) => {
+    setEditedDrink((prev) => ({
+      ...prev,
+      Ingredients: prev.Ingredients.filter((_, i) => i !== index),
+    }));
+  };
+
   const handleDeleteClick = () => {
     setShowConfirmDelete(true);
   };
@@ -65,6 +94,9 @@ export const useEditDrink = (initialDrink: Drink) => {
   return {
     editedDrink,
     handleChange,
+    addIngredientField,
+    removeIngredientField,
+    handleIngredientChange,
     handleSave,
     handleDeleteClick,
     handleConfirmDelete,

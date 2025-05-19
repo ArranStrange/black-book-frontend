@@ -65,6 +65,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
           maxHeight: "100vh",
           overflowY: "auto",
           pt: 5,
+          pb: 10,
           zIndex: 1,
           position: "relative",
         }}

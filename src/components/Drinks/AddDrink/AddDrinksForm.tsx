@@ -15,8 +15,14 @@ import { categories, glasses, iceTypes } from "../../../utils/drinks.constants";
 const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
   toggleAddDrinkForm,
 }) => {
-  const { formData, handleChange, handleSubmit } =
-    useAddDrink(toggleAddDrinkForm);
+  const {
+    formData,
+    handleChange,
+    handleSubmit,
+    handleIngredientChange,
+    addIngredientField,
+    removeIngredientField,
+  } = useAddDrink(toggleAddDrinkForm);
   const modalTitle = useAppSelector((state) => state.ui.modalTitle);
   const modalMessage = useAppSelector((state) => state.ui.modalMessage);
 
@@ -32,7 +38,7 @@ const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
         sx={{
           display: "grid",
           gridTemplateColumns: {
-            xs: "repeat(4, 1fr)",
+            xs: "repeat(12, 1fr)",
           },
           gap: 2,
           p: 4,
@@ -49,7 +55,7 @@ const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
           component="h1"
           sx={{
             textAlign: "center",
-            gridColumn: { xs: "span 4", sm: "span 4", md: "span 4" },
+            gridColumn: { xs: "span 12", sm: "span 12", md: "span 12" },
           }}
         >
           Add A Drink
@@ -62,7 +68,7 @@ const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
           onChange={handleChange}
           required
           fullWidth
-          sx={{ gridColumn: { xs: "span 4", sm: "span 2", md: "span 2" } }}
+          sx={{ gridColumn: { xs: "span 12", sm: "span 12", md: "span 12" } }}
         />
         <TextField
           select
@@ -72,7 +78,7 @@ const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
           onChange={handleChange}
           required
           fullWidth
-          sx={{ gridColumn: { xs: "span 4", sm: "span 2", md: "span 2" } }}
+          sx={{ gridColumn: { xs: "span 4", sm: "span 4", md: "span 4" } }}
         >
           {categories.map((option) => (
             <MenuItem key={option} value={option.toLowerCase()}>
@@ -88,7 +94,7 @@ const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
           onChange={handleChange}
           required
           fullWidth
-          sx={{ gridColumn: { xs: "span 4", sm: "span 2", md: "span 2" } }}
+          sx={{ gridColumn: { xs: "span 4", sm: "span 4", md: "span 4" } }}
         >
           {glasses.map((option) => (
             <MenuItem key={option} value={option.toLowerCase()}>
@@ -103,7 +109,7 @@ const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
           value={formData.Ice}
           onChange={handleChange}
           fullWidth
-          sx={{ gridColumn: { xs: "span 4", sm: "span 2", md: "span 2" } }}
+          sx={{ gridColumn: { xs: "span 4", sm: "span 4", md: "span 4" } }}
         >
           {iceTypes.map((option) => (
             <MenuItem key={option} value={option.toLowerCase()}>
@@ -113,23 +119,63 @@ const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
         </TextField>
 
         {/* Row 2*/}
-        <TextField
-          label="Ingredient 1"
-          name="Ingredient1"
-          value={formData.Ingredient1}
-          onChange={handleChange}
-          fullWidth
-          sx={{ gridColumn: "span 3" }}
-        />
-        <TextField
-          label="Measure 1 (ml)"
-          name="Measure1"
-          type="number"
-          value={formData.Measure1}
-          onChange={handleChange}
-          fullWidth
-          sx={{ gridColumn: "span 1" }}
-        />
+        {formData.Ingredients.map((ing, index) => {
+          const isLast = index === formData.Ingredients.length - 1;
+
+          return (
+            <React.Fragment key={index}>
+              <TextField
+                label={`Ingredient ${index + 1}`}
+                value={ing.name}
+                onChange={(e) =>
+                  handleIngredientChange(index, "name", e.target.value)
+                }
+                fullWidth
+                sx={{ gridColumn: "span 9" }}
+              />
+              <TextField
+                label="Measure (ml)"
+                type="number"
+                value={ing.measure}
+                onChange={(e) =>
+                  handleIngredientChange(index, "measure", e.target.value)
+                }
+                fullWidth
+                sx={{ gridColumn: "span 2" }}
+              />
+              {/* Buttons column */}
+              <Box
+                sx={{
+                  gridColumn: "span 1",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                }}
+              >
+                {formData.Ingredients.length > 1 && (
+                  <Button
+                    onClick={() => removeIngredientField(index)}
+                    variant="outlined"
+                    color="error"
+                    sx={{ minWidth: "40px" }}
+                  >
+                    −
+                  </Button>
+                )}
+                {isLast && (
+                  <Button
+                    onClick={addIngredientField}
+                    variant="outlined"
+                    color="primary"
+                    sx={{ minWidth: "40px" }}
+                  >
+                    +
+                  </Button>
+                )}
+              </Box>
+            </React.Fragment>
+          );
+        })}
 
         {/* Row 3*/}
         <TextField
@@ -142,13 +188,13 @@ const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
           rows={4}
           fullWidth
           sx={{
-            gridColumn: "span 4",
+            gridColumn: "span 12",
             height: "100%",
           }}
         />
         <TextField
           label="Description"
-          name="Description"
+          name="shortDescription"
           value={formData.shortDescription}
           onChange={handleChange}
           required
@@ -156,28 +202,14 @@ const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
           rows={4}
           fullWidth
           sx={{
-            gridColumn: "span 3",
+            gridColumn: "span 12",
             height: "100%",
           }}
         />
-        {/* <TextField
-          label="Rating (0–10)"
-          name="Rating"
-          type="number"
-          value={formData.Rating}
-          onChange={handleChange}
-          inputProps={{ min: 0, max: 10 }}
-          required
-          fullWidth
-          sx={{
-            gridColumn: { xs: "span 4", sm: "span 1", md: "span 1" },
-            height: "100%",
-          }}
-        /> */}
 
         <Box
           sx={{
-            gridColumn: "span 1",
+            gridColumn: "span 12",
             gridRow: "span 1",
             display: "flex",
             alignItems: "center",
@@ -212,13 +244,13 @@ const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
           onChange={handleChange}
           fullWidth
           sx={{
-            gridColumn: "span 4",
+            gridColumn: "span 12",
           }}
         />
 
         <Box
           sx={{
-            gridColumn: "1 / span 4",
+            gridColumn: "1 / span 12",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -243,7 +275,7 @@ const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
         {/* Submit Button */}
         <Box
           sx={{
-            gridColumn: "span 4",
+            gridColumn: "span 12",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",

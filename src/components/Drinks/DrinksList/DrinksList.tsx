@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { useDrinks } from "../../../hooks/useDrinks";
+import React from "react";
 import { useFilterDrinks } from "../../../hooks/useFilterDrinks";
 import { Drink } from "../../types/types";
 import "./drinks-list.css";
 import EditDrinkModal from "../EditDrinksModal/EditDrinksModal";
+import { selectDrink } from "../../../redux/slices/drinksSlice";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 
 import SelectedDrinkModal from "../SelectedDrinkModal/selectedDrinkModal";
 import {
@@ -35,34 +36,18 @@ const DrinksList: React.FC<DrinksListProps> = ({
   selectedLetter,
   searchQuery,
 }) => {
-  const { drinks, loading, error, handleSaveEdit, handleDelete } = useDrinks();
-  const filteredDrinks = useFilterDrinks(drinks, selectedLetter, searchQuery);
+  const filteredDrinks = useFilterDrinks(selectedLetter, searchQuery);
+  const loading = useAppSelector((state) => state.drinks.loading);
+  const error = useAppSelector((state) => state.drinks.error);
+  const isGuest = useAppSelector((state) => state.auth.isGuest);
 
-  const isGuest = localStorage.getItem("authToken") === "guest";
-
-  const [showDrinkModal, setShowDrinkModal] = useState<boolean>(false);
-  const [selectedDrink, setSelectedDrink] = useState<Drink | null>(null);
-  const [showEditModal, setShowEditModal] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const { showDrinkModal, showEditModal } = useAppSelector(
+    (state) => state.drinks
+  );
 
   const handleDrinkClick = (drink: Drink) => {
-    setSelectedDrink(drink);
-    setShowDrinkModal(true);
-  };
-
-  const handleCloseDrinkModal = () => {
-    setShowDrinkModal(false);
-    setSelectedDrink(null);
-  };
-
-  const handleEditClick = () => {
-    if (!selectedDrink) return;
-    setShowDrinkModal(false);
-    setShowEditModal(true);
-  };
-
-  const cancelEdit = () => {
-    setShowEditModal(false);
-    setSelectedDrink(null);
+    dispatch(selectDrink(drink));
   };
 
   if (loading) {
@@ -70,7 +55,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
   }
 
   if (error) {
-    return <ErrorMessage message={error} />;
+    return <ErrorMessage message={error as string} />;
   }
 
   return (
@@ -150,24 +135,8 @@ const DrinksList: React.FC<DrinksListProps> = ({
         </Grid>
       </Box>
 
-      {showDrinkModal && selectedDrink && (
-        <SelectedDrinkModal
-          drink={selectedDrink}
-          onClose={handleCloseDrinkModal}
-          onEdit={handleEditClick}
-          isGuest={isGuest}
-        />
-      )}
-
-      {showEditModal && selectedDrink && (
-        <EditDrinkModal
-          drink={selectedDrink}
-          onSave={handleSaveEdit}
-          setShowEditModal={setShowEditModal}
-          onCancel={cancelEdit}
-          onDelete={() => handleDelete(selectedDrink._id)}
-        />
-      )}
+      {showDrinkModal && <SelectedDrinkModal />}
+      {showEditModal && <EditDrinkModal />}
     </>
   );
 };

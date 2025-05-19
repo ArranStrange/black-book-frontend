@@ -9,48 +9,20 @@ import {
 } from "@mui/material";
 import { useAddDrink } from "../../../hooks/useAddDrink";
 import MessageModal from "../../message/MessageModal";
-
-const categories = [
-  "Cobbler",
-  "Collins",
-  "Daisy",
-  "Flip",
-  "Frozen",
-  "Highball",
-  "Julep",
-  "Martini",
-  "Punch",
-  "Sling",
-  "Sour",
-  "Tiki",
-  "Toddy",
-  "Spritz",
-  "Fizz",
-];
-
-const glasses = [
-  "Highball",
-  "Coup",
-  "Hurricane",
-  "Old Fashioned",
-  "Julep Tin",
-  "Wine",
-  "Flute",
-];
-
-const iceTypes = ["Cubed", "Crushed", "Block", "Shaved", "Straight"];
+import { useAppSelector } from "../../../redux/hooks";
+import { categories, glasses, iceTypes } from "../../../utils/drinks.constants";
 
 const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
   toggleAddDrinkForm,
 }) => {
-  const {
-    formData,
-    handleChange,
-    handleSubmit,
-    modalTitle,
-    modalMessage,
-    handleCloseModal,
-  } = useAddDrink(toggleAddDrinkForm);
+  const { formData, handleChange, handleSubmit } =
+    useAddDrink(toggleAddDrinkForm);
+  const modalTitle = useAppSelector((state) => state.ui.modalTitle);
+  const modalMessage = useAppSelector((state) => state.ui.modalMessage);
+
+  function handleCloseModal(modalTitle: string): void {
+    throw new Error("Function not implemented.");
+  }
 
   return (
     <>
@@ -170,6 +142,20 @@ const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
           rows={4}
           fullWidth
           sx={{
+            gridColumn: "span 4",
+            height: "100%",
+          }}
+        />
+        <TextField
+          label="Description"
+          name="Description"
+          value={formData.shortDescription}
+          onChange={handleChange}
+          required
+          multiline
+          rows={4}
+          fullWidth
+          sx={{
             gridColumn: "span 3",
             height: "100%",
           }}
@@ -278,7 +264,7 @@ const AddDrinkForm: React.FC<{ toggleAddDrinkForm: () => void }> = ({
         <MessageModal
           message={modalMessage}
           title={modalTitle}
-          onClose={handleCloseModal}
+          onClose={() => handleCloseModal(modalTitle)}
         />
       )}
     </>

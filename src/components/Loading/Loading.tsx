@@ -1,6 +1,5 @@
 import React from "react";
-import { Box, CircularProgress, Typography } from "@mui/material";
-import Shaker from "./shaker.svg";
+import { Box, Typography } from "@mui/material";
 import { ReactComponent as ShakerIcon } from "./shaker.svg";
 import "./loading.css";
 import theme from "../../theme";

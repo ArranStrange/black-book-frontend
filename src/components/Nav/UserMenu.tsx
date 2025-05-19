@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { Button, Menu, MenuItem, useTheme } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { setView } from "../../redux/slices/uiSlice";
+import { enterGuestMode } from "../../redux/thunks/authThunks";
 
-interface UserMenuProps {
-  onLogout: () => void;
-  isGuest: boolean;
-}
-
-export const UserMenu: React.FC<UserMenuProps> = ({ onLogout, isGuest }) => {
+export const UserMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const dispatch = useAppDispatch();
+  const isGuest = useAppSelector((state) => state.auth.isGuest);
   const open = Boolean(anchorEl);
   const theme = useTheme();
 
@@ -21,9 +21,15 @@ export const UserMenu: React.FC<UserMenuProps> = ({ onLogout, isGuest }) => {
     setAnchorEl(null);
   };
 
-  const handleLogoutClick = () => {
+  const handleLoginClick = () => {
+    dispatch(setView("login"));
     handleClose();
-    onLogout();
+  };
+
+  const handleLogoutClick = () => {
+    dispatch(enterGuestMode());
+    dispatch(setView("login"));
+    handleClose();
   };
 
   return (
@@ -50,13 +56,14 @@ export const UserMenu: React.FC<UserMenuProps> = ({ onLogout, isGuest }) => {
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
-        <MenuItem onClick={handleLogoutClick}>Profile</MenuItem>
-        <MenuItem onClick={handleLogoutClick}>Favourites</MenuItem>
-        <MenuItem onClick={handleLogoutClick}>
-          {" "}
-          {isGuest ? "Login" : "Logout"}
-        </MenuItem>
-        {/* You can add more <MenuItem>s here in future */}
+        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={handleClose}>Favourites</MenuItem>
+
+        {isGuest ? (
+          <MenuItem onClick={handleLoginClick}>Login</MenuItem>
+        ) : (
+          <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
+        )}
       </Menu>
     </>
   );

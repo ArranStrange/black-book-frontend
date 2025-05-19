@@ -1,66 +1,67 @@
 import { useState } from "react";
+import { useAppDispatch } from "../redux/hooks";
+import {
+  closeEditDrinkModal,
+  deleteDrinkFromStore,
+  updateDrink,
+} from "../redux/slices/drinksSlice";
+import * as drinkServices from "../services/drinksServices";
 import { Drink } from "../components/types/types";
 
-export const useEditDrink = (
-  drink: Drink,
-  onSave: (updatedDrink: Drink) => void,
-  setShowEditModal: (value: boolean) => void,
-  onDelete: (id: string) => void
-) => {
-  const [editedDrink, setEditedDrink] = useState<Drink>(drink);
-  const [showConfirmDelete, setShowConfirmDelete] = useState<boolean>(false);
-  //
-  //
-  //handles the change of an input field
+export const useEditDrink = (initialDrink: Drink) => {
+  const dispatch = useAppDispatch();
+
+  const [editedDrink, setEditedDrink] = useState<Drink>(initialDrink);
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const handleChange = (
-    // takes the input event - typescript ensuring the types are correct
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    // deconstructing the event from the input element
-    // takes the input elements name and it's new value
     const { name, value } = e.target;
-    // initialises setEditedDrink, takes its previous state - ensuring the most recent state is used
-    setEditedDrink((prevDrink) => ({
-      // creates a light copy and spreads the data
-      ...prevDrink,
-      //then sets the object field and its value
+    setEditedDrink((prev) => ({
+      ...prev,
       [name]: value,
-      //e.g. if name == "drinkName" and value == "Mojito", this will set the property "drinkName": "Mojito" in the new object.
     }));
   };
-  //
-  //
-  //
-  // when the form data is submitted
+
   const handleSave = async (e: React.FormEvent) => {
-    //prevents the page from rerender
     e.preventDefault();
-    //executes onSave from useDrinks with the form data
-    await onSave(editedDrink);
-    //closes the edit modal
-    setShowEditModal(false);
+    setIsSaving(true);
+    setError(null);
+    try {
+      const updatedDrink = await drinkServices.editDrink(editedDrink);
+      dispatch(updateDrink(updatedDrink));
+      dispatch(closeEditDrinkModal());
+    } catch (err: any) {
+      setError(err.message || "Failed to update drink.");
+    } finally {
+      setIsSaving(false);
+    }
   };
-  //
-  //
-  //shows the confirm delete modal when the delete button is pressed
+
   const handleDeleteClick = () => {
     setShowConfirmDelete(true);
   };
-  //
-  //
-  // used when the user confirms the delete in the ConfirmDeleteModal
-  const handleConfirmDelete = () => {
-    //passes the drink id to handleDelete in useDrinks
-    onDelete(drink._id);
-    //closes the modals
-    setShowConfirmDelete(false);
-    setShowEditModal(false);
+
+  const handleConfirmDelete = async () => {
+    setError(null);
+
+    if (!editedDrink._id) {
+      setError("Missing drink ID");
+      return;
+    }
+
+    try {
+      await drinkServices.deleteDrink(editedDrink._id);
+      dispatch(deleteDrinkFromStore(editedDrink._id));
+      dispatch(closeEditDrinkModal());
+    } catch (err: any) {
+      setError(err.message || "Failed to delete drink.");
+    }
   };
-  //
-  //
-  //
+
   return {
     editedDrink,
     handleChange,
@@ -69,5 +70,7 @@ export const useEditDrink = (
     handleConfirmDelete,
     showConfirmDelete,
     setShowConfirmDelete,
+    isSaving,
+    error,
   };
 };

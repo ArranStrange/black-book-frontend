@@ -1,7 +1,8 @@
 import React, { useRef } from "react";
 import { useUser } from "../../../hooks/useUser";
 import MessageModal from "../../message/MessageModal";
-
+import { useAppDispatch } from "../../../redux/hooks";
+import { setView } from "../../../redux/slices/uiSlice";
 import {
   Box,
   Button,
@@ -24,6 +25,7 @@ const Login: React.FC<LoginProps> = ({
 }) => {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const dispatch = useAppDispatch();
 
   const {
     modalTitle,
@@ -102,11 +104,17 @@ const Login: React.FC<LoginProps> = ({
         justifyContent="center"
         alignItems="center"
       >
-        <Button variant="text" onClick={() => setIsRegisterVisible(true)}>
+        <Button variant="text" onClick={() => dispatch(setView("register"))}>
           Register
         </Button>
-        <Divider orientation="vertical" flexItem />
-        <Button variant="outlined" onClick={handleGuestLogin}>
+
+        <Button
+          variant="outlined"
+          onClick={() => {
+            handleGuestLogin();
+            dispatch(setView("app"));
+          }}
+        >
           Continue as Guest
         </Button>
       </Stack>

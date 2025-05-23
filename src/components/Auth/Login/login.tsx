@@ -58,7 +58,7 @@ const Login: React.FC<LoginProps> = ({
     >
       <Card sx={{ maxWidth: 400, width: "100%", boxShadow: 3 }}>
         <CardContent>
-          <Typography variant="h5" component="h2" mb={2}>
+          <Typography variant="h4" mb={2}>
             Login
           </Typography>
 

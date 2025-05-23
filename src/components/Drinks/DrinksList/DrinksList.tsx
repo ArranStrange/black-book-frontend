@@ -83,7 +83,8 @@ const DrinksList: React.FC<DrinksListProps> = ({
             >
               <Card
                 sx={{
-                  height: 320,
+                  minHeight: 330,
+                  height: "fit-content",
                   width: 300,
                   borderRadius: 2,
                   boxShadow: 3,
@@ -114,20 +115,19 @@ const DrinksList: React.FC<DrinksListProps> = ({
                     padding: 1,
                   }}
                 >
-                  <Typography variant="h6" noWrap>
-                    {drink.drinkName}
-                  </Typography>
+                  <Typography variant="h4">{drink.drinkName}</Typography>
                   <Typography
                     variant="body2"
+                    fontWeight={300}
                     sx={{
                       overflow: "hidden",
                       textOverflow: "ellipsis",
                       display: "-webkit-box",
-                      WebkitLineClamp: 2,
+                      WebkitLineClamp: 3,
                       WebkitBoxOrient: "vertical",
                     }}
                   >
-                    {drink.shortDescription || "No description set."}
+                    <i>{drink.shortDescription || "No description set."}</i>
                   </Typography>
                 </CardContent>
               </Card>

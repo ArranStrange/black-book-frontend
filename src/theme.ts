@@ -4,14 +4,17 @@ const blackBookTheme = createTheme({
   palette: {
     mode: "dark",
     background: {
-      default: "#1b1c1e",
-      paper: "#242526",
+      default: "#121212",
+      paper: "#1b1c1e",
     },
     primary: {
-      main: "#d6b28d",
+      main: "#EBA754",
     },
     secondary: {
-      main: "#835e98",
+      main: "#FFE5C7",
+      light: "#FFF6EC",
+      dark: "#FFAA5C",
+      contrastText: "#1C1C1E",
     },
     error: {
       main: "#af3636",
@@ -20,47 +23,57 @@ const blackBookTheme = createTheme({
       main: "#3b891a",
     },
     text: {
-      primary: "#f0f0f0",
-      secondary: "#b8b8b8",
+      primary: "#F0F0F0",
+      secondary: "#9E9E9E",
     },
     divider: "#3a3b3d",
   },
   typography: {
-    fontFamily: "'Archivo', sans-serif",
-    fontSize: 14,
-    fontWeightLight: 300,
-    fontWeightRegular: 400,
-    fontWeightMedium: 700,
+    fontFamily: "'Alegreya Sans', sans-serif",
     h1: {
+      fontFamily: "'Bebas Neue', sans-serif",
       fontSize: "5.5rem",
-      fontFamily: "'Archivo Black', sans-serif",
+      fontWeight: 800,
+      textTransform: "uppercase",
+      letterSpacing: ".2rem",
     },
     h2: {
+      fontFamily: "'Bebas Neue', sans-serif",
       fontSize: "4rem",
-      fontFamily: "'Archivo Black', sans-serif",
+      fontWeight: 700,
+      textTransform: "uppercase",
+      letterSpacing: ".2rem",
     },
     h3: {
+      fontFamily: "'Fira Sans', sans-serif",
       fontSize: "2.5rem",
-      fontFamily: "'Archivo Bold', sans-serif",
+      fontWeight: 900,
+      textTransform: "uppercase",
+      letterSpacing: ".2rem",
     },
     h4: {
+      fontFamily: "'Fira Sans', sans-serif",
       fontSize: "1.5rem",
-      fontFamily: "'Archivo', sans-serif",
+      fontWeight: 900,
+      textTransform: "uppercase",
+      letterSpacing: ".1rem",
     },
     body1: {
+      fontFamily: "'Fira Sans', sans-serif",
       fontSize: "1rem",
       lineHeight: 1.6,
     },
     body2: {
+      fontFamily: "'Fira Sans', sans-serif",
       fontSize: "0.875rem",
-      color: "#b8b8b8",
     },
     subtitle1: {
-      fontWeight: 600,
+      fontFamily: "'Fira Sans', sans-serif",
+      fontWeight: 900,
       fontSize: "1rem",
-      color: "#d6b28d",
     },
     button: {
+      fontFamily: "'Fira Sans', sans-serif",
       textTransform: "uppercase",
       fontWeight: 800,
     },
@@ -100,15 +113,15 @@ const blackBookTheme = createTheme({
       styleOverrides: {
         body: {
           backgroundColor: "#1b1c1e",
-          color: "#f0f0f0",
-          fontFamily: "'Archivo', sans-serif",
+          color: "#EBA754",
+          fontFamily: "'Bebas Neue', sans-serif",
         },
       },
     },
     MuiPaper: {
       styleOverrides: {
         root: {
-          backgroundColor: "#1b1c1e",
+          backgroundColor: "#121212",
         },
       },
     },
@@ -129,10 +142,10 @@ const blackBookTheme = createTheme({
     MuiCardContent: {
       styleOverrides: {
         root: {
-          backgroundColor: "	#1b1c1e",
+          backgroundColor: "#1b1c1e",
           transition: "all 0.3s ease",
           "&:hover": {
-            color: "#d6b28d",
+            color: "#EBA754",
           },
         },
       },
@@ -141,7 +154,7 @@ const blackBookTheme = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: "#1b1c1e",
-          color: "#f0f0f0",
+          color: "#EBA754",
         },
       },
     },
@@ -149,15 +162,21 @@ const blackBookTheme = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: "#1b1c1e",
-          color: "#f0f0f0",
+          color: "#EBA754",
+          fontFamily: "'Bebas Neu', sans-serif",
+          fontSize: "1.5rem",
+          fontWeight: 900,
+          textTransform: "uppercase",
         },
       },
     },
-
     MuiDialogContentText: {
       styleOverrides: {
         root: {
           color: "#b0b0b0",
+          fontFamily: "'Fira Sans', sans-serif",
+          fontWeight: 400,
+          fontSize: "1rem",
         },
       },
     },
@@ -170,18 +189,17 @@ const blackBookTheme = createTheme({
         },
       },
     },
-
     MuiButton: {
       styleOverrides: {
         root: {
           borderRadius: 8,
-          fontWeight: 800,
+          fontWeight: 500,
           textTransform: "uppercase",
           borderColor: "#d6b28d",
           color: "#f0f0f0",
           "&:hover": {
-            backgroundColor: "#242526",
-            transform: "translateY(-2px)",
+            backgroundColor: "#1b1c1e",
+            transform: "translateY(-1px)",
           },
         },
       },
@@ -190,14 +208,14 @@ const blackBookTheme = createTheme({
       styleOverrides: {
         root: {
           color: "#d6b28d",
-          backgroundColor: "#242526",
+          backgroundColor: "#1b1c1e",
         },
       },
     },
     MuiInputBase: {
       styleOverrides: {
         root: {
-          backgroundColor: "#242526",
+          backgroundColor: "#1b1c1e",
           borderRadius: 6,
           padding: "6px 12px",
           color: "#f0f0f0",
@@ -212,8 +230,44 @@ const blackBookTheme = createTheme({
     MuiSelect: {
       styleOverrides: {
         select: {
-          backgroundColor: "#242526",
+          backgroundColor: "#1b1c1e",
           borderRadius: 6,
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: "#f0f0f0",
+          fontFamily: "'Fira Sans', sans-serif",
+          fontWeight: 300,
+          fontSize: "0.875rem",
+          textTransform: "uppercase",
+          letterSpacing: "0.05rem",
+          "&.Mui-focused": {
+            color: "#EBA754",
+          },
+          "&.Mui-error": {
+            color: "#af3636",
+          },
+        },
+      },
+    },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          color: "#f0f0f0",
+          fontFamily: "'Fira Sans', sans-serif",
+          fontWeight: 200,
+          fontSize: "0.875rem",
+          textTransform: "uppercase",
+          letterSpacing: "0.05rem",
+          "&.Mui-focused": {
+            color: "#EBA754",
+          },
+          "&.Mui-error": {
+            color: "#af3636",
+          },
         },
       },
     },

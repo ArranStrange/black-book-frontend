@@ -11,10 +11,14 @@ export const loginUser = async (username: string, password: string) => {
   try {
     //send the usename and the password to the below URL
     // the data is then handled by the backend
-    const response = await axios.post(`${API_URL}/auth/login`, {
-      username,
-      password,
-    });
+    const response = await axios.post(
+      `${API_URL}/auth/login`,
+      {
+        username,
+        password,
+      },
+      { withCredentials: true }
+    );
     return response.data;
     //catched any errors
   } catch (error) {
@@ -24,7 +28,13 @@ export const loginUser = async (username: string, password: string) => {
   }
 };
 //
+//LOGOUT
 //
+export const logoutUser = async () => {
+  return axios.post(`${API_URL}/auth/logout`, null, {
+    withCredentials: true,
+  });
+};
 //
 // REGISTER
 //
@@ -48,5 +58,16 @@ export const registerUser = async (username: string, password: string) => {
       error.response?.data?.message ||
         "Something went wrong during registration."
     );
+  }
+};
+export const getCurrentUser = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/auth/me`, {
+      withCredentials: true,
+    });
+    return response.data.user;
+  } catch (error) {
+    console.error("Failed to fetch current user:", error);
+    throw error;
   }
 };

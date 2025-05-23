@@ -1,34 +1,46 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface UserState {
-  username: string;
-  email: string;
-  bio: string;
-  profilePictureUrl: string;
+interface AuthState {
+  isGuest: boolean;
+  isAuthenticated: boolean;
+  userId: string | null;
+  username?: string;
 }
 
-const initialState: UserState = {
-  username: "",
-  email: "",
-  bio: "",
-  profilePictureUrl: "",
+const initialState: AuthState = {
+  isGuest: localStorage.getItem("authToken") === "guest",
+  isAuthenticated: false,
+  userId: null,
+  username: undefined,
 };
 
-export const userSlice = createSlice({
-  name: "user",
+const authSlice = createSlice({
+  name: "auth",
   initialState,
   reducers: {
-    setUser(state, action: PayloadAction<UserState>) {
-      return action.payload;
+    setGuestMode(state, action: PayloadAction<boolean>) {
+      state.isGuest = action.payload;
+      state.isAuthenticated = false;
+      state.userId = null;
+      state.username = undefined;
     },
-    clearUser() {
-      return initialState;
+    setUser(
+      state,
+      action: PayloadAction<{ userId: string; username?: string }>
+    ) {
+      state.isGuest = false;
+      state.isAuthenticated = true;
+      state.userId = action.payload.userId;
+      state.username = action.payload.username;
     },
-    updateUser(state, action: PayloadAction<Partial<UserState>>) {
-      return { ...state, ...action.payload };
+    clearUser(state) {
+      state.isGuest = true;
+      state.isAuthenticated = false;
+      state.userId = null;
+      state.username = undefined;
     },
   },
 });
 
-export const { setUser, clearUser, updateUser } = userSlice.actions;
-export default userSlice.reducer;
+export const { setGuestMode, setUser, clearUser } = authSlice.actions;
+export default authSlice.reducer;

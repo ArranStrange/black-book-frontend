@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Button, IconButton, Menu, MenuItem, useTheme } from "@mui/material";
+import { IconButton, Menu, MenuItem, useTheme } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { setView } from "../../redux/slices/uiSlice";
-import { enterGuestMode } from "../../redux/thunks/authThunks";
+import { performLogout } from "../../redux/thunks/authThunks";
 
 export const UserMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -22,13 +22,14 @@ export const UserMenu = () => {
   };
 
   const handleLoginClick = () => {
+    console.log("Login menu clicked");
     dispatch(setView("login"));
     handleClose();
   };
 
   const handleLogoutClick = () => {
-    dispatch(enterGuestMode());
-    dispatch(setView("login"));
+    console.log("Logout menu clicked");
+    dispatch(performLogout());
     handleClose();
   };
 

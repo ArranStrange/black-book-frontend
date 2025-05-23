@@ -18,6 +18,7 @@ import UserMenu from "./components/Nav/UserMenu";
 
 // Redux
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
+
 import {
   setView,
   toggleAddDrinkForm,
@@ -93,7 +94,9 @@ const App: React.FC = () => {
     );
   }, [dispatch]);
 
-  console.log("Current view:", view);
+  const userId = useAppSelector((state) => state.auth.userId);
+
+  console.log("Current user ID:", userId);
 
   return (
     <ThemeProvider theme={blackBookTheme}>

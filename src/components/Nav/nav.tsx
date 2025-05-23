@@ -66,7 +66,7 @@ export default function Nav({ onSelectLetter }: Props) {
                   minWidth: 30,
                   height: 30,
                   borderRadius: "50%",
-                  fontWeight: "bold",
+
                   padding: 0,
                   color: isSelected ? "background.default" : "text.primary",
                   borderColor: "divider",
@@ -88,7 +88,7 @@ export default function Nav({ onSelectLetter }: Props) {
         size="small"
         sx={{
           position: "fixed",
-          bottom: 10,
+          bottom: 5,
           left: 0,
           mt: 2,
           fontSize: "0.75rem",

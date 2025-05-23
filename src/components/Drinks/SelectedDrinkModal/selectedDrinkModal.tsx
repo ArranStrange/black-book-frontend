@@ -42,8 +42,17 @@ const SelectedDrinkModal: React.FC = () => {
       maxWidth="md"
     >
       <DialogTitle>
-        <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Typography variant="h3" fontWeight={900}>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          height={"45px"}
+        >
+          <Typography
+            variant="h3"
+            fontWeight={900}
+            sx={{ maxWidth: 480, minWidth: 480 }}
+          >
             {selectedDrink.drinkName}
           </Typography>
           <Rating
@@ -96,12 +105,7 @@ const SelectedDrinkModal: React.FC = () => {
                 mb: 2,
               }}
             />
-            <Typography
-              variant="body1"
-              fontWeight={100}
-              gutterBottom
-              color="text.primary"
-            >
+            <Typography variant="body2" fontWeight={300} gutterBottom>
               <i>
                 {toSentenceCase(
                   selectedDrink.shortDescription || "No Description"
@@ -118,21 +122,21 @@ const SelectedDrinkModal: React.FC = () => {
               pt={2}
               mt={3}
             >
-              <Typography variant="subtitle1" fontWeight={600}>
+              <Typography variant="subtitle1" fontWeight={500}>
                 Category:
               </Typography>
               <Typography>
                 {toSentenceCase(selectedDrink.Category || "No Category")}
               </Typography>
 
-              <Typography variant="subtitle1" fontWeight={600}>
+              <Typography variant="subtitle1" fontWeight={500}>
                 Glassware:
               </Typography>
               <Typography>
                 {toSentenceCase(selectedDrink.Glass || "No Glassware")}
               </Typography>
 
-              <Typography variant="subtitle1" fontWeight={600}>
+              <Typography variant="subtitle1" fontWeight={500}>
                 Ice:
               </Typography>
               <Typography>
@@ -146,7 +150,7 @@ const SelectedDrinkModal: React.FC = () => {
             <Typography variant="subtitle1" fontWeight={600} gutterBottom>
               Instructions
             </Typography>
-            <Typography variant="body2" gutterBottom>
+            <Typography variant="body2" fontWeight={300} gutterBottom>
               {selectedDrink.Instructions}
             </Typography>
 
@@ -158,7 +162,7 @@ const SelectedDrinkModal: React.FC = () => {
                 display="grid"
                 gridTemplateColumns="1fr 1fr"
                 component={Table}
-                sx={{ border: "none" }}
+                sx={{ border: "none", gap: -1 }}
               >
                 {selectedDrink.Ingredients?.map(({ name, measure }, i) => (
                   <React.Fragment key={i}>

@@ -118,6 +118,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
                   <Typography variant="h4">{drink.drinkName}</Typography>
                   <Typography
                     variant="body2"
+                    fontWeight={300}
                     sx={{
                       overflow: "hidden",
                       textOverflow: "ellipsis",
@@ -126,7 +127,7 @@ const DrinksList: React.FC<DrinksListProps> = ({
                       WebkitBoxOrient: "vertical",
                     }}
                   >
-                    {drink.shortDescription || "No description set."}
+                    <i>{drink.shortDescription || "No description set."}</i>
                   </Typography>
                 </CardContent>
               </Card>

@@ -121,7 +121,7 @@ const blackBookTheme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          backgroundColor: "#1b1c1e",
+          backgroundColor: "#121212",
         },
       },
     },

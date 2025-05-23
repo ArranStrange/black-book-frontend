@@ -160,24 +160,14 @@ const SelectedDrinkModal: React.FC = () => {
                 component={Table}
                 sx={{ border: "none" }}
               >
-                {[1, 2, 3, 4, 5, 6].map((i) => {
-                  const ingredient =
-                    selectedDrink[
-                      `Ingredient${i}` as keyof typeof selectedDrink
-                    ];
-                  const measure =
-                    selectedDrink[`Measure${i}` as keyof typeof selectedDrink];
-                  return ingredient ? (
-                    <React.Fragment key={i}>
-                      <TableCell sx={{ border: "none", pl: 0 }}>
-                        {ingredient}
-                      </TableCell>
-                      <TableCell sx={{ border: "none", pr: 0 }} align="right">
-                        {measure ? `${measure}ml` : "-"}
-                      </TableCell>
-                    </React.Fragment>
-                  ) : null;
-                })}
+                {selectedDrink.Ingredients?.map(({ name, measure }, i) => (
+                  <React.Fragment key={i}>
+                    <TableCell sx={{ border: "none", pl: 0 }}>{name}</TableCell>
+                    <TableCell sx={{ border: "none", pr: 0 }} align="right">
+                      {measure ? `${measure}ml` : "-"}
+                    </TableCell>
+                  </React.Fragment>
+                ))}
               </Box>
             </Box>
           </Paper>

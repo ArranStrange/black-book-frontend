@@ -11,7 +11,6 @@ import {
   TextField,
   Typography,
   Stack,
-  Divider,
 } from "@mui/material";
 
 interface LoginProps {

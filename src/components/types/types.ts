@@ -1,4 +1,8 @@
-//typescript declaring the interfaces
+export interface Ingredient {
+  name: string;
+  measure: number;
+}
+
 export type Drink = {
   _id: string;
   idDrink?: string;
@@ -7,6 +11,7 @@ export type Drink = {
   Category?: string;
   Glass?: string;
   Ice?: string;
+  Ingredients: Ingredient[];
   Instructions?: string;
   DrinkThumb?: string;
   Rating?: number;
@@ -20,35 +25,3 @@ export interface User {
   username: string;
   password: string;
 }
-
-//Catefory, Glass & Ice types
-
-const categories = [
-  "Cobbler",
-  "Collins",
-  "Daisy",
-  "Flip",
-  "Frozen",
-  "Highball",
-  "Julep",
-  "Martini",
-  "Punch",
-  "Sling",
-  "Sour",
-  "Tiki",
-  "Toddy",
-  "Spritz",
-  "Fizz",
-];
-
-const glasses = [
-  "Highball",
-  "Coup",
-  "Hurricane",
-  "Old Fashioned",
-  "Julep Tin",
-  "Wine",
-  "Flute",
-];
-
-const iceTypes = ["Cubed", "Crushed", "Block", "Shaved", "Straight"];

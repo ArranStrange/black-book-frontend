@@ -68,7 +68,6 @@ const uiSlice = createSlice({
 
 export const {
   setView,
-
   toggleAddDrinkForm,
   toggleFormVisible,
   setModal,

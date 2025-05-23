@@ -13,34 +13,21 @@ import {
   TextField,
   IconButton,
   Typography,
-  Stack,
-  Divider,
   Dialog,
   DialogContent,
   DialogTitle,
   Rating,
   MenuItem,
+  Button,
 } from "@mui/material";
-
-export type Drink = {
-  drinkName?: string;
-  Category?: string;
-  Glass?: string;
-  Instructions?: string;
-  shortDescription?: string;
-  DrinkThumb?: string;
-  Rating?: number;
-} & {
-  [key in `Ingredient${1 | 2 | 3 | 4 | 5 | 6}`]?: string;
-} & {
-  [key in `Measure${1 | 2 | 3 | 4 | 5 | 6}`]?: string;
-};
 
 const EditDrinkModal: React.FC = () => {
   const dispatch = useAppDispatch();
   const { selectedDrink } = useAppSelector((state) => state.drinks);
 
-  const hook = useEditDrink(selectedDrink ?? { _id: "", drinkName: "" });
+  const hook = useEditDrink(
+    selectedDrink ?? { _id: "", drinkName: "", Ingredients: [] }
+  );
 
   if (!selectedDrink) return null;
 
@@ -54,6 +41,9 @@ const EditDrinkModal: React.FC = () => {
     setShowConfirmDelete,
     isSaving,
     error,
+    handleIngredientChange,
+    addIngredientField,
+    removeIngredientField,
   } = hook;
 
   return (
@@ -63,16 +53,28 @@ const EditDrinkModal: React.FC = () => {
       maxWidth="md"
       fullWidth
     >
-      <DialogTitle>Edit Drink</DialogTitle>
+      <DialogTitle>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Typography variant="h6">Edit Drink</Typography>
+          <IconButton onClick={() => dispatch(closeEditDrinkModal())}>
+            <MdCancel />
+          </IconButton>
+        </Box>
+      </DialogTitle>
       <DialogContent>
         <Box
           component="form"
           onSubmit={handleSave}
           sx={{
-            display: "flex",
-            flexDirection: "column",
+            display: "grid",
+            gridTemplateColumns: { xs: "repeat(12, 1fr)" },
             gap: 2,
-            p: 2,
+            p: 4,
+            pb: 10,
+            maxWidth: 1000,
+            height: "100vh",
+            overflowY: "auto",
+            mx: "auto",
           }}
         >
           <TextField
@@ -80,68 +82,126 @@ const EditDrinkModal: React.FC = () => {
             name="drinkName"
             value={editedDrink.drinkName || ""}
             onChange={handleChange}
+            required
             fullWidth
+            sx={{ gridColumn: "span 12" }}
           />
 
-          <Stack direction="row" spacing={2}>
-            <TextField
-              select
-              label="Category"
-              name="Category"
-              value={editedDrink.Category}
-              onChange={handleChange}
-              required
-              fullWidth
-              sx={{ gridColumn: { xs: "span 4", sm: "span 2", md: "span 2" } }}
-            >
-              {categories.map((option) => (
-                <MenuItem key={option} value={option.toLowerCase()}>
-                  {option}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              select
-              label="Glass"
-              name="Glass"
-              value={editedDrink.Glass}
-              onChange={handleChange}
-              required
-              fullWidth
-              sx={{ gridColumn: { xs: "span 4", sm: "span 1", md: "span 1" } }}
-            >
-              {glasses.map((option) => (
-                <MenuItem key={option} value={option.toLowerCase()}>
-                  {option}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              select
-              label="Ice Type"
-              name="Ice"
-              value={editedDrink.Ice}
-              onChange={handleChange}
-              required
-              fullWidth
-              sx={{ gridColumn: { xs: "span 4", sm: "span 1", md: "span 1" } }}
-            >
-              {iceTypes.map((option) => (
-                <MenuItem key={option} value={option.toLowerCase()}>
-                  {option}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Stack>
+          <TextField
+            select
+            label="Category"
+            name="Category"
+            value={editedDrink.Category}
+            onChange={handleChange}
+            required
+            fullWidth
+            sx={{ gridColumn: { xs: "span 12", md: "span 4" } }}
+          >
+            {categories.map((option) => (
+              <MenuItem key={option} value={option.toLowerCase()}>
+                {option}
+              </MenuItem>
+            ))}
+          </TextField>
+
+          <TextField
+            select
+            label="Glass"
+            name="Glass"
+            value={editedDrink.Glass}
+            onChange={handleChange}
+            required
+            fullWidth
+            sx={{ gridColumn: { xs: "span 12", md: "span 4" } }}
+          >
+            {glasses.map((option) => (
+              <MenuItem key={option} value={option.toLowerCase()}>
+                {option}
+              </MenuItem>
+            ))}
+          </TextField>
+
+          <TextField
+            select
+            label="Ice"
+            name="Ice"
+            value={editedDrink.Ice}
+            onChange={handleChange}
+            fullWidth
+            sx={{ gridColumn: { xs: "span 12", md: "span 4" } }}
+          >
+            {iceTypes.map((option) => (
+              <MenuItem key={option} value={option.toLowerCase()}>
+                {option}
+              </MenuItem>
+            ))}
+          </TextField>
+
+          {editedDrink.Ingredients.map((ing, index) => {
+            const isLast = index === editedDrink.Ingredients.length - 1;
+            return (
+              <React.Fragment key={index}>
+                <TextField
+                  label={`Ingredient ${index + 1}`}
+                  value={ing.name}
+                  onChange={(e) =>
+                    handleIngredientChange(index, "name", e.target.value)
+                  }
+                  fullWidth
+                  sx={{ gridColumn: { xs: "span 12", md: "span 9" } }}
+                />
+                <TextField
+                  label="Measure (ml)"
+                  type="number"
+                  value={ing.measure}
+                  onChange={(e) =>
+                    handleIngredientChange(index, "measure", e.target.value)
+                  }
+                  fullWidth
+                  sx={{ gridColumn: { xs: "span 12", md: "span 2" } }}
+                />
+                <Box
+                  sx={{
+                    gridColumn: { xs: "span 12", md: "span 1" },
+                    display: "flex",
+                    gap: 1,
+                  }}
+                >
+                  {editedDrink.Ingredients.length > 1 && (
+                    <Button
+                      onClick={() => removeIngredientField(index)}
+                      variant="outlined"
+                      color="error"
+                      sx={{ minWidth: "40px" }}
+                    >
+                      −
+                    </Button>
+                  )}
+                  {isLast && (
+                    <Button
+                      onClick={addIngredientField}
+                      variant="outlined"
+                      color="primary"
+                      sx={{ minWidth: "40px" }}
+                    >
+                      +
+                    </Button>
+                  )}
+                </Box>
+              </React.Fragment>
+            );
+          })}
 
           <TextField
             label="Instructions"
             name="Instructions"
             value={editedDrink.Instructions || ""}
             onChange={handleChange}
-            fullWidth
+            required
             multiline
-            minRows={3}
+            rows={4}
+            fullWidth
+            sx={{ gridColumn: "span 12" }}
           />
 
           <TextField
@@ -149,68 +209,56 @@ const EditDrinkModal: React.FC = () => {
             name="shortDescription"
             value={editedDrink.shortDescription || ""}
             onChange={handleChange}
-            fullWidth
+            required
             multiline
-            minRows={3}
+            rows={4}
+            fullWidth
+            sx={{ gridColumn: "span 12" }}
           />
 
-          <Divider />
-
-          <Typography variant="subtitle1">Ingredients</Typography>
-          {[1, 2, 3, 4, 5, 6].map((i) => (
-            <Stack direction="row" spacing={2} key={i}>
-              <TextField
-                label={`Ingredient ${i}`}
-                name={`Ingredient${i}`}
-                value={editedDrink[`Ingredient${i}` as keyof Drink] || ""}
-                onChange={handleChange}
-                fullWidth
-              />
-
-              <TextField
-                label={`Measure ${i}`}
-                name={`Measure${i}`}
-                value={editedDrink[`Measure${i}` as keyof Drink] || ""}
-                onChange={handleChange}
-                fullWidth
-              />
-            </Stack>
-          ))}
-
-          <Stack spacing={2} alignItems="center">
-            <TextField
-              label="Thumbnail URL"
-              name="DrinkThumb"
-              value={editedDrink.DrinkThumb || ""}
-              onChange={handleChange}
-              fullWidth
-            />
-
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                bgcolor: "#2e2e2b",
-                borderRadius: 1,
-                p: 1,
+          <Box
+            sx={{
+              gridColumn: "span 12",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              bgcolor: "#2e2e2b",
+              borderRadius: 1,
+              p: 1,
+            }}
+          >
+            <img
+              src={
+                editedDrink.DrinkThumb ||
+                "https://png.pngtree.com/png-vector/20190603/ourmid/pngtree-cocktail-icon-png-image_1376820.jpg"
+              }
+              alt="Preview"
+              style={{
+                maxHeight: "120px",
+                objectFit: "cover",
+                width: "120px",
+                borderRadius: "8px",
               }}
-            >
-              <img
-                src={
-                  editedDrink.DrinkThumb ||
-                  "https://png.pngtree.com/png-vector/20190603/ourmid/pngtree-cocktail-icon-png-image_1376820.jpg"
-                }
-                alt="Preview"
-                style={{
-                  maxHeight: "120px",
-                  objectFit: "cover",
-                  width: "120px",
-                  borderRadius: "8px",
-                }}
-              />
-            </Box>
+            />
+          </Box>
 
+          <TextField
+            label="Thumbnail URL"
+            name="DrinkThumb"
+            value={editedDrink.DrinkThumb || ""}
+            onChange={handleChange}
+            fullWidth
+            sx={{ gridColumn: "span 12" }}
+          />
+
+          <Box
+            sx={{
+              gridColumn: "span 12",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <Rating
               name="Rating"
               value={editedDrink.Rating ?? 0}
@@ -226,13 +274,22 @@ const EditDrinkModal: React.FC = () => {
               }}
               sx={{ color: "primary.main" }}
             />
-          </Stack>
+          </Box>
 
-          {error && <Typography color="error">{error}</Typography>}
+          {error && (
+            <Typography color="error" sx={{ gridColumn: "span 12" }}>
+              {error}
+            </Typography>
+          )}
 
-          <Divider />
-
-          <Stack direction="row" spacing={2} justifyContent="flex-end">
+          <Box
+            sx={{
+              gridColumn: "span 12",
+              display: "flex",
+              justifyContent: "center",
+              gap: 2,
+            }}
+          >
             <IconButton color="success" type="submit" disabled={isSaving}>
               <GiConfirmed />
             </IconButton>
@@ -245,7 +302,7 @@ const EditDrinkModal: React.FC = () => {
             <IconButton color="error" onClick={handleDeleteClick}>
               <RiDeleteBin6Line />
             </IconButton>
-          </Stack>
+          </Box>
         </Box>
 
         {showConfirmDelete && (

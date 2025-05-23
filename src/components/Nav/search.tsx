@@ -76,9 +76,9 @@ export default function Search({ onSearch, onShowAll }: Props) {
     return (
       <Box
         sx={{
-          position: "fixed",
-          top: 8,
-          left: 100,
+          position: "absolute",
+          top: 12,
+          left: { xs: 65, sm: 65, md: 100 },
           zIndex: 50,
         }}
       >
@@ -124,7 +124,7 @@ export default function Search({ onSearch, onShowAll }: Props) {
           <Box
             id="searchInputContainer"
             sx={{
-              width: 300,
+              width: { xs: 275, sm: 275, md: 300 },
               display: "flex",
               flexDirection: "column",
               gap: 1,

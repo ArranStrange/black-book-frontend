@@ -31,6 +31,7 @@ import {
 import { useDrinks } from "./hooks/useDrinks";
 import { setGuestMode } from "./redux/slices/authSlice";
 import { syncAuthState } from "./redux/thunks/authThunks";
+import theme from "./theme";
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -118,14 +119,18 @@ const App: React.FC = () => {
               sx={{
                 position: "fixed",
                 bottom: 32,
-                right: 32,
+                right: 21,
                 zIndex: 1200,
-                backgroundColor: "transparent",
-                color: "primary.main",
+                backgroundColor: theme.palette.background.paper,
+                color: theme.palette.primary.main,
                 border: "none",
+                boxShadow: 3,
                 "&:hover": {
                   backgroundColor: "transparent",
                   color: "primary.light",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
                 },
                 fontSize: 36,
               }}
@@ -133,6 +138,11 @@ const App: React.FC = () => {
               <motion.div
                 animate={{ rotate: isFormVisible ? 45 : 0 }}
                 transition={{ duration: 0.3 }}
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
               >
                 <AddIcon fontSize="inherit" />
               </motion.div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Menu, MenuItem, useTheme } from "@mui/material";
+import { Button, IconButton, Menu, MenuItem, useTheme } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
@@ -34,19 +34,23 @@ export const UserMenu = () => {
 
   return (
     <>
-      <Button
-        size="large"
+      <IconButton
         onClick={handleOpen}
-        aria-controls={open ? "user-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
+        size="large"
+        sx={{
+          backgroundColor: theme.palette.background.paper,
+          color: theme.palette.primary.main,
+          boxShadow: 3,
+          position: "absolute",
+          top: 0,
+          right: 5,
+          "&:hover": {
+            backgroundColor: theme.palette.action.hover,
+          },
+        }}
       >
-        {open ? (
-          <MenuOpenIcon sx={{ color: theme.palette.primary.main }} />
-        ) : (
-          <MenuIcon sx={{ color: theme.palette.primary.main }} />
-        )}
-      </Button>
+        {open ? <MenuOpenIcon /> : <MenuIcon />}
+      </IconButton>
       <Menu
         id="user-menu"
         anchorEl={anchorEl}

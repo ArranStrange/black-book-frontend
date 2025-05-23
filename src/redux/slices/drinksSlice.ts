@@ -27,6 +27,8 @@ const drinksSlice = createSlice({
     setDrinks(state, action: PayloadAction<Drink[]>) {
       state.list = action.payload;
     },
+
+    // Loading and error
     setLoading(state, action: PayloadAction<boolean>) {
       state.loading = action.payload;
     },

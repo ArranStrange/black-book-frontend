@@ -25,35 +25,3 @@ export interface User {
   username: string;
   password: string;
 }
-
-//Catefory, Glass & Ice types
-
-const categories = [
-  "Cobbler",
-  "Collins",
-  "Daisy",
-  "Flip",
-  "Frozen",
-  "Highball",
-  "Julep",
-  "Martini",
-  "Punch",
-  "Sling",
-  "Sour",
-  "Tiki",
-  "Toddy",
-  "Spritz",
-  "Fizz",
-];
-
-const glasses = [
-  "Highball",
-  "Coup",
-  "Hurricane",
-  "Old Fashioned",
-  "Julep Tin",
-  "Wine",
-  "Flute",
-];
-
-const iceTypes = ["Cubed", "Crushed", "Block", "Shaved", "Straight"];

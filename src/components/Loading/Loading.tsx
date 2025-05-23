@@ -17,7 +17,7 @@ const Loading: React.FC = () => {
     >
       <ShakerIcon
         style={{
-          color: theme.palette.primary.main,
+          color: theme.palette.secondary.main,
           width: "50px",
           height: "50px",
           animation: "shake 1.5s infinite",

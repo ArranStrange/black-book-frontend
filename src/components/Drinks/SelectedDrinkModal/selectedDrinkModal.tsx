@@ -43,7 +43,7 @@ const SelectedDrinkModal: React.FC = () => {
     >
       <DialogTitle>
         <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Typography variant="h5" fontWeight={700}>
+          <Typography variant="h3" fontWeight={900}>
             {selectedDrink.drinkName}
           </Typography>
           <Rating

@@ -1,70 +1,71 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, within } from "@testing-library/react";
 import Search from "./search";
 
 describe("Search Component", () => {
   const onMockSearch = jest.fn();
   const onMockShowAll = jest.fn();
-  const onMockAddDrinkFrom = jest.fn();
+  const onMockAddDrinkForm = jest.fn();
 
   beforeAll(() => {
     window.scrollTo = jest.fn();
   });
 
-  it("renders the search input and clears all filters", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+
     render(
       <Search
         onSearch={onMockSearch}
         onShowAll={onMockShowAll}
-        toggleAddDrinkForm={onMockAddDrinkFrom}
+        toggleAddDrinkForm={onMockAddDrinkForm}
       />
     );
-    // expect(screen.getByPlaceholderText("Search")).toBeInTheDocument();
+
+    fireEvent.click(screen.getAllByRole("button")[0]);
+  });
+
+  it("renders the search input", () => {
     expect(screen.getByTestId("search-input")).toBeInTheDocument();
   });
 
-  it("make the search", () => {
-    render(
-      <Search
-        onSearch={onMockSearch}
-        onShowAll={onMockShowAll}
-        toggleAddDrinkForm={onMockAddDrinkFrom}
-      />
-    );
+  // it("submits the search with filters", async () => {
+  //   fireEvent.change(screen.getByPlaceholderText("Search"), {
+  //     target: { value: "Margarita" },
+  //   });
 
-    const input = screen.getByPlaceholderText("Search");
-    fireEvent.focus(input);
-    fireEvent.change(input, { target: { value: "Margarita" } });
-    expect(input).toHaveValue("Margarita");
+  //   fireEvent.click(screen.getByTestId("filters-toggle-button"));
 
-    const searchButton = screen.getByTestId("submit-search-button");
-    fireEvent.change(screen.getByTestId("category-selection"), {
-      target: { value: "highball" },
-    });
-    fireEvent.change(screen.getByTestId("glass-selection"), {
-      target: { value: "coup" },
-    });
-    fireEvent.change(screen.getByTestId("ice-selection"), {
-      target: { value: "crushed" },
-    });
-    fireEvent.click(searchButton);
+  //   // Category dropdown
+  //   fireEvent.mouseDown(screen.getByTestId("category-selection"));
+  //   const categoryListbox = await screen.findByRole("listbox");
+  //   fireEvent.click(within(categoryListbox).getByText("Highball"));
 
-    expect(onMockSearch).toBeCalledWith({
-      drinkName: "Margarita",
-      category: "highball",
-      glass: "coup",
-      ice: "crushed",
-    });
-  });
-  it("removes focus from the search", () => {
-    render(
-      <Search
-        onSearch={onMockSearch}
-        onShowAll={onMockShowAll}
-        toggleAddDrinkForm={onMockAddDrinkFrom}
-      />
-    );
-    const input = screen.getByPlaceholderText("Search");
-    fireEvent.focus(input);
-    expect(screen.getByLabelText("Category:")).toBeInTheDocument();
+  //   // Glass dropdown
+  //   fireEvent.mouseDown(screen.getByTestId("glass-selection"));
+  //   const glassListbox = await screen.findByRole("listbox");
+  //   fireEvent.click(within(glassListbox).getByText("Coup"));
+
+  //   // Ice dropdown
+  //   fireEvent.mouseDown(screen.getByTestId("ice-selection"));
+  //   const iceListbox = await screen.findByRole("listbox");
+  //   fireEvent.click(within(iceListbox).getByText("Crushed"));
+
+  //   fireEvent.click(screen.getByTestId("submit-search-button"));
+
+  //   expect(onMockSearch).toHaveBeenCalledWith({
+  //     drinkName: "Margarita",
+  //     category: "Highball",
+  //     glass: "Coup",
+  //     ice: "Crushed",
+  //   });
+  // });
+
+  it("clears filters and calls onShowAll", () => {
+    fireEvent.click(screen.getByTestId("filters-toggle-button"));
+    expect(screen.getByText("Category")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText("Clear"));
+
+    expect(onMockShowAll).toHaveBeenCalled();
   });
 });

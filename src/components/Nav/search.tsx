@@ -133,6 +133,7 @@ export default function Search({ onSearch, onShowAll }: Props) {
             <Box display="flex" alignItems="center" gap={1}>
               <TextField
                 placeholder="Search"
+                data-testid="search-input"
                 variant="standard"
                 size="small"
                 value={searchQuery}
@@ -146,7 +147,12 @@ export default function Search({ onSearch, onShowAll }: Props) {
             </Box>
 
             <Box display="flex" gap={1} mt={1}>
-              <Button type="submit" variant="text" size="small">
+              <Button
+                type="submit"
+                data-testid="submit-search-button"
+                variant="text"
+                size="small"
+              >
                 Search
               </Button>
               <Button variant="text" size="small" onClick={handleShowAll}>
@@ -156,6 +162,7 @@ export default function Search({ onSearch, onShowAll }: Props) {
                 variant="text"
                 size="small"
                 onClick={() => setShowFilters((prev) => !prev)}
+                data-testid="filters-toggle-button"
               >
                 {showFilters ? "Hide Filters" : "Filters"}
               </Button>
@@ -195,6 +202,18 @@ export default function Search({ onSearch, onShowAll }: Props) {
                       value={value}
                       onChange={handleSelectChange}
                       label={label}
+                      data-testid={
+                        name === "category"
+                          ? "category-selection"
+                          : name === "glass"
+                          ? "glass-selection"
+                          : name === "ice"
+                          ? "ice-selection"
+                          : undefined
+                      }
+                      MenuProps={{
+                        disablePortal: process.env.NODE_ENV === "test",
+                      }}
                     >
                       <MenuItem value="">Not Defined</MenuItem>
                       {options.map((opt) => (

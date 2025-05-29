@@ -1,32 +1,50 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import Nav from "./nav";
 
 describe("Nav component", () => {
-  it("renders 26 letters and an empty string for Current Letter", () => {
-    const mockOnSelectLetter = jest.fn();
+  beforeEach(() => {
+    jest.clearAllMocks();
     window.scrollTo = jest.fn();
-    render(<Nav onSelectLetter={mockOnSelectLetter} />);
-
-    const alphabet = screen.getAllByRole("listitem");
-    expect(alphabet).toHaveLength(26);
-    expect(alphabet[0]).toHaveTextContent("A");
-    expect(alphabet[25]).toHaveTextContent("Z");
-
-    const seletedLetter = screen.getByRole("heading");
-    expect(seletedLetter.textContent).toBe("");
-    expect(mockOnSelectLetter).toHaveBeenCalledWith("");
   });
 
-  it("calls onSelectLetter with the clicked letter and updates the Selected Letter H1", () => {
+  it("renders 26 letter buttons and sets default heading", async () => {
     const mockOnSelectLetter = jest.fn();
     render(<Nav onSelectLetter={mockOnSelectLetter} />);
 
-    const letterElement = screen.getByText("Z");
-    fireEvent.click(letterElement);
+    await waitFor(() => {
+      expect(mockOnSelectLetter).toHaveBeenCalledWith("");
+    });
+
+    const letterButtons = screen.getAllByTestId("letters");
+    expect(letterButtons).toHaveLength(26);
+    expect(letterButtons[0]).toHaveTextContent("A");
+    expect(letterButtons[25]).toHaveTextContent("Z");
+  });
+
+  it("calls onSelectLetter with clicked letter and updates button style", async () => {
+    const mockOnSelectLetter = jest.fn();
+    render(<Nav onSelectLetter={mockOnSelectLetter} />);
+
+    const zButton = screen
+      .getAllByTestId("letters")
+      .find((btn) => btn.textContent === "Z");
+
+    expect(zButton).toBeDefined();
+    if (!zButton) throw new Error("Z button not found");
+
+    fireEvent.click(zButton);
 
     expect(mockOnSelectLetter).toHaveBeenCalledWith("Z");
+    expect(zButton).toHaveClass("MuiButton-contained");
+  });
 
-    const selectedLetter = screen.getByRole("heading");
-    expect(selectedLetter.textContent).toBe("Z");
+  it("clears filter when clear button is clicked", async () => {
+    const mockOnSelectLetter = jest.fn();
+    render(<Nav onSelectLetter={mockOnSelectLetter} />);
+
+    const clearButton = screen.getByRole("button", { name: /clear/i });
+    fireEvent.click(clearButton);
+
+    expect(mockOnSelectLetter).toHaveBeenCalledWith("");
   });
 });

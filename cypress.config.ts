@@ -12,6 +12,6 @@ export default defineConfig({
     supportFile: "cypress/support/component.ts",
   },
   e2e: {
-    baseUrl: "https://black-book-1454c.web.app/",
+    baseUrl: "http://localhost:3000",
   },
 });

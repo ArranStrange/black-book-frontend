@@ -1,7 +1,9 @@
 import React from "react";
 import { toSentenceCase } from "../../../hooks/useToSentenceCase";
-import { IoMdClose } from "react-icons/io";
-import { FaEdit } from "react-icons/fa";
+import CloseIcon from "@mui/icons-material/Close";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import {
   Box,
   Dialog,
@@ -69,14 +71,14 @@ const SelectedDrinkModal: React.FC = () => {
                 onClick={() => dispatch(showEditDrinkModal())}
                 color="primary"
               >
-                <FaEdit />
+                <EditIcon />
               </IconButton>
             )}
             <IconButton
               onClick={() => dispatch(closeDrinkModal())}
               color="error"
             >
-              <IoMdClose />
+              <CloseIcon />
             </IconButton>
           </Box>
         </Box>

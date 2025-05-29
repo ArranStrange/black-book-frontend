@@ -1,8 +1,8 @@
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import { MdCancel } from "react-icons/md";
-import { GiConfirmed } from "react-icons/gi";
-import { RiDeleteBin6Line } from "react-icons/ri";
+import CloseIcon from "@mui/icons-material/Close";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { ConfirmDeleteModal } from "./ConfirmDeleteModal/ConfirmDeleteModal";
 import { useEditDrink } from "../../../hooks/useEditDrink";
 import { closeEditDrinkModal } from "../../../redux/slices/drinksSlice";
@@ -57,7 +57,7 @@ const EditDrinkModal: React.FC = () => {
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="h6">Edit Drink</Typography>
           <IconButton onClick={() => dispatch(closeEditDrinkModal())}>
-            <MdCancel />
+            <CloseIcon />
           </IconButton>
         </Box>
       </DialogTitle>
@@ -291,16 +291,16 @@ const EditDrinkModal: React.FC = () => {
             }}
           >
             <IconButton color="success" type="submit" disabled={isSaving}>
-              <GiConfirmed />
+              <CheckCircleIcon />
             </IconButton>
             <IconButton
               color="warning"
               onClick={() => dispatch(closeEditDrinkModal())}
             >
-              <MdCancel />
+              <CloseIcon />
             </IconButton>
             <IconButton color="error" onClick={handleDeleteClick}>
-              <RiDeleteBin6Line />
+              <DeleteIcon />
             </IconButton>
           </Box>
         </Box>

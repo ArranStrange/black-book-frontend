@@ -32,7 +32,9 @@ const MessageModal: React.FC<MessageModalProps> = ({
       onClose={handleClose}
       aria-labelledby="alert-dialog-title"
     >
-      <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+      <DialogTitle role="heading" id="alert-dialog-title">
+        {title}
+      </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
           {message}

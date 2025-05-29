@@ -5,9 +5,9 @@ Cypress.Commands.add("getByTestId", (id) => {
 });
 
 Cypress.Commands.add("mockLogin", () => {
+  cy.visit("http://localhost:3000/");
   cy.window().then((win) => {
     win.localStorage.setItem("authToken", "mock-token");
-    cy.visit("http://localhost:3000/");
-    cy.get(".modal-box > button").click();
   });
+  cy.get(".modal-box > button").click();
 });

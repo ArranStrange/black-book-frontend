@@ -70,15 +70,17 @@ const DrinksList: React.FC<DrinksListProps> = ({
           position: "relative",
         }}
       >
-        <Grid container spacing={2} justifyContent="center">
+        <Grid
+          container
+          spacing={2}
+          justifyContent="center"
+          {...(undefined as any)}
+        >
           {filteredDrinks.map((drink) => (
             <Grid
-              item
               key={drink._id}
-              xs={5}
-              sm={6}
-              md={4}
-              lg={3}
+              columns={{ xs: 4, sm: 8, md: 12 }}
+              xs={6}
               {...(undefined as any)}
             >
               <Card

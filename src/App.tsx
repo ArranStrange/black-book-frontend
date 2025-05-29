@@ -29,7 +29,6 @@ import {
   clearFilters,
 } from "./redux/slices/uiSlice";
 import { useDrinks } from "./hooks/useDrinks";
-import { setGuestMode } from "./redux/slices/authSlice";
 import { syncAuthState } from "./redux/thunks/authThunks";
 import theme from "./theme";
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, IconButton, Menu, MenuItem, useTheme } from "@mui/material";
+import { IconButton, Menu, MenuItem, useTheme } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";

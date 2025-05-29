@@ -39,7 +39,6 @@ const DrinksList: React.FC<DrinksListProps> = ({
   const filteredDrinks = useFilterDrinks(selectedLetter, searchQuery);
   const loading = useAppSelector((state) => state.drinks.loading);
   const error = useAppSelector((state) => state.drinks.error);
-  const isGuest = useAppSelector((state) => state.auth.isGuest);
 
   const dispatch = useAppDispatch();
   const { showDrinkModal, showEditModal } = useAppSelector(

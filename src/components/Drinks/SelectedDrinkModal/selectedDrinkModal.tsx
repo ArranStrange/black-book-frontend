@@ -1,8 +1,6 @@
 import React from "react";
 import { toSentenceCase } from "../../../hooks/useToSentenceCase";
 import CloseIcon from "@mui/icons-material/Close";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import {
   Box,
